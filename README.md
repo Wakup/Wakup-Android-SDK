@@ -69,7 +69,7 @@ We suggest to create a resources XML file called `wakup.xml` in your `res/values
 
 Wakup uses I18n string resources for the all the texts displayed in the application, so it can be overriden to customize the messages shown.
 
-For example, to change the title of the Wakup activities, include and change this resource strings in your `wakup.xml' file:
+For example, to change the title of the Wakup activities, include and change this resource strings in your `wakup.xml` file:
 
 ```xml
 <!-- Activity titles -->
@@ -86,16 +86,16 @@ You can access to the full list of string resources used by the SDK [here](https
 
 ### Icons
 
-Wakup SDK uses icons referenced by drawable resources that can be easily overriden with references to different icons.
+Wakup SDK uses icons referenced by drawable resources that can be easily overriden with references to another customized icons.
 
-For example, to set the action bar logo for the entire Wakup offers section, include this drawable resource in your `wakup.xml` file:
+For example, to set the action bar logo for the entire Wakup offers section, you only have to include this drawable resource in your `wakup.xml` file:
 
 ```xml
 <!-- ActionBar logo -->
 <drawable name="wk_actionbar_logo">@drawable/ic_action_logo</drawable>
 ```
 
-**Note:** All the icons except the map pins and ActionBar logo **must be white colored**, since they will be tinted later depending on the selected colors applying a filter.
+**Note:** All the icons except the map pins and ActionBar logo **must be white colored**, since they will be tinted later by applying a filter depending on the theme colors.
 
 The complete list of drawable resources used in Wakup can be found [here](https://github.com/Wakup/Wakup-Android-SDK/blob/master/sdk/src/main/res/values/icons.xml).
 
