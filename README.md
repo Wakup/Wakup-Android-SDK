@@ -1,6 +1,8 @@
 Wakup SDK Library
 ==================
 
+[ ![Download](https://api.bintray.com/packages/wakup/sdk/android-sdk/images/download.svg) ](https://bintray.com/wakup/sdk/android-sdk/_latestVersion)
+
 Native Android SDK for [Wakup platform](http://wakup.net).
 
 ## Installation
@@ -80,6 +82,8 @@ For example, to change the title of the Wakup activities, include and change thi
 <string name="wk_activity_map">Mapa</string>
 ```
 
+You can access to the full list of string resources used by the SDK [here](https://github.com/Wakup/Wakup-Android-SDK/blob/master/sdk/src/main/res/values/strings.xml).
+
 ### Icons
 
 Wakup SDK uses icons referenced by drawable resources that can be easily overriden with references to different icons.
@@ -92,6 +96,8 @@ For example, to set the action bar logo for the entire Wakup offers section, inc
 ```
 
 **Note:** All the icons except the map pins and ActionBar logo **must be white colored**, since they will be tinted later depending on the selected colors applying a filter.
+
+The complete list of drawable resources used in Wakup can be found [here](https://github.com/Wakup/Wakup-Android-SDK/blob/master/sdk/src/main/res/values/icons.xml).
 
 ### Colors
 
@@ -112,6 +118,8 @@ To do so, copy and alter the primary colors on your `wakup.xml` file:
 This main colors are used as a reference of the entire Offers section and will determine its appearance.
 
 By changing this resources, you will override, **at compile time** the color used by the Wakup section.
+
+Complete list of resource colors used in the project can be found [here](https://github.com/Wakup/Wakup-Android-SDK/blob/master/sdk/src/main/res/values/colors.xml).
 
 ### Deep customization
 
