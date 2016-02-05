@@ -33,6 +33,7 @@
     <drawable name="wk_action_share">@drawable/wk_ic_btn_share</drawable>
     <drawable name="wk_action_web">@drawable/wk_ic_btn_website</drawable>
     <drawable name="wk_action_locate">@drawable/wk_ic_btn_location</drawable>
+    <drawable name="wk_action_background">@drawable/wk_action_button</drawable>
 
     <!-- Empty views -->
     <drawable name="wk_empty_offers">@drawable/wk_ic_warning</drawable>

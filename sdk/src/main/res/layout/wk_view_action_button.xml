@@ -8,7 +8,7 @@
     app:virtualHeight="1"
     app:virtualWidth="1"
     android:layout_gravity="center"
-    android:background="@drawable/wk_action_button"
+    android:background="@drawable/wk_action_background"
     android:duplicateParentState="true">
 
     <LinearLayout

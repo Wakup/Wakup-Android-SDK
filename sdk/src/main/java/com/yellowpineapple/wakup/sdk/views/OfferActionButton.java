@@ -30,6 +30,7 @@ public class OfferActionButton extends FrameLayout {
 
     CharSequence text;
     Drawable icon;
+    int iconColor = 0;
     Float fontSize = 0f;
 
     /* Views */
@@ -54,6 +55,10 @@ public class OfferActionButton extends FrameLayout {
             if (a.hasValue(R.styleable.OfferActionButton_buttonText)) {
                 String text = a.getString(R.styleable.OfferActionButton_buttonText);
                 setText(text);
+            }
+            if (a.hasValue(R.styleable.OfferActionButton_buttonIconColor)) {
+                iconColor = a.getColor(R.styleable.OfferActionButton_buttonIconColor,
+                        ContextCompat.getColor(getContext(), R.color.wk_action_active_icon));
             }
             if (a.hasValue(R.styleable.OfferActionButton_buttonIcon)) {
                 Drawable icon = a.getDrawable(R.styleable.OfferActionButton_buttonIcon);
@@ -102,15 +107,16 @@ public class OfferActionButton extends FrameLayout {
         if (imgIcon != null) {
             if (!isInEditMode()) {
                 Drawable defaultDrawable = icon.getCurrent();
-                defaultDrawable.setColorFilter(ContextCompat.getColor(getContext(), R.color.wk_action_active), PorterDuff.Mode.MULTIPLY);
+                int activeColor = iconColor != 0 ? iconColor : ContextCompat.getColor(getContext(), R.color.wk_action_active_icon);
+                defaultDrawable.setColorFilter(activeColor, PorterDuff.Mode.MULTIPLY);
                 defaultDrawable = drawableToBitmap(defaultDrawable);
 
                 Drawable pressedDrawable = icon.getCurrent();
-                pressedDrawable.setColorFilter(ContextCompat.getColor(getContext(), R.color.wk_action_pressed), PorterDuff.Mode.MULTIPLY);
+                pressedDrawable.setColorFilter(ContextCompat.getColor(getContext(), R.color.wk_action_pressed_icon), PorterDuff.Mode.MULTIPLY);
                 pressedDrawable = drawableToBitmap(pressedDrawable);
 
                 Drawable disabledDrawable = icon.getCurrent();
-                disabledDrawable.setColorFilter(ContextCompat.getColor(getContext(), R.color.wk_action_inactive), PorterDuff.Mode.MULTIPLY);
+                disabledDrawable.setColorFilter(ContextCompat.getColor(getContext(), R.color.wk_action_inactive_icon), PorterDuff.Mode.MULTIPLY);
                 disabledDrawable = drawableToBitmap(disabledDrawable);
 
                 StateListDrawable listDrawable = new StateListDrawable();
@@ -120,7 +126,7 @@ public class OfferActionButton extends FrameLayout {
                 listDrawable.addState(DEFAULT_STATE_SET, defaultDrawable);
                 imgIcon.setImageDrawable(listDrawable);
             } else {
-                imgIcon.setColorFilter(getResources().getColor(R.color.wk_action_active));
+                imgIcon.setColorFilter(getResources().getColor(R.color.wk_action_active_icon));
                 imgIcon.setImageDrawable(icon);
             }
         }

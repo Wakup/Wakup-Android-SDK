@@ -2,5 +2,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
     <padding android:left="3dp" android:top="3dp" android:right="3dp" android:bottom="3dp" />
-    <solid android:color="@color/wk_action_active"/>
+    <solid android:color="@color/wk_action_pressed_bg"/>
 </shape>

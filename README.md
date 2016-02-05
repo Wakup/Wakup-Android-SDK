@@ -218,6 +218,10 @@ In addition, it is possible to customize the directly the appearance of both Act
 
 ![](http://i.imgur.com/cGItnT0m.png)
 
+Action buttons used for offer actions and search category filters can also be customized in two steps.
+
+First step will keep the same color for all the elements (background, icon and text) of the button:
+
 ```xml
 <!-- Colors -->
 <color name="wk_action_active">@color/wk_primary</color>
@@ -228,7 +232,33 @@ In addition, it is possible to customize the directly the appearance of both Act
 <drawable name="wk_action_share">@drawable/wk_ic_btn_share</drawable>
 <drawable name="wk_action_web">@drawable/wk_ic_btn_website</drawable>
 <drawable name="wk_action_locate">@drawable/wk_ic_btn_location</drawable>
+<drawable name="wk_action_background">@drawable/wk_action_button</drawable>
 ```
+If a more thorough  customization is needed it is possible to go a level deeper and customize the colors of every element separately:
+
+```xml
+<!-- Deep Customization Colors -->
+<!-- Background -->
+<color name="wk_action_active_bg">@color/wk_action_active</color>   
+<color name="wk_action_pressed_bg">@color/wk_action_active</color>
+<color name="wk_action_inactive_bg">@color/wk_action_inactive</color>
+<!-- Icon -->
+<color name="wk_action_active_icon">@color/wk_action_active</color>
+<color name="wk_action_pressed_icon">@color/wk_action_pressed</color>
+<color name="wk_action_inactive_icon">@color/wk_action_inactive</color>
+<!-- Text -->
+<color name="wk_action_active_text">@color/wk_action_active</color>
+<color name="wk_action_pressed_text">@color/wk_action_pressed</color>
+<color name="wk_action_inactive_text">@color/wk_action_inactive</color>
+```
+
+To change the default circle background, it would be required to override the default drawable by a customized one:
+
+```xml
+<!-- Action button background -->
+<drawable name="wk_action_background">@drawable/wk_action_button</drawable>
+``` 
+
 #### Search view
 
 ![](http://i.imgur.com/sMJl5z0m.png)
@@ -238,6 +268,11 @@ In addition, it is possible to customize the directly the appearance of both Act
 <color name="wk_search_header_bg">#F6F6F6</color>
 <color name="wk_search_list_bg">@color/wk_white</color>
 <color name="wk_search_icon">@color/wk_light_text</color>
+<!-- Category colors -->
+<color name="wk_search_cat_leisure">@color/wk_action_active</color>
+<color name="wk_search_cat_restaurants">@color/wk_action_active</color>
+<color name="wk_search_cat_services">@color/wk_action_active</color>
+<color name="wk_search_cat_shopping">@color/wk_action_active</color>
 <!-- Category icons -->
 <drawable name="wk_cat_leisure">@drawable/wk_ic_btn_leisure</drawable>
 <drawable name="wk_cat_restaurants">@drawable/wk_ic_btn_restaurants</drawable>
