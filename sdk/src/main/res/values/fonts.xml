@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wk_font_default">fonts/Aller_Lt.ttf</string>
+    <string name="wk_font_regular">fonts/Aller_Rg.ttf</string>
+    <string name="wk_font_italic">fonts/Aller_LtIt.ttf</string>
+    <string name="wk_font_bold">fonts/Aller_Bd.ttf</string>
+    <string name="wk_font_short_offer">fonts/AllerDisplay.ttf</string>
+</resources>

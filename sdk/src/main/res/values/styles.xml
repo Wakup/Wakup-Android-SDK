@@ -71,25 +71,25 @@
     <style name="WakupTheme.Text" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">@dimen/wk_medium_text</item>
         <item name="android:textColor">@color/wk_main_text</item>
-        <item name="fontPath">fonts/Aller_Lt.ttf</item>
+        <item name="fontPath">@string/wk_font_default</item>
     </style>
 
     <style name="WakupTheme.Text.Title">
         <item name="android:textSize">@dimen/wk_title_text</item>
-        <item name="fontPath">fonts/Aller_Bd.ttf</item>
+        <item name="fontPath">@string/wk_font_bold</item>
         <item name="android:color">@color/wk_bold_text</item>
     </style>
 
     <style name="WakupTheme.Text.Italic">
-        <item name="fontPath">fonts/Aller_LtIt.ttf</item>
+        <item name="fontPath">@string/wk_font_italic</item>
     </style>
 
     <style name="WakupTheme.Text.Regular">
-        <item name="fontPath">fonts/Aller_Rg.ttf</item>
+        <item name="fontPath">@string/wk_font_regular</item>
     </style>
 
     <style name="WakupTheme.Text.Bold">
-        <item name="fontPath">fonts/Aller_Bd.ttf</item>
+        <item name="fontPath">@string/wk_font_bold</item>
     </style>
 
     <style name="WakupTheme.Text.OfferShortDesc">
@@ -97,11 +97,11 @@
         <item name="android:textColor">@color/wk_offer_short_desc</item>
         <item name="android:background">@drawable/wk_offer_short_desc_bg</item>
         <item name="android:textSize">@dimen/wk_title_text</item>
-        <item name="fontPath">fonts/AllerDisplay.ttf</item>
+        <item name="fontPath">@string/wk_font_short_offer</item>
     </style>
 
     <style name="WakupTheme.Text.SearchTitle">
-        <item name="fontPath">fonts/Aller_Rg.ttf</item>
+        <item name="fontPath">@string/wk_font_regular</item>
     </style>
 
     <style name="WakupTheme.Text.SearchDetail">

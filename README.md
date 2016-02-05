@@ -121,6 +121,21 @@ By changing this resources, you will override, **at compile time** the color use
 
 Complete list of resource colors used in the project can be found [here](https://github.com/Wakup/Wakup-Android-SDK/blob/master/sdk/src/main/res/values/colors.xml).
 
+### Fonts
+
+Wakup SDK provides a method to customize easily the typeface used in the application by following two setps: 
+
+1. Copy your font files to the `assets/fonts` folder of your project module
+2. Override the following list of String resources that contains the path of the default Wakup fonts including the path of the file for each font format:
+
+```xml
+<string name="wk_font_default">fonts/Aller_Lt.ttf</string>
+<string name="wk_font_regular">fonts/Aller_Rg.ttf</string>
+<string name="wk_font_italic">fonts/Aller_LtIt.ttf</string>
+<string name="wk_font_bold">fonts/Aller_Bd.ttf</string>
+<string name="wk_font_short_offer">fonts/AllerDisplay.ttf</string>
+```
+
 ### Deep customization
 
 If a more thorough customization is required, you can also override the secondary colors (that are mostly based in previously defined primary colors) that will allow to set colors to every section more precisely.

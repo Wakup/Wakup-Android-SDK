@@ -7,7 +7,7 @@
         <activity
             android:name=".activities.OffersActivity"
             android:label="@string/wk_activity_offers"
-            android:theme="@style/WakupTheme.Main">
+            android:theme="@style/WakupTheme.Root">
         </activity>
 
         <activity
