@@ -3,6 +3,7 @@ package com.yellowpineapple.wakup.sdk.activities;
 import android.app.ActionBar;
 import android.content.Context;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,12 +29,18 @@ public class OffersActivity extends OfferListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.wk_activity_offers);
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(false);
-            actionBar.setDisplayHomeAsUpEnabled(false);
+            // Retrieve the current set of display options
+            final int displayOptions = actionBar.getDisplayOptions();
+            // Determine which display options are enabled
+            final boolean isHomeAsUpEnabled = (displayOptions & ActionBar.DISPLAY_HOME_AS_UP) != 0;
+            if (isHomeAsUpEnabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                actionBar.setHomeAsUpIndicator(R.drawable.wk_actionbar_back_root);
+            }
         }
+
+        setContentView(R.layout.wk_activity_offers);
 
         injectViews();
     }

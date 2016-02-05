@@ -127,11 +127,12 @@ If a more thorough customization is required, you can also override the secondar
 
 Following are described the different views of the application that can be customized, including the associated resources:
 
-#### Action bar
+#### Root Action bar
+Wakup Activities uses a different customizable Action bar for the main (or root) activity and another one for the rest of the application:
 
 ![](http://i.imgur.com/CnMLZfSm.png)
 
-![](http://i.imgur.com/Fr8hiWYm.png)
+![](http://i.imgur.com/dZ5m6T1m.png)
 
 ```xml
 <!-- Colors -->
@@ -139,8 +140,26 @@ Following are described the different views of the application that can be custo
 <color name="wk_actionbar_text">@color/wk_primary_reverse</color>
 <color name="wk_actionbar_subtitle">#AFFF</color>
 <!-- Icons -->
-<drawable name="wk_actionbar_logo">@drawable/ic_action_logo</drawable>
+<drawable name="wk_actionbar_logo_root">@android:color/transparent</drawable>
+<drawable name="wk_actionbar_logo">@android:color/transparent</drawable>
+<drawable name="wk_actionbar_back_root">@drawable/wk_ic_nav_back</drawable>
+<drawable name="wk_actionbar_back">@drawable/wk_ic_nav_back</drawable>
 ```
+
+In addition, it is possible to customize the directly the appearance of both Action Bars by overriding the following styles:
+
+```xml
+<style name="WakupTheme.ActionBar.Root">
+    <item name="android:logo">@drawable/wk_actionbar_logo_root</item>
+    <item name="android:displayOptions">showHome|showTitle|useLogo</item>
+</style>
+
+<style name="WakupTheme.ActionBar.Default">
+    <item name="android:logo">@drawable/wk_actionbar_logo</item>
+    <item name="android:displayOptions">showHome|showTitle|useLogo|homeAsUp</item>
+</style>
+```
+
 #### Navigation bar
 
 ![](http://i.imgur.com/KXusEEkm.png)

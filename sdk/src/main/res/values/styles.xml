@@ -2,7 +2,7 @@
 
     <!-- Base application theme. -->
     <style name="WakupTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
-        <item name="android:actionBarStyle">@style/WakupTheme.ActionBar</item>
+        <item name="android:actionBarStyle">@style/WakupTheme.ActionBar.Default</item>
         <item name="android:actionMenuTextColor">@color/wk_actionbar_text</item>
         <item name="android:windowBackground">@color/wk_background</item>
         <item name="android:textColor">@color/wk_main_text</item>
@@ -14,8 +14,10 @@
     </style>
 
     <!-- Theme without ActionBar shadow (inherits main theme) -->
-    <style name="WakupTheme.ActionBarOverlay.NoShadow">
+    <style name="WakupTheme.Root">
         <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:actionBarStyle">@style/WakupTheme.ActionBar.Root</item>
     </style>
 
     <style name="WakupTheme.NoActionBar">
@@ -44,7 +46,15 @@
         <item name="android:titleTextStyle">@style/WakupTheme.ActionBar.Title</item>
         <item name="android:subtitleTextStyle">@style/WakupTheme.ActionBar.Subtitle</item>
         <item name="android:logo">@drawable/wk_actionbar_logo</item>
-        <item name="android:displayOptions">showTitle|showHome</item>
+        <item name="android:displayOptions">showHome|showTitle|useLogo|homeAsUp</item>
+    </style>
+
+    <style name="WakupTheme.ActionBar.Root">
+        <item name="android:logo">@drawable/wk_actionbar_logo_root</item>
+        <item name="android:displayOptions">showHome|showTitle|useLogo</item>
+    </style>
+
+    <style name="WakupTheme.ActionBar.Default">
     </style>
 
     <!-- ActionBar title text -->

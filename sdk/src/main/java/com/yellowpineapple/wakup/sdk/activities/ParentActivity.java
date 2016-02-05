@@ -1,5 +1,6 @@
 package com.yellowpineapple.wakup.sdk.activities;
 
+import android.Manifest;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -10,10 +11,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
@@ -84,9 +88,13 @@ public abstract class ParentActivity extends FragmentActivity {
 
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayUseLogoEnabled(true);
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            // Retrieve the current set of display options
+            final int displayOptions = actionBar.getDisplayOptions();
+            // Determine which display options are enabled
+            final boolean isHomeAsUpEnabled = (displayOptions & ActionBar.DISPLAY_HOME_AS_UP) != 0;
+            if (isHomeAsUpEnabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                actionBar.setHomeAsUpIndicator(R.drawable.wk_actionbar_back);
+            }
         }
 
         buildGoogleApiClient();
@@ -287,6 +295,10 @@ public abstract class ParentActivity extends FragmentActivity {
     }
 
     private void loadLocation(final GoogleApiClient googleApiClient, final LocationListener listener) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            checkLocationSettings(listener);
+            return;
+        }
         Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         if (lastLocation != null) {
             listener.onLocationSuccess(lastLocation);
