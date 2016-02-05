@@ -50,7 +50,8 @@
         <activity
             android:name=".activities.SearchActivity"
             android:theme="@style/WakupTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:label="@string/wk_activity_search">
         </activity>
 
         <activity
