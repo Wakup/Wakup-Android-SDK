@@ -265,6 +265,8 @@ To change the default circle background, it would be required to override the de
 
 ```xml
 <!-- Colors -->
+<color name="wk_search_box_text">#F1EAF2</color>
+<color name="wk_search_box_cursor">#F1EAF2</color>
 <color name="wk_search_header_bg">#F6F6F6</color>
 <color name="wk_search_list_bg">@color/wk_white</color>
 <color name="wk_search_icon">@color/wk_light_text</color>

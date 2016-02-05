@@ -7,6 +7,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +31,7 @@ import com.yellowpineapple.wakup.sdk.utils.Ln;
 import com.yellowpineapple.wakup.sdk.utils.Strings;
 import com.yellowpineapple.wakup.sdk.views.SearchFiltersView;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,36 +84,9 @@ public class SearchActivity extends ParentActivity {
 
         MenuItem searchMenuItem = menu.findItem(R.id.action_search);
         searchView = (SearchView) searchMenuItem.getActionView();
-        searchView.setIconified(false);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return true;
-            }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                search(newText);
-                return true;
-            }
-        });
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                searchView.setQuery("", false);
-                return true;
-            }
-        });
-        // Hide Keyboard when keyboard Action button is pressed
-        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-        TextView editText = (TextView) searchView.findViewById(id);
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                hideSoftKeyboard();
-                return false;
-            }
-        });
+        setupSearchView(searchView);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -137,6 +112,53 @@ public class SearchActivity extends ParentActivity {
         listView.addHeaderView(filtersView, null, false);
         listView.setAdapter(listAdapter);
         refreshList();
+    }
+
+    void setupSearchView(final SearchView searchView) {
+        searchView.setIconified(false);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                search(newText);
+                return true;
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                searchView.setQuery("", false);
+                return true;
+            }
+        });
+        // Hide Keyboard when keyboard Action button is pressed
+        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        TextView editText = (TextView) searchView.findViewById(id);
+        editText.setTextColor(ContextCompat.getColor(this, R.color.wk_search_box_text));
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                hideSoftKeyboard();
+                return false;
+            }
+        });
+        // Hack to change cursor color
+        try {
+            Field f = TextView.class.getDeclaredField("mCursorDrawableRes");
+            f.setAccessible(true);
+            f.set(editText, R.drawable.wk_search_cursor);
+        } catch (Exception ignored) {
+            Ln.e(ignored);
+        }
+
+        int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
+        // Getting the 'search_plate' LinearLayout.
+        View searchPlate = searchView.findViewById(searchPlateId);
+        searchPlate.setBackgroundResource(R.color.wk_transparent);
     }
 
     void search(final String query) {

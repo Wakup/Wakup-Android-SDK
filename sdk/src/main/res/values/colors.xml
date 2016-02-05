@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="wk_white">#FFF</color>
+    <color name="wk_transparent">#0000</color>
 
     <color name="wk_dark_pressed_layer">#1A000000</color>
     <color name="wk_light_pressed_layer">#33FFFFFF</color>
@@ -59,6 +60,8 @@
     <color name="wk_action_inactive_text">@color/wk_action_inactive</color>
 
     <!-- Search view -->
+    <color name="wk_search_box_text">#F1EAF2</color>
+    <color name="wk_search_box_cursor">#F1EAF2</color>
     <color name="wk_search_header_bg">#F6F6F6</color>
     <color name="wk_search_list_bg">@color/wk_white</color>
     <color name="wk_search_icon">@color/wk_light_text</color>
