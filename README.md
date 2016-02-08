@@ -86,22 +86,35 @@ You can access to the full list of string resources used by the SDK [here](https
 
 ### Icons
 
-Wakup SDK uses icons referenced by drawable resources that can be easily overriden with references to another customized icons.
+To display icons in the correct color, Wakup SDK use filters to apply tints depending on the icon current state. For example, button icons could be disabled, pressed or in its default state and its color will change accordingly.
 
-For example, to set the action bar logo for the entire Wakup offers section, you only have to include this drawable resource in your `wakup.xml` file:
+To correctly apply the different colors, the original images must be white colored PNG images with transparent background.
+
+![](http://i.imgur.com/VFnJSDS.png)
+
+The only exceptions to this behavior are:
+
+- The map pins for Google Map, that use a semi-transparent layer that can not be tinted
+- The ActionBar logo and menu icons, that will be displayed with their original color
+
+#### Customization
+
+The platform uses icons referenced by drawable resources that can be easily overriden with references to another customized icons.
+
+For example, to set the action bar logo for the root view and the entire Wakup offers section, you only have to include this drawable resources in your `wakup.xml` file:
 
 ```xml
 <!-- ActionBar logo -->
+<drawable name="wk_actionbar_logo_root">@drawable/ic_action_logo</drawable>
 <drawable name="wk_actionbar_logo">@drawable/ic_action_logo</drawable>
 ```
 
-**Note:** All the icons except the map pins and ActionBar logo **must be white colored**, since they will be tinted later by applying a filter depending on the theme colors.
 
 The complete list of drawable resources used in Wakup can be found [here](https://github.com/Wakup/Wakup-Android-SDK/blob/master/sdk/src/main/res/values/icons.xml).
 
 ### Colors
 
-Main application Look & Feel will be customized by overriding the default colors used by the Wakup SDK layout.
+Main application Look & Feel will be customized by overriding the default colors used by the Wakup SDK layout for **views**, **icons** and **text fonts**.
 
 To do so, copy and alter the primary colors on your `wakup.xml` file:
 
@@ -126,7 +139,7 @@ Complete list of resource colors used in the project can be found [here](https:/
 Wakup SDK provides a method to customize easily the typeface used in the application by following two setps: 
 
 1. Copy your font files to the `assets/fonts` folder of your project module
-2. Override the following list of String resources that contains the path of the default Wakup fonts including the path of the file for each font format:
+2. Override the following list of String resources (that currently contains the path of the default Wakup fonts) with the path of the file for each font format:
 
 ```xml
 <string name="wk_font_default">fonts/Aller_Lt.ttf</string>
@@ -142,12 +155,18 @@ If a more thorough customization is required, you can also override the secondar
 
 Following are described the different views of the application that can be customized, including the associated resources:
 
-#### Root Action bar
-Wakup Activities uses a different customizable Action bar for the main (or root) activity and another one for the rest of the application:
+#### Action bar
+Wakup Activities uses two different customizable Action bars:
 
-![](http://i.imgur.com/CnMLZfSm.png)
+- The first ActionBar is used for the main (or root) activity
+  
+  ![](http://i.imgur.com/CnMLZfSm.png)
 
-![](http://i.imgur.com/dZ5m6T1m.png)
+- The second ActionBar is displayed in the rest of the application sections
+
+  ![](http://i.imgur.com/dZ5m6T1m.png)
+
+Resources for the Root Action bar contains the `_root` sufix.
 
 ```xml
 <!-- Colors -->
@@ -161,7 +180,7 @@ Wakup Activities uses a different customizable Action bar for the main (or root)
 <drawable name="wk_actionbar_back">@drawable/wk_ic_nav_back</drawable>
 ```
 
-In addition, it is possible to customize the directly the appearance of both Action Bars by overriding the following styles:
+In addition, it is possible to customize the appearance of both Action Bars by directly overriding their styles:
 
 ```xml
 <style name="WakupTheme.ActionBar.Root">
