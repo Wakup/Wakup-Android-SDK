@@ -4,8 +4,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-def libraryVersion = '1.0.1'
-def libraryVersionCode = 10001
+def libraryVersion = '1.1.0'
+def libraryVersionCode = 10100
 
 // Maven group and version
 version = libraryVersion
@@ -16,7 +16,7 @@ group = "com.wakup.android"                               // Maven Group ID for 
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.2"
 
     resourcePrefix 'wk_'
 
