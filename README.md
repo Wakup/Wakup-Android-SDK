@@ -88,9 +88,9 @@ You can access to the full list of string resources used by the SDK [here](https
 
 To display icons in the correct color, Wakup SDK use filters to apply tints depending on the icon current state. For example, button icons could be disabled, pressed or in its default state and its color will change accordingly.
 
-To correctly apply the different colors, the original images must be white colored PNG images with transparent background.
+To correctly apply the different colors, the original images must be **white colored** PNG images with **transparent background**.
 
-![](http://i.imgur.com/VFnJSDS.png)
+![](http://i.imgur.com/ctkKci5.png)
 
 The only exceptions to this behavior are:
 
