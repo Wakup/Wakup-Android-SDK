@@ -8,6 +8,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.yellowpineapple.wakup.sdk.WakupOptions;
 import com.yellowpineapple.wakup.sdk.models.Offer;
+import com.yellowpineapple.wakup.sdk.models.RegistrationInfo;
 import com.yellowpineapple.wakup.sdk.models.SearchResultItem;
 
 import java.lang.reflect.Type;
@@ -17,9 +18,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by agutierrez on 19/02/15.
- */
 public class PersistenceHandler {
 
     private static PersistenceHandler INSTANCE = null;
@@ -27,6 +25,8 @@ public class PersistenceHandler {
     private static final String KEY_USER_OFFERS = "KEY_USER_OFFERS";
     private static final String KEY_RECENT_SEARCHES = "KEY_RECENT_SEARCHES";
     private static final String KEY_SDK_OPTIONS = "KEY_SDK_OPTIONS";
+    private static final String KEY_REGISTRATION_INFO = "KEY_REGISTRATION_INFO";
+    private static final String KEY_DEVICE_TOKEN = "KEY_DEVICE_TOKEN";
     private static final int MAX_RECENT_SEARCHES = 10;
 
     private SharedPreferences preferences = null;
@@ -34,6 +34,7 @@ public class PersistenceHandler {
     private List<SearchResultItem> recentSearches = null;
     private WakupOptions options = null;
     private boolean locationAsked = false;
+    private String deviceToken = null;
 
     Date savedOffersUpdatedAt = new Date();
 
@@ -178,5 +179,35 @@ public class PersistenceHandler {
             }
         }
         return options;
+    }
+
+    // Registration info
+    public void setRegistrationInfo(RegistrationInfo info) {
+        if (info != null) {
+            String serialized = info.toJson();
+            getPreferences().edit().putString(KEY_REGISTRATION_INFO, serialized).commit();
+        } else {
+            getPreferences().edit().remove(KEY_REGISTRATION_INFO).commit();
+        }
+    }
+
+    public boolean registrationRequired(RegistrationInfo info) {
+        // Registration is required if device token is empty or if registration info changed
+        return Strings.isEmpty(getDeviceToken()) ||
+                Strings.equals(
+                        getPreferences().getString(KEY_REGISTRATION_INFO, null),
+                        info.toJson());
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
+        getPreferences().edit().putString(KEY_DEVICE_TOKEN, deviceToken).commit();
+    }
+
+    public String getDeviceToken() {
+        if (Strings.isEmpty(this.deviceToken)) {
+            this.deviceToken = getPreferences().getString(KEY_DEVICE_TOKEN, null);
+        }
+        return deviceToken;
     }
 }

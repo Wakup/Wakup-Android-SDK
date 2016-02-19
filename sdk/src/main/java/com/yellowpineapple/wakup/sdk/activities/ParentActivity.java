@@ -98,7 +98,7 @@ public abstract class ParentActivity extends FragmentActivity {
         }
 
         buildGoogleApiClient();
-        requestClient = RequestClient.getSharedInstance(this, RequestClient.Environment.PRODUCTION);
+        requestClient = RequestClient.getSharedInstance(this);
         persistence = PersistenceHandler.getSharedInstance(this);
         wakup = Wakup.instance(this);
 
