@@ -3,6 +3,9 @@ package com.yellowpineapple.wakup.sdk.activities;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.etsy.android.grid.StaggeredGridView;
 import com.yellowpineapple.wakup.sdk.R;
@@ -40,7 +43,7 @@ public class OfferDetailActivity extends OfferListActivity implements OfferDetai
             gridView.addHeaderView(offerDetailView);
             gridView.addHeaderView(new RelatedOffersHeader(this));
         }
-        setTitle(offer.getCompany().getName());
+        setSubtitle(offer.getCompany().getName());
         offerDetailView.setOffer(offer, location);
         setupOffersGrid(gridView, null, true);
     }
@@ -115,6 +118,29 @@ public class OfferDetailActivity extends OfferListActivity implements OfferDetai
             StoreOffersActivity.intent(this).offer(offer).location(location).start();
             slideInTransition();
         }
+    }
+
+    // Menu
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.wk_offer_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean handled = super.onOptionsItemSelected(item);
+        if (handled) {
+            return true;
+        }
+        int itemId_ = item.getItemId();
+        if (itemId_ == R.id.menu_report) {
+            reportOffer(this.offer);
+            return true;
+        }
+        return false;
     }
 
     // Builder

@@ -48,7 +48,6 @@ import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.utils.ImageOptions;
 import com.yellowpineapple.wakup.sdk.utils.PersistenceHandler;
 import com.yellowpineapple.wakup.sdk.utils.ShareManager;
-import com.yellowpineapple.wakup.sdk.utils.Strings;
 
 import java.io.IOException;
 
@@ -150,22 +149,23 @@ public abstract class ParentActivity extends FragmentActivity {
         return wakup;
     }
 
-    /**
-     * Override setTitle method to avoid text ellispis even thouth there is room for all text
-     */
     @Override
     public void setTitle(final CharSequence title) {
         Activity activity = ParentActivity.this;
         ActionBar ab = activity.getActionBar();
         if (ab != null) {
-            if (Strings.notEmpty(ab.getTitle())) {
-                ab.setTitle(title);
-            } else {
-                ab.setSubtitle(title);
-            }
+            ab.setTitle(title);
             ab.setDisplayShowTitleEnabled(true);
         } else {
             ParentActivity.super.setTitle(title);
+        }
+    }
+
+    public void setSubtitle(final CharSequence subtitle) {
+        Activity activity = ParentActivity.this;
+        ActionBar ab = activity.getActionBar();
+        if (ab != null) {
+            ab.setSubtitle(subtitle);
         }
     }
 
@@ -511,6 +511,18 @@ public abstract class ParentActivity extends FragmentActivity {
 
     protected void slideOutTransition() {
         overridePendingTransition(R.anim.wk_fade_forward, R.anim.wk_slide_out_right);
+    }
+
+    /* Report offer error */
+
+    void reportOffer(final Offer offer) {
+        String reportURL = getWakup().getOfferReportURL(offer);
+        WebViewActivity.intent(this).
+                url(reportURL).
+                title(getString(R.string.wk_activity_report)).
+                linksInBrowser(false).
+                start();
+        slideInTransition();
     }
 
     /* Offer sharing */

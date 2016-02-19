@@ -109,7 +109,11 @@ public class OffersActivity extends OfferListActivity {
 
     void bigOfferPressed() {
         String bigOfferUrl = getWakup().getBigOffer();
-        WebViewActivity.intent(this).url(bigOfferUrl).start();
+        WebViewActivity.intent(this).
+                url(bigOfferUrl).
+                title(getString(R.string.wk_activity_big_offer)).
+                linksInBrowser(true).
+                start();
         slideInTransition();
     }
 

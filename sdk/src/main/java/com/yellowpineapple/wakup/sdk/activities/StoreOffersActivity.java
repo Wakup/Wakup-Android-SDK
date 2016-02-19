@@ -48,7 +48,7 @@ public class StoreOffersActivity extends OfferListActivity {
     }
 
     void afterViews() {
-        setTitle(offer.getCompany().getName());
+        setSubtitle(offer.getCompany().getName());
         setupOffersGrid(gridView, null, true);
     }
 

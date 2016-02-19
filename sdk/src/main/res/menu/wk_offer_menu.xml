@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_search"
-        android:icon="@drawable/wk_menu_search"
+        android:id="@+id/menu_report"
+        android:icon="@drawable/wk_menu_report"
         android:orderInCategory="10"
         android:showAsAction="always"
-        android:title="@string/wk_search_action" />
+        android:title="@string/wk_menu_report" />
 
 </menu>

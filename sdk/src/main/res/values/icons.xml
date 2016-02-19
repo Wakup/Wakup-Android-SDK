@@ -46,5 +46,9 @@
     <drawable name="wk_pin_services">@drawable/wk_ic_pin_services</drawable>
     <drawable name="wk_pin_shopping">@drawable/wk_ic_pin_shopping</drawable>
 
+    <!-- Menu items (colored) -->
+    <drawable name="wk_menu_search">@drawable/wk_ic_menu_search</drawable>
+    <drawable name="wk_menu_report">@drawable/wk_ic_menu_report</drawable>
+
 
 </resources>

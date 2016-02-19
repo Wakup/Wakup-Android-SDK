@@ -31,7 +31,7 @@ public class RequestClient {
     private final static String USER_TOKEN_HEADER = "User-Token";
 
     public enum Environment {
-        PRODUCTION("http://app.wakup.net/", false);
+        PRODUCTION("https://app.wakup.net/", false);
 
         String url;
         boolean dummy;

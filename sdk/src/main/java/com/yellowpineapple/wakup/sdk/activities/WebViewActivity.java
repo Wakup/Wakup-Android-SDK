@@ -17,8 +17,10 @@ public class WebViewActivity extends ParentActivity {
 
     public final static String TITLE_EXTRA = "title";
     public final static String URL_EXTRA = "url";
+    public final static String OPEN_IN_BROWSER_EXTRA = "openInBrowser";
     String title = null;
     String url = null;
+    boolean linksInBrowser = true;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -42,7 +44,7 @@ public class WebViewActivity extends ParentActivity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (!firstLoad) {
+                if (!firstLoad && linksInBrowser) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
                     return true;
                 } else {
@@ -67,6 +69,9 @@ public class WebViewActivity extends ParentActivity {
             if (extras.containsKey(URL_EXTRA)) {
                 url = extras.getString(URL_EXTRA);
             }
+            if (extras.containsKey(OPEN_IN_BROWSER_EXTRA)) {
+                linksInBrowser = extras.getBoolean(OPEN_IN_BROWSER_EXTRA);
+            }
         }
     }
 
@@ -89,6 +94,11 @@ public class WebViewActivity extends ParentActivity {
 
         public Builder url(String url) {
             getIntent().putExtra(URL_EXTRA, url);
+            return this;
+        }
+
+        public Builder linksInBrowser(boolean linksInBrowser) {
+            getIntent().putExtra(OPEN_IN_BROWSER_EXTRA, linksInBrowser);
             return this;
         }
     }

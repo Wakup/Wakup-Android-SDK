@@ -46,7 +46,7 @@
         <activity
             android:name=".activities.WebViewActivity"
             android:theme="@style/WakupTheme"
-            android:label="@string/wk_activity_big_offer">
+            android:label="@string/wk_empty">
         </activity>
 
         <activity

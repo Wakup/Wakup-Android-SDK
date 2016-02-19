@@ -1,6 +1,7 @@
 package com.yellowpineapple.wakup.sdk;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -8,6 +9,7 @@ import com.yellowpineapple.wakup.sdk.activities.OffersActivity;
 import com.yellowpineapple.wakup.sdk.communications.Request;
 import com.yellowpineapple.wakup.sdk.communications.RequestClient;
 import com.yellowpineapple.wakup.sdk.communications.requests.register.RegisterRequest;
+import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.models.RegistrationInfo;
 import com.yellowpineapple.wakup.sdk.utils.PersistenceHandler;
 
@@ -18,7 +20,7 @@ public class Wakup {
 
     private PersistenceHandler persistence;
 
-    private static final String BIG_OFFER_URL = "https://app.wakup.net/offers/highlighted/%s";
+    private static final String HOST = RequestClient.Environment.PRODUCTION.getUrl();
 
     private Wakup(Context context) {
         super();
@@ -73,7 +75,21 @@ public class Wakup {
     }
 
     public String getBigOffer() {
-        return String.format(BIG_OFFER_URL, getOptions().getApiKey());
+        Uri.Builder b = Uri.parse(HOST).buildUpon();
+        b.path("offers/highlighted");
+        b.appendPath(getOptions().getApiKey());
+        return b.build().toString();
+    }
+
+    public String getOfferReportURL(Offer offer) {
+        Uri.Builder b = Uri.parse(HOST).buildUpon();
+        b.appendPath("offers");
+        b.appendPath(Integer.toString(offer.getId()));
+        b.appendPath("report");
+        if (offer.getStore() != null) {
+            b.appendQueryParameter("storeId", Integer.toString(offer.getStore().getId()));
+        }
+        return b.build().toString();
     }
 
 }
