@@ -64,6 +64,7 @@ public class RemoteImageView extends AspectKeepFrameLayout {
                 Bitmap bitmap = ImageLoader.getInstance().loadImageSync(image.getUrl(), ImageOptions.get());
                 if (bitmap != null) {
                     imageView.setImageBitmap(bitmap);
+                    bitmap.recycle();
                 } else {
                     imageView.setImageDrawable(placeholder);
                 }
