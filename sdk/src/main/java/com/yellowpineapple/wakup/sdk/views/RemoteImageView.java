@@ -17,9 +17,6 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import com.yellowpineapple.wakup.sdk.models.RemoteImage;
 import com.yellowpineapple.wakup.sdk.utils.ImageOptions;
 
-/**
- * Created by agutierrez on 04/02/15.
- */
 public class RemoteImageView extends AspectKeepFrameLayout {
 
     RemoteImage image;
@@ -64,7 +61,6 @@ public class RemoteImageView extends AspectKeepFrameLayout {
                 Bitmap bitmap = ImageLoader.getInstance().loadImageSync(image.getUrl(), ImageOptions.get());
                 if (bitmap != null) {
                     imageView.setImageBitmap(bitmap);
-                    bitmap.recycle();
                 } else {
                     imageView.setImageDrawable(placeholder);
                 }
