@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="wk_empty"></string>
+
     <!-- Activity titles -->
     <string name="wk_activity_offers">Ofertas</string>
     <string name="wk_activity_my_offers">Mis ofertas</string>
@@ -10,6 +12,7 @@
     <string name="wk_activity_search_result">Resultados</string>
     <string name="wk_activity_big_offer">Ofertón</string>
     <string name="wk_activity_map">Mapa</string>
+    <string name="wk_activity_report">Informar de un error</string>
 
     <!-- Generic error message -->
     <string name="wk_error_message_title">Error</string>
@@ -36,6 +39,7 @@
     <string name="wk_menu_my_offers_add">Añadir a mis ofertas</string>
     <string name="wk_menu_my_offers_remove">Eliminar de mis ofertas</string>
     <string name="wk_menu_share">Compartir</string>
+    <string name="wk_menu_report">Informar de un error</string>
 
     <!-- Offer Detail Activity -->
     <string name="wk_menu_search">Buscar</string>

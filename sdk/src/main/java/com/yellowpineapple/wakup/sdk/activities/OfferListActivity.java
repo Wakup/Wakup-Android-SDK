@@ -330,7 +330,8 @@ public abstract class OfferListActivity extends ParentActivity implements AbsLis
         VIEW_IN_MAP(1, R.string.wk_menu_map),
         MY_OFFERS_SAVE(2, R.string.wk_menu_my_offers_add),
         MY_OFFERS_REMOVE(3, R.string.wk_menu_my_offers_remove),
-        SHARE(4, R.string.wk_menu_share);
+        SHARE(4, R.string.wk_menu_share),
+        REPORT(5, R.string.wk_menu_report);
 
         int id;
         int textResId;
@@ -371,6 +372,7 @@ public abstract class OfferListActivity extends ParentActivity implements AbsLis
                 addMenuItem(menu, OfferMenuItem.MY_OFFERS_SAVE);
             }
             addMenuItem(menu, OfferMenuItem.SHARE);
+            addMenuItem(menu, OfferMenuItem.REPORT);
         }
     }
 
@@ -386,6 +388,7 @@ public abstract class OfferListActivity extends ParentActivity implements AbsLis
             case MY_OFFERS_SAVE: saveOffer(selectedOffer); break;
             case MY_OFFERS_REMOVE: removeSavedOffer(selectedOffer); break;
             case SHARE: shareOffer(selectedOffer); break;
+            case REPORT: reportOffer(selectedOffer); break;
         }
         afterContextItemSelected(menuItem);
         return true;

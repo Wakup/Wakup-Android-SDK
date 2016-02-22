@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.etsy.android.grid.StaggeredGridView;
 import com.yellowpineapple.wakup.sdk.R;
+import com.yellowpineapple.wakup.sdk.Wakup;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.utils.IntentBuilder;
 import com.yellowpineapple.wakup.sdk.views.PullToRefreshLayout;
@@ -25,6 +26,7 @@ public class OffersActivity extends OfferListActivity {
     View navigationView;
     PullToRefreshLayout ptrLayout;
     View emptyView;
+    boolean alreadyRegistered = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +84,22 @@ public class OffersActivity extends OfferListActivity {
 
     @Override
     void onRequestOffers(final int page, final Location location) {
-        offersRequest = getRequestClient().findOffers(location, page, getOfferListRequestListener());
+        if (alreadyRegistered) {
+            offersRequest = getRequestClient().findOffers(location, page, getOfferListRequestListener());
+        } else {
+            getWakup().register(new Wakup.RegisterListener() {
+                @Override
+                public void onSuccess() {
+                    alreadyRegistered = true;
+                    onRequestOffers(page, location);
+                }
+
+                @Override
+                public void onError(Exception exception) {
+                    getOfferListRequestListener().onError(exception);
+                }
+            });
+        }
     }
 
     @Override
@@ -92,7 +109,11 @@ public class OffersActivity extends OfferListActivity {
 
     void bigOfferPressed() {
         String bigOfferUrl = getWakup().getBigOffer();
-        WebViewActivity.intent(this).url(bigOfferUrl).start();
+        WebViewActivity.intent(this).
+                url(bigOfferUrl).
+                title(getString(R.string.wk_activity_big_offer)).
+                linksInBrowser(true).
+                start();
         slideInTransition();
     }
 

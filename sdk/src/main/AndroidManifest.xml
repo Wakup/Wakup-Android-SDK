@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yellowpineapple.wakup.sdk" >
 
-    <application>
+    <application
+
+        android:largeHeap="true">
 
         <activity
             android:name=".activities.OffersActivity"
@@ -44,7 +46,7 @@
         <activity
             android:name=".activities.WebViewActivity"
             android:theme="@style/WakupTheme"
-            android:label="@string/wk_activity_big_offer">
+            android:label="@string/wk_empty">
         </activity>
 
         <activity

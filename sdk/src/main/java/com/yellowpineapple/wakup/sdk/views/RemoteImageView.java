@@ -17,9 +17,6 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import com.yellowpineapple.wakup.sdk.models.RemoteImage;
 import com.yellowpineapple.wakup.sdk.utils.ImageOptions;
 
-/**
- * Created by agutierrez on 04/02/15.
- */
 public class RemoteImageView extends AspectKeepFrameLayout {
 
     RemoteImage image;

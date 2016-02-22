@@ -13,7 +13,7 @@ public class ImageOptions {
 
     public static DisplayImageOptions.Builder builder() {
         return new DisplayImageOptions.Builder()
-                .cacheInMemory(false)
+                .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .considerExifParams(true);
     }

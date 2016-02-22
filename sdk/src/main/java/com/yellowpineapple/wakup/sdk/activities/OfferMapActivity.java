@@ -80,7 +80,7 @@ public class OfferMapActivity
 
     void afterViews() {
         if (offer != null) {
-            setTitle(offer.getCompany().getName());
+            setSubtitle(offer.getCompany().getName());
             offers = new ArrayList<>();
             offers.add(offer);
             singleOffer = true;

@@ -57,7 +57,7 @@ public class SearchResultActivity extends OfferListActivity {
     }
 
     void afterViews() {
-        setTitle(searchItem.getName());
+        setSubtitle(searchItem.getName());
         setupOffersGrid(gridView, emptyView, true);
     }
 

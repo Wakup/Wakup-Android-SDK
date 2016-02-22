@@ -10,12 +10,16 @@ import com.yellowpineapple.wakup.sdk.communications.requests.offers.CompanyOffer
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.FindOffersRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetOffersByIdRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.RelatedOffersRequest;
+import com.yellowpineapple.wakup.sdk.communications.requests.register.RegisterRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.search.SearchRequest;
 import com.yellowpineapple.wakup.sdk.models.Category;
 import com.yellowpineapple.wakup.sdk.models.Company;
 import com.yellowpineapple.wakup.sdk.models.CompanyDetail;
 import com.yellowpineapple.wakup.sdk.models.Offer;
+import com.yellowpineapple.wakup.sdk.models.RegistrationInfo;
 import com.yellowpineapple.wakup.sdk.models.Store;
+import com.yellowpineapple.wakup.sdk.utils.PersistenceHandler;
+import com.yellowpineapple.wakup.sdk.utils.Strings;
 
 import java.util.List;
 
@@ -23,10 +27,11 @@ public class RequestClient {
 
 	private static RequestClient sharedInstance = null;
 
-    private final static String API_KEY_HEADER = "API-Token";
+    private final static String API_TOKEN_HEADER = "API-Token";
+    private final static String USER_TOKEN_HEADER = "User-Token";
 
     public enum Environment {
-        PRODUCTION("http://app.wakup.net/", false);
+        PRODUCTION("https://app.wakup.net/", false);
 
         String url;
         boolean dummy;
@@ -47,25 +52,32 @@ public class RequestClient {
 	
 	/* Properties */
 	RequestLauncher requestLauncher;
+    PersistenceHandler persistence;
     Environment environment;
     Context context;
 	String apiKey = null;
 	
-	public static RequestClient getSharedInstance(Context context, Environment environment) {
+	public static RequestClient getSharedInstance(Context context) {
 		if (sharedInstance == null) {
-			sharedInstance = new RequestClient(context, environment);
+			sharedInstance = new RequestClient(context, Environment.PRODUCTION);
 		}
 		return sharedInstance;
 	}
 	
 	private RequestClient(Context context, Environment environment) {
 		requestLauncher = new DefaultRequestLauncher(context);
+        persistence = PersistenceHandler.getSharedInstance(context);
         this.context = context;
         this.environment = environment;
         apiKey = Wakup.instance(context).getOptions().getApiKey();
 	}
 
     /* Public methods */
+
+    // Registration
+    public Request register(RegistrationInfo info, RegisterRequest.Listener listener) {
+        return launch(new RegisterRequest(info, listener));
+    }
 
     // Offers
 
@@ -101,7 +113,10 @@ public class RequestClient {
 
 	/* Private methods */
 	private Request launch(BaseRequest request) {
-        request.addHeader(API_KEY_HEADER, apiKey);
+        request.addHeader(API_TOKEN_HEADER, apiKey);
+        if (Strings.notEmpty(persistence.getDeviceToken())) {
+            request.addHeader(USER_TOKEN_HEADER, persistence.getDeviceToken());
+        }
         request.setRequestLauncher(requestLauncher);
         request.setEnvironment(environment);
         request.launch();
