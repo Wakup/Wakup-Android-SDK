@@ -1,7 +1,7 @@
 Wakup SDK Library
 ==================
 
-[![Download](https://api.bintray.com/packages/wakup/sdk/android-sdk/images/download.svg)](https://bintray.com/wakup/sdk/android-sdk/_latestVersion) [ ![Method Count](https://img.shields.io/badge/Methods count-core: 1789 | deps: 27515-e91e63.svg)](http://www.methodscount.com/?lib=com.wakup.android%3Asdk%3A1.2.0)
+[![Download](https://api.bintray.com/packages/wakup/sdk/android-sdk/images/download.svg)](https://bintray.com/wakup/sdk/android-sdk/_latestVersion) [ ![Method Count](https://img.shields.io/badge/Methods count-core: 1789 | deps: 27515-e91e63.svg)](http://www.methodscount.com/?lib=com.wakup.android%3Asdk%3A1.2.1)
 
 Native Android SDK for [Wakup platform](http://wakup.net).
 
@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.wakup.android:sdk:1.2.0'
+    compile 'com.wakup.android:sdk:1.2.1'
 }
 ```
 

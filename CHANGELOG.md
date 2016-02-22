@@ -5,6 +5,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 - No changes
 
+## [1.2.1] - 2016-02-22
+### Fixed
+- Application should not crash on opening map activity when offers are not yet loaded
+
 ## [1.2.0] - 2016-02-22
 ### Added
 - Implemented user statistics and device information reporting
@@ -34,7 +38,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - First fully functional public release.
 
-[Unreleased]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.2.1...HEAD
+[1.2.1]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.0.0...v1.0.1
