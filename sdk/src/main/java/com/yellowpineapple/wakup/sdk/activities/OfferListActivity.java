@@ -23,6 +23,7 @@ import com.yellowpineapple.wakup.sdk.controllers.OffersAdapter;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.views.PullToRefreshLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -39,7 +40,8 @@ public abstract class OfferListActivity extends ParentActivity implements AbsLis
 
     Location currentLocation = null;
 
-    List<Offer> offers;
+    boolean offersLoaded = false;
+    List<Offer> offers = new ArrayList<>();
     Offer selectedOffer = null;
 
     static int FIRST_PAGE = BaseRequest.FIRST_PAGE;
@@ -59,7 +61,7 @@ public abstract class OfferListActivity extends ParentActivity implements AbsLis
     }
 
     protected boolean shouldReloadOffers() {
-        return offers == null;
+        return !offersLoaded;
     }
 
     void setupOffersGrid(StaggeredGridView gridView, View emptyView, final boolean hideActionBarOnScroll) {
@@ -142,7 +144,6 @@ public abstract class OfferListActivity extends ParentActivity implements AbsLis
             public void onLocationSuccess(final Location location) {
                 currentLocation = location;
                 onRequestOffers(page, location);
-
             }
 
             @Override
@@ -178,6 +179,7 @@ public abstract class OfferListActivity extends ParentActivity implements AbsLis
             @Override
             public void onSuccess(List<Offer> offers) {
                 setOffers(offersPage, offers);
+                offersLoaded = true;
             }
 
             @Override
