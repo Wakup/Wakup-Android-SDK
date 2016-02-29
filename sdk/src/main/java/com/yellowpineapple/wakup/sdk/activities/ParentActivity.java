@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -46,6 +47,7 @@ import com.yellowpineapple.wakup.sdk.Wakup;
 import com.yellowpineapple.wakup.sdk.communications.RequestClient;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.utils.ImageOptions;
+import com.yellowpineapple.wakup.sdk.utils.Ln;
 import com.yellowpineapple.wakup.sdk.utils.PersistenceHandler;
 import com.yellowpineapple.wakup.sdk.utils.ShareManager;
 
@@ -224,6 +226,9 @@ public abstract class ParentActivity extends FragmentActivity {
     }
 
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
+    protected static final int NOTIFY_PERMISSION_REQUEST = 0x2;
+    protected final static int PERMISSION_REQUEST_LOCATION = 0x3;
+
     /**
      * Checks current device location settings and opens a dialog to request enabling location
      * when needed
@@ -246,9 +251,9 @@ public abstract class ParentActivity extends FragmentActivity {
                 final Status status = result.getStatus();
                 switch (status.getStatusCode()) {
                     case LocationSettingsStatusCodes.SUCCESS:
-                        // All location settings are satisfied. The client can initialize location
-                        // requests here.
-                        loadLocation(googleApiClient, locationListener);
+                        // All location settings are satisfied. Now it is needed to check if the
+                        // user the granted specific permissions (for Android +6)
+                        checkLocationPermissions(locationListener);
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         // Location settings are not satisfied. But could be fixed by showing the user
@@ -264,6 +269,8 @@ public abstract class ParentActivity extends FragmentActivity {
                             }
                         } catch (IntentSender.SendIntentException e) {
                             // Ignore the error.
+                            Ln.e(e);
+                            locationListener.onLocationError(e);
                         }
                         break;
                     case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
@@ -274,6 +281,63 @@ public abstract class ParentActivity extends FragmentActivity {
                 }
             }
         });
+    }
+
+    void checkLocationPermissions(final LocationListener locationListener) {
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Check if it has been already asked
+            if (getPersistence().isLocationPermissionAsked()) {
+                locationListener.onLocationError(new LocationException("Location permission denied"));
+            } else {
+
+                this.locationListener = locationListener;
+                // Should we show an explanation?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                    // Show an explanation to the user
+                    // After the user sees the explanation, try again to request the permission.
+                    Intent intent = ModalTextActivity.intent(this,
+                            getString(R.string.wk_location_permission_request)).getIntent();
+                    startActivityForResult(intent, NOTIFY_PERMISSION_REQUEST);
+
+                } else {
+                    requestLocationPermission();
+                }
+            }
+        } else {
+            // Permission is granted
+            loadLocation(googleApiClient, locationListener);
+        }
+    }
+
+    void requestLocationPermission() {
+        getPersistence().setLocationPermissionAsked(true);
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                PERMISSION_REQUEST_LOCATION);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission is granted
+                    loadLocation(googleApiClient, locationListener);
+                } else {
+                    locationListener.onLocationError(new Exception("Permission denied"));
+                }
+                return;
+            }
+        }
     }
 
     @Override
@@ -290,6 +354,9 @@ public abstract class ParentActivity extends FragmentActivity {
                         break;
                 }
                 locationListener = null;
+                break;
+            case NOTIFY_PERMISSION_REQUEST:
+                requestLocationPermission();
                 break;
         }
     }

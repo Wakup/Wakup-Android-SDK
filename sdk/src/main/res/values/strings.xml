@@ -14,15 +14,13 @@
     <string name="wk_activity_map">Mapa</string>
     <string name="wk_activity_report">Informar de un error</string>
 
-    <!-- Generic error message -->
+    <!-- Dialogs -->
+    <string name="wk_loading_default">Cargando…</string>
+    <string name="wk_connection_error_message">Se produjo un error de comunicación. Compruebe su conexión a internet e inténtelo de nuevo</string>
     <string name="wk_error_message_title">Error</string>
     <string name="wk_error_message_button">Aceptar</string>
+    <string name="wk_location_permission_request">Para poder mostrar las ofertas cercanas más relevantes, necesitamos permiso para acceder a la ubicación</string>
 
-    <!-- Connection error -->
-    <string name="wk_connection_error_message">Se produjo un error de comunicación. Compruebe su conexión a internet e inténtelo de nuevo</string>
-
-    <!-- Loading dialogs -->
-    <string name="wk_loading_default">Cargando…</string>
 
     <!-- Offers Activity -->
     <string name="wk_big_offer">ofertón</string>

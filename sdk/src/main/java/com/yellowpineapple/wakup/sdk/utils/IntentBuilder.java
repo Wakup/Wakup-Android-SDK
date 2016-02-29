@@ -18,7 +18,7 @@ public class IntentBuilder<T extends Activity> {
         context.startActivity(intent);
     }
 
-    protected Intent getIntent() {
+    public Intent getIntent() {
         return intent;
     }
 

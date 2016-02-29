@@ -34,6 +34,7 @@ public class PersistenceHandler {
     private List<SearchResultItem> recentSearches = null;
     private WakupOptions options = null;
     private boolean locationAsked = false;
+    private boolean locationPermissionAsked = false;
     private String deviceToken = null;
 
     Date savedOffersUpdatedAt = new Date();
@@ -151,6 +152,14 @@ public class PersistenceHandler {
 
     public void setLocationAsked(boolean locationAsked) {
         this.locationAsked = locationAsked;
+    }
+
+    public boolean isLocationPermissionAsked() {
+        return locationPermissionAsked;
+    }
+
+    public void setLocationPermissionAsked(boolean locationPermissionAsked) {
+        this.locationPermissionAsked = locationPermissionAsked;
     }
 
     // Setup options

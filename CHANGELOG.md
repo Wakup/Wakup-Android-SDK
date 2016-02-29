@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 - Improved displayed message and behavior on connectivity errors
+- Included location permission request to user for Android 6+
 
 ## [1.2.1] - 2016-02-22
 ### Fixed
