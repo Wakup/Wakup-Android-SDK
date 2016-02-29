@@ -36,9 +36,6 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * Created by agutierrez on 11/02/15.
- */
 public class OfferMapActivity
         extends ParentActivity
         implements OnMapReadyCallback, GoogleMap.OnCameraChangeListener, GoogleMap.InfoWindowAdapter, GoogleMap.OnInfoWindowClickListener {
@@ -112,6 +109,16 @@ public class OfferMapActivity
             googleMap.setOnInfoWindowClickListener(this);
         }
         displayInMap(offers);
+
+        getLastKnownLocation(new LocationListener() {
+            @Override
+            public void onLocationSuccess(Location location) {
+                googleMap.setMyLocationEnabled(true);
+            }
+
+            @Override
+            public void onLocationError(Exception exception) {}
+        });
     }
 
     private void displayInMap(List<Offer> offers) {
@@ -119,7 +126,6 @@ public class OfferMapActivity
             for (Offer offer : offers) {
                 if (offer.hasLocation() && !displayedStores.contains(offer.getStore().getId())) {
                     Store store = offer.getStore();
-                    googleMap.setMyLocationEnabled(true);
                     final Marker storeMarker = googleMap.addMarker(
                             new MarkerOptions()
                                     .icon(BitmapDescriptorFactory.fromResource(offer.getCategory().getIconResId()))

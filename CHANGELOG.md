@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Improved displayed message and behavior on connectivity errors
 - Included location permission request to user for Android 6+
+- _Center in my location_ button will not be displayed in Map View when location is disabled
 
 ## [1.2.1] - 2016-02-22
 ### Fixed
