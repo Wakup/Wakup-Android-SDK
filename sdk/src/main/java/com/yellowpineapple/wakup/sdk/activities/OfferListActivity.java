@@ -186,7 +186,8 @@ public abstract class OfferListActivity extends ParentActivity implements AbsLis
             public void onError(Exception exception) {
                 mHasRequestedMore = false;
                 setLoading(false);
-                displayErrorDialog(exception);
+                displayErrorDialog(getString(R.string.wk_connection_error_message));
+                setEmptyViewVisible(OfferListActivity.this.offers.isEmpty());
                 offersRequest = null;
             }
         };

@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-- No changes
+- Improved displayed message and behavior on connectivity errors
 
 ## [1.2.1] - 2016-02-22
 ### Fixed
