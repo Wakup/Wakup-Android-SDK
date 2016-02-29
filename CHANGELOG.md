@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+- No changes
+
+## [1.2.2] - 2016-02-29
+### Changed
 - Improved displayed message and behavior on connectivity errors
 - Included location permission request to user for Android 6+
 
@@ -39,7 +43,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - First fully functional public release.
 
-[Unreleased]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.2.1...HEAD
+[Unreleased]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.2.2...HEAD
+[1.2.2]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.0.1...v1.1.0
