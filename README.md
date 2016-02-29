@@ -14,12 +14,6 @@ To start using Wakup you have to integrate the Wakup SDK in your Android Applica
 Include this dependency in the `build.gradle` file of your application project module.
 
 ```groovy
-repositories {
-    maven {
-        url  "http://dl.bintray.com/wakup/sdk"
-    }
-}
-
 dependencies {
     compile 'com.wakup.android:sdk:1.2.2'
 }
