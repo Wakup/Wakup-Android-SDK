@@ -5,8 +5,10 @@ import android.content.Context;
 import android.location.Location;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,6 +28,20 @@ public class OfferListView extends FrameLayout {
     RelativeLayout viewShortOffer;
     TextView txtDistance;
     TextView txtExpiration;
+    View rippleView;
+    LinearLayout linearLayout;
+    FrameLayout wk_ripple_container;
+
+    Listener listener;
+
+    public void setListener(Listener listener) {
+        this.listener = listener;
+    }
+
+    public interface Listener {
+        void onClick(Offer offer);
+        void onLongClick(Offer offer);
+    }
 
     public OfferListView(Context context) {
         super(context);
@@ -54,6 +70,23 @@ public class OfferListView extends FrameLayout {
         txtDescription = ((TextView) findViewById(R.id.txtDescription));
         txtCompany = ((TextView) findViewById(R.id.txtCompany));
         offerImageView = ((RemoteImageView) findViewById(R.id.offerImageView));
+        rippleView = findViewById(R.id.rippleView);
+
+        rippleView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) listener.onClick(offer);
+            }
+        });
+
+        rippleView.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (listener != null) listener.onLongClick(offer);
+                return false;
+            }
+        });
+
     }
 
     public void setOffer(Offer offer, Location currentLocation) {
@@ -85,5 +118,6 @@ public class OfferListView extends FrameLayout {
     public Offer getOffer() {
         return offer;
     }
+
 
 }

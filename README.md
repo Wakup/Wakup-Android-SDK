@@ -95,12 +95,11 @@ The only exceptions to this behavior are:
 
 The platform uses icons referenced by drawable resources that can be easily overriden with references to another customized icons.
 
-For example, to set the action bar logo for the root view and the entire Wakup offers section, you only have to include this drawable resources in your `wakup.xml` file:
+For example, to set the big offer icon in the navigation bar, you only have to include this drawable resources in your `wakup.xml` file:
 
 ```xml
-<!-- ActionBar logo -->
-<drawable name="wk_actionbar_logo_root">@drawable/ic_action_logo</drawable>
-<drawable name="wk_actionbar_logo">@drawable/ic_action_logo</drawable>
+<!-- Navigation -->
+<drawable name="wk_nav_big_offer">@drawable/wk_ic_nav_big_offer</drawable>
 ```
 
 
@@ -117,6 +116,7 @@ To do so, copy and alter the primary colors on your `wakup.xml` file:
 <color name="wk_primary">#3C1E3D</color>
 <color name="wk_primary_pressed">#7B4C7D</color>
 <color name="wk_primary_reverse">#A47BA6</color>
+<color name="wk_primary_dark">#321933</color>
 <color name="wk_secondary">#809718</color>
 <color name="wk_secondary_pressed">#617213</color>
 <color name="wk_secondary_reverse">@color/wk_white</color>
@@ -149,48 +149,73 @@ If a more thorough customization is required, you can also override the secondar
 
 Following are described the different views of the application that can be customized, including the associated resources:
 
-#### Action bar
-Wakup Activities uses two different customizable Action bars:
+#### App bar
+Wakup Activities uses two different customizable Appbars:
 
 - The first ActionBar is used for the main (or root) activity
   
-  ![](http://i.imgur.com/CnMLZfSm.png)
+  ![](http://i.imgur.com/btq2Rq9.png)
 
 - The second ActionBar is displayed in the rest of the application sections
 
-  ![](http://i.imgur.com/dZ5m6T1m.png)
+  ![](http://i.imgur.com/GNV07MH.png)
 
-Resources for the Root Action bar contains the `_root` sufix.
-
-```xml
-<!-- Colors -->
-<color name="wk_actionbar_bg">@color/wk_primary</color>
-<color name="wk_actionbar_text">@color/wk_primary_reverse</color>
-<color name="wk_actionbar_subtitle">#AFFF</color>
-<!-- Icons -->
-<drawable name="wk_actionbar_logo_root">@android:color/transparent</drawable>
-<drawable name="wk_actionbar_logo">@android:color/transparent</drawable>
-<drawable name="wk_actionbar_back_root">@drawable/wk_ic_nav_back</drawable>
-<drawable name="wk_actionbar_back">@drawable/wk_ic_nav_back</drawable>
-```
-
-In addition, it is possible to customize the appearance of both Action Bars by directly overriding their styles:
+It is possible to customize the colors of the App bar...
 
 ```xml
-<style name="WakupTheme.ActionBar.Root">
-    <item name="android:logo">@drawable/wk_actionbar_logo_root</item>
-    <item name="android:displayOptions">showHome|showTitle|useLogo</item>
-</style>
-
-<style name="WakupTheme.ActionBar.Default">
-    <item name="android:logo">@drawable/wk_actionbar_logo</item>
-    <item name="android:displayOptions">showHome|showTitle|useLogo|homeAsUp</item>
-</style>
+    <!-- Colors -->
+    <color name="wk_appbar_bg">@color/wk_primary</color>
+    <color name="wk_appbar_text">@color/wk_secondary_reverse</color>
+    <!-- Icon -->
+    <drawable name="wk_actionbar_back">@drawable/wk_ic_nav_back</drawable>
 ```
+
+... or the appeareance by directly overriding their layouts (`wk_appbar.xml` and `wk_appbar_no_filters`):
+
+```xml
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/wk_actionbar_bg"
+        app:popupTheme="@style/WakupTheme.PopupOverlay"
+        app:theme="@style/WakupTheme.AppBarOverlay"
+        app:layout_scrollFlags="scroll|enterAlways">
+        
+        <!-- ProgressBar shown on wk_appbar_no_filters while loading -->
+        <ProgressBar
+            android:id="@+id/progress_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:indeterminate="true"
+            android:visibility="gone"/>
+                    
+        <!-- ImageView with logo centered -->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:src="@drawable/ic_toolbar_logo"/>
+
+    </android.support.v7.widget.Toolbar>
+    
+```
+
+To hide title, either on `wk_appbar.xml` or `wk_appbar_no_filters`, use empty Strings in the [activity titles](#strings)</a>.
+
+![](http://i.imgur.com/72p2G1r.png)
+
+![](http://i.imgur.com/VO0GI1D.png)
 
 #### Navigation bar
 
-![](http://i.imgur.com/KXusEEkm.png)
+`wk_appbar.xml` includes filter's bar with its own styles
+
+![](http://i.imgur.com/jh6Sz22.png)
 
 ```xml
 <!-- Colors -->
@@ -339,7 +364,6 @@ To change the default circle background, it would be required to override the de
 
 The following dependencies are used in the project:
 
-* [AndroidStaggeredGrid](https://github.com/etsy/AndroidStaggeredGrid): Multiple height grid view
 * [Async Http](http://loopj.com/android-async-http/): Library for asynchronous requests
 * [Gson](http://code.google.com/p/google-gson/): Parse and serialize JSON
 * [Calligraphy](https://github.com/chrisjenx/Calligraphy): Allows setting custom typeface to Text Views

@@ -62,7 +62,7 @@ public class RequestParams {
     protected ConcurrentHashMap<String, ArrayList<String>> urlParamsWithArray;
 
     /**
-     * Constructs a new empty <code>RequestParams</code> instance.
+     * Constructs a new wk_empty_logo <code>RequestParams</code> instance.
      */
     public RequestParams() {
         init();

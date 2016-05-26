@@ -8,13 +8,19 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,7 +69,9 @@ public class SearchActivity extends ParentActivity {
         injectViews();
     }
 
-    private void injectViews() {
+    protected void injectViews() {
+        super.injectViews();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         listView = ((ListView) findViewById(R.id.list_view));
         afterViews();
     }
@@ -81,10 +89,7 @@ public class SearchActivity extends ParentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.wk_search_menu, menu);
-
-        MenuItem searchMenuItem = menu.findItem(R.id.action_search);
-        searchView = (SearchView) searchMenuItem.getActionView();
-
+        searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         setupSearchView(searchView);
 
         return super.onCreateOptionsMenu(menu);
@@ -95,6 +100,7 @@ public class SearchActivity extends ParentActivity {
         listAdapter.setListener(new SearchResultAdapter.Listener() {
             @Override
             public void onItemClick(SearchResultItem item, View view) {
+                // TODO getSelectedCategories()
                 SearchResultActivity.intent(SearchActivity.this).
                         searchItem(item).
                         categories(filtersView.getSelectedCategories()).
@@ -114,11 +120,40 @@ public class SearchActivity extends ParentActivity {
         refreshList();
     }
 
+    private EditText getEditText(final Context context, final View v) {
+        try {
+            if (v instanceof ViewGroup) {
+                ViewGroup vg = (ViewGroup) v;
+                for (int i = 0; i < vg.getChildCount(); i++) {
+                    View child = vg.getChildAt(i);
+                    View editText = getEditText(context, child);
+
+                    if (editText instanceof EditText) {
+                        return (EditText) editText;
+                    }
+                }
+            } else if (v instanceof EditText) {
+                return (EditText) v;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+
     void setupSearchView(final SearchView searchView) {
         searchView.setIconified(false);
+
+        EditText et = getEditText(getBaseContext(), searchView);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
             @Override
             public boolean onQueryTextSubmit(String query) {
+                /*getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+                hideSoftKeyboard();*/
                 return true;
             }
 
@@ -135,30 +170,17 @@ public class SearchActivity extends ParentActivity {
                 return true;
             }
         });
-        // Hide Keyboard when keyboard Action button is pressed
-        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-        TextView editText = (TextView) searchView.findViewById(id);
-        editText.setTextColor(ContextCompat.getColor(this, R.color.wk_search_box_text));
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                hideSoftKeyboard();
-                return false;
-            }
-        });
-        // Hack to change cursor color
-        try {
-            Field f = TextView.class.getDeclaredField("mCursorDrawableRes");
-            f.setAccessible(true);
-            f.set(editText, R.drawable.wk_search_cursor);
-        } catch (Exception ignored) {
-            Ln.e(ignored);
+
+        if (et != null) {
+            et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    hideSoftKeyboard();
+                    return false;
+                }
+            });
         }
 
-        int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
-        // Getting the 'search_plate' LinearLayout.
-        View searchPlate = searchView.findViewById(searchPlateId);
-        searchPlate.setBackgroundResource(R.color.wk_transparent);
     }
 
     void search(final String query) {

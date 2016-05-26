@@ -3,9 +3,9 @@ package com.yellowpineapple.wakup.sdk.activities;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.etsy.android.grid.StaggeredGridView;
 import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.utils.IntentBuilder;
@@ -19,7 +19,7 @@ public class SavedOffersActivity extends OfferListActivity {
 
     Date lastUpdate;
 
-    StaggeredGridView gridView;
+    RecyclerView recyclerView;
     PullToRefreshLayout ptrLayout;
     View emptyView;
 
@@ -30,15 +30,17 @@ public class SavedOffersActivity extends OfferListActivity {
         injectViews();
     }
 
-    private void injectViews() {
+    protected void injectViews() {
+        super.injectViews();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ptrLayout = ((PullToRefreshLayout) findViewById(R.id.ptr_layout));
         emptyView = findViewById(R.id.emptyView);
-        gridView = ((StaggeredGridView) findViewById(R.id.grid_view));
+        recyclerView = ((RecyclerView) findViewById(R.id.recycler_view));
         afterViews();
     }
 
     void afterViews() {
-        setupOffersGrid(gridView, null, emptyView, true);
+        setupOffersGrid(recyclerView, null, emptyView);
     }
 
     @Override
