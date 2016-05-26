@@ -11,5 +11,6 @@
     <dimen name="wk_small_text">12sp</dimen>
 
     <dimen name="wk_pulltorefresh_margin">10dp</dimen>
+    <dimen name="wk_card_gap">2dp</dimen>
 
 </resources>

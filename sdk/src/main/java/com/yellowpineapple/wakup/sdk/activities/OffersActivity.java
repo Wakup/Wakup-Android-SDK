@@ -1,16 +1,15 @@
 package com.yellowpineapple.wakup.sdk.activities;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.etsy.android.grid.StaggeredGridView;
 import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.Wakup;
 import com.yellowpineapple.wakup.sdk.models.Offer;
@@ -22,34 +21,25 @@ import java.util.List;
 
 public class OffersActivity extends OfferListActivity {
 
-    StaggeredGridView gridView;
     View navigationView;
     PullToRefreshLayout ptrLayout;
     View emptyView;
     boolean alreadyRegistered = false;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActionBar actionBar = getActionBar();
-        if (actionBar != null) {
-            // Retrieve the current set of display options
-            final int displayOptions = actionBar.getDisplayOptions();
-            // Determine which display options are enabled
-            final boolean isHomeAsUpEnabled = (displayOptions & ActionBar.DISPLAY_HOME_AS_UP) != 0;
-            if (isHomeAsUpEnabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                actionBar.setHomeAsUpIndicator(R.drawable.wk_actionbar_back_root);
-            }
-        }
 
         setContentView(R.layout.wk_activity_offers);
 
         injectViews();
     }
 
-    void injectViews() {
+    protected void injectViews() {
+        super.injectViews();
         emptyView = findViewById(R.id.emptyView);
-        gridView = ((StaggeredGridView) findViewById(R.id.grid_view));
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         navigationView = findViewById(R.id.navigationView);
         ptrLayout = ((PullToRefreshLayout) findViewById(R.id.ptr_layout));
         final View btnMap = findViewById(R.id.btnMap);
@@ -79,7 +69,7 @@ public class OffersActivity extends OfferListActivity {
     }
 
     void afterViews() {
-        setupOffersGrid(gridView, navigationView, emptyView, true);
+        setupOffersGrid(recyclerView, navigationView, emptyView);
     }
 
     @Override

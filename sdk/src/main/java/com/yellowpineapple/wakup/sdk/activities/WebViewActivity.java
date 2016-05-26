@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.utils.IntentBuilder;
 
 /**
@@ -26,10 +27,12 @@ public class WebViewActivity extends ParentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.wk_activity_big_offer);
         injectExtras();
+        injectViews();
 
         // Setup view
-        WebView webView = new WebView(this);
+        WebView webView = (WebView) findViewById(R.id.bigOfferWV);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webView.setWebViewClient(new WebViewClient() {
@@ -57,7 +60,11 @@ public class WebViewActivity extends ParentActivity {
         setLoading(true);
         if (url != null) webView.loadUrl(url);
         if (title != null) setTitle(title);
-        setContentView(webView);
+    }
+
+    protected void injectViews() {
+        super.injectViews();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void injectExtras() {

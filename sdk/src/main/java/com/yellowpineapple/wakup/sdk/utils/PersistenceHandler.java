@@ -201,7 +201,7 @@ public class PersistenceHandler {
     }
 
     public boolean registrationRequired(RegistrationInfo info) {
-        // Registration is required if device token is empty or if registration info changed
+        // Registration is required if device token is wk_empty_logo or if registration info changed
         return Strings.isEmpty(getDeviceToken()) ||
                 Strings.equals(
                         getPreferences().getString(KEY_REGISTRATION_INFO, null),

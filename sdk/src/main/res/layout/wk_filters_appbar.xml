@@ -1,0 +1,55 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigationView"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/wk_navbar_bg"
+    app:layout_scrollFlags="scroll|enterAlways">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.yellowpineapple.wakup.sdk.views.NavBarButton
+            android:id="@+id/btnBigOffer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:navText="@string/wk_big_offer"
+            app:navIcon="@drawable/wk_nav_big_offer"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/wk_navbar_divider"/>
+
+        <com.yellowpineapple.wakup.sdk.views.NavBarButton
+            android:id="@+id/btnMap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:navText="@string/wk_offers_map"
+            app:navIcon="@drawable/wk_nav_map"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/wk_navbar_divider"/>
+
+        <com.yellowpineapple.wakup.sdk.views.NavBarButton
+            android:id="@+id/btnMyOffers"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:navText="@string/wk_my_offers"
+            app:navIcon="@drawable/wk_nav_my_offers"/>
+
+    </LinearLayout>
+
+</LinearLayout>

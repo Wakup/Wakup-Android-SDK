@@ -1,0 +1,12 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <!-- Change background color of the Toolbar -->
+            <solid android:color="@color/wk_primary_pressed" />
+        </shape>
+    </item>
+    <item>
+        <!-- Change icon in center of the Toolbar -->
+        <bitmap android:src="@drawable/wk_empty_logo" android:gravity="center" />
+    </item>
+</layer-list>

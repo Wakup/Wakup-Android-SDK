@@ -34,3 +34,5 @@
 -keepnames class * implements android.os.Parcelable {
     public static final ** CREATOR;
 }
+
+-keep class android.support.v7.widget.SearchView { *; }

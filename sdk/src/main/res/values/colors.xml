@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="wk_white">#FFF</color>
+    <color name="wk_white">#ffffff</color>
     <color name="wk_transparent">#0000</color>
+    <color name="wk_translucent">#1000</color>
 
     <color name="wk_dark_pressed_layer">#1A000000</color>
     <color name="wk_light_pressed_layer">#33FFFFFF</color>
@@ -10,6 +11,7 @@
     <color name="wk_primary">#3C1E3D</color>
     <color name="wk_primary_pressed">#7B4C7D</color>
     <color name="wk_primary_reverse">#A47BA6</color>
+    <color name="wk_primary_dark">#321933</color>
     <color name="wk_secondary">#809718</color>
     <color name="wk_secondary_pressed">#617213</color>
     <color name="wk_secondary_reverse">@color/wk_white</color>
@@ -17,10 +19,9 @@
     <!-- Activity -->
     <color name="wk_background">#D5D5D5</color>
 
-    <!-- Action & Navigation Bar -->
-    <color name="wk_actionbar_bg">@color/wk_primary</color>
-    <color name="wk_actionbar_text">@color/wk_primary_reverse</color>
-    <color name="wk_actionbar_subtitle">#AFFF</color>
+    <!-- App & Navigation Bar -->
+    <color name="wk_appbar_bg">@color/wk_primary</color>
+    <color name="wk_appbar_text">@color/wk_secondary_reverse</color>
     <color name="wk_navbar_bg">@color/wk_primary</color>
     <color name="wk_navbar_pressed">@color/wk_primary_pressed</color>
     <color name="wk_navbar_text">@color/wk_primary_reverse</color>
