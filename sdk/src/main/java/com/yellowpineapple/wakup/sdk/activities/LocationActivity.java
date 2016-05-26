@@ -212,7 +212,7 @@ public abstract class LocationActivity extends AppCompatActivity {
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
             case PERMISSION_REQUEST_LOCATION: {
-                // If request is cancelled, the result arrays are wk_empty_logo.
+                // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission is granted

@@ -104,12 +104,6 @@ public abstract class OfferListActivity extends ParentActivity implements Offers
                     onLoadMoreItems();
                 }
             }
-
-            /*@Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                onLoadMoreItems();
-            }*/
         });
     }
 
@@ -213,22 +207,12 @@ public abstract class OfferListActivity extends ParentActivity implements Offers
     @Override
     public void setLoading(final boolean loading) {
         if (getPullToRefreshLayout() != null) {
-            //getPullToRefreshLayout().setRefreshing(loading);
             getPullToRefreshLayout().post(new Runnable() {
                 @Override
                 public void run() {
                     getPullToRefreshLayout().setRefreshing(loading);
                 }
             });
-            /*if (loading) {
-                if (!getPullToRefreshLayout().isRefreshing()) {
-                    setProgressBarIndeterminateVisibility(true);
-                    getPullToRefreshLayout().setRefreshing(true);
-                }
-            } else {
-                setProgressBarIndeterminateVisibility(false);
-                getPullToRefreshLayout().setRefreshing(false);
-            }*/
         } else {
             super.setLoading(loading);
         }

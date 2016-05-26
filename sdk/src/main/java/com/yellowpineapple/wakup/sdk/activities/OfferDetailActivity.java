@@ -55,7 +55,6 @@ public class OfferDetailActivity extends OfferListActivity implements OfferDetai
     void setupToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void injectExtras() {
