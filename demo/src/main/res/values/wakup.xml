@@ -1,68 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Customize Offers section -->
-    <!-- Pressed navigation buttons -->
-
-    <!-- Action buttons color -->
-
-
-    <!-- Big offer icon -->
-    <!-- <drawable name="wk_nav_big_offer">@drawable/wk_ic_expiration</drawable> -->
-
-
-    <!-- <color name="wk_appbar_text">#FAB</color>
-    <color name="wk_appbar_bg">#F0F</color>
-    <color name="wk_navbar_bg">#BB0</color>
-    <color name="wk_navbar_text">#B9F</color>
-    <color name="wk_navbar_divider">#2F4</color>
-    <color name="wk_navbar_pressed">#5AF</color>
-    <color name="wk_action_active">#F5A</color> -->
-
-    <!--&lt;!&ndash; Activity titles &ndash;&gt;
-    <string name="wk_activity_offers">Offers</string>
-    <string name="wk_activity_my_offers">My offers</string>
-    <string name="wk_activity_offer_detail">Offer</string>
-    <string name="wk_activity_store_offers">Company offers</string>
-    <string name="wk_activity_search_result">Results</string>
-    <string name="wk_activity_big_offer">Big offer</string>
-    <string name="wk_activity_map">Map</string>
-
-    &lt;!&ndash; Offers Activity &ndash;&gt;
-    <string name="wk_big_offer">big offer</string>
-    <string name="wk_my_offers">my offers</string>
-    <string name="wk_offers_map">see map</string>
-    <string name="wk_no_results">No results were found</string>
-    <string name="wk_no_saved_offers">Save as favorites those offers you want to keep close</string>
-    <string name="wk_no_search_results">Search didn\'t get any offer. Check the search criteria and try again</string>
-    <string name="wk_disabled_location">Ubication is deactivated. Results will be shown on a default location.</string>
-    <string name="wk_search_action">Search</string>
-
-    &lt;!&ndash; Context Menu &ndash;&gt;
-    <string name="wk_menu_map">Show on the map</string>
-    <string name="wk_menu_my_offers_add">Add to my offers</string>
-    <string name="wk_menu_my_offers_remove">Remove from my offers</string>
-    <string name="wk_menu_share">Share</string>
-    <string name="wk_menu_report">Report an error</string>
-
-    &lt;!&ndash; Category icons &ndash;&gt;
-    <drawable name="wk_cat_leisure">@drawable/wk_ic_btn_location</drawable>
-    <drawable name="wk_cat_restaurants">@drawable/wk_ic_btn_website</drawable>
-    <drawable name="wk_cat_services">@drawable/wk_ic_expiration</drawable>
-    <drawable name="wk_cat_shopping">@drawable/wk_ic_menu_search</drawable>
-
-    &lt;!&ndash; Primary customization colors &ndash;&gt;
-    <color name="wk_primary">#f28f10</color>
-    <color name="wk_primary_pressed">#f30f50</color>
-    <color name="wk_primary_reverse">#f18f11</color>
-    <color name="wk_secondary">#123456</color>
-    <color name="wk_secondary_pressed">#654321</color>
-    <color name="wk_secondary_reverse">#ff22ff</color>
-
-    &lt;!&ndash; Colors &ndash;&gt;
-    <color name="wk_navbar_bg">@color/wk_primary</color>
-    <color name="wk_navbar_text">@color/wk_secondary</color>
-    <color name="wk_navbar_divider">@color/wk_secondary_reverse</color>-->
-    <!-- Icons -->
+    <!-- Customize here the appeareance of the app -->
 
 </resources>
