@@ -341,11 +341,18 @@ public abstract class ParentActivity extends LocationActivity {
     }
 
     public void setLoading(boolean loading) {
-        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_spinner);
-        if(loading)
-            progressBar.setVisibility(ProgressBar.VISIBLE);
-        else
-            progressBar.setVisibility(ProgressBar.GONE);
+
+        try {
+            ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_spinner);
+            if(loading)
+                progressBar.setVisibility(ProgressBar.VISIBLE);
+            else
+                progressBar.setVisibility(ProgressBar.GONE);
+        } catch(NoSuchFieldError e) {
+            Log.d("NOTPRESENT", "Progress bar not present");
+        }
+
+
     }
 
 

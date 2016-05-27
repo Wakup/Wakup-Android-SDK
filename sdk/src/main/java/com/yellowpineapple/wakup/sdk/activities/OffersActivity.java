@@ -42,18 +42,34 @@ public class OffersActivity extends OfferListActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         navigationView = findViewById(R.id.navigationView);
         ptrLayout = ((PullToRefreshLayout) findViewById(R.id.ptr_layout));
-        final View btnMap = findViewById(R.id.btnMap);
-        final View btnBigOffer = findViewById(R.id.btnBigOffer);
-        final View btnMyOffers = findViewById(R.id.btnMyOffers);
+        View bMap = null, bBigOffer = null, bMyOffers = null;
+        try {
+            bMap = findViewById(R.id.btnMap);
+        } catch(NoSuchFieldError e) {
+            Log.d("NOFIELD", "btnMap");
+        }
+        try {
+            bBigOffer = findViewById(R.id.btnBigOffer);
+        } catch(NoSuchFieldError e) {
+            Log.d("NOFIELD", "btnBigOffer");
+        }
+        try {
+            bMyOffers = findViewById(R.id.btnMyOffers);
+        } catch(NoSuchFieldError e) {
+            Log.d("NOFIELD", "btnMyOffers");
+        }
+        final View btnMap = bMap;
+        final View btnBigOffer = bBigOffer;
+        final View btnMyOffers = bMyOffers;
 
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (view == btnMap) {
+                if (view == btnMap && view != null) {
                     mapButtonPressed();
-                } else if (view == btnBigOffer) {
+                } else if (view == btnBigOffer && view != null) {
                     bigOfferPressed();
-                } else if (view == btnMyOffers) {
+                } else if (view == btnMyOffers && view != null) {
                     myOffersPressed();
                 }
             }
@@ -63,7 +79,7 @@ public class OffersActivity extends OfferListActivity {
                 btnMap, btnBigOffer, btnMyOffers
         };
         for (View view : onClickViews) {
-            view.setOnClickListener(clickListener);
+            if(view != null) view.setOnClickListener(clickListener);
         }
         afterViews();
     }

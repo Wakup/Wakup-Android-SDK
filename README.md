@@ -70,10 +70,9 @@ For example, to change the title of the Wakup activities, include and change thi
 <string name="wk_activity_offers">Ofertas</string>
 <string name="wk_activity_my_offers">Mis ofertas</string>
 <string name="wk_activity_offer_detail">Oferta</string>
-<string name="wk_activity_store_offers">Ofertas de marca</string>
-<string name="wk_activity_search_result">Resultados</string>
 <string name="wk_activity_big_offer">Ofertón</string>
 <string name="wk_activity_map">Mapa</string>
+<string name="wk_activity_report">Informar de un error</string>
 ```
 
 You can access to the full list of string resources used by the SDK [here](https://github.com/Wakup/Wakup-Android-SDK/blob/master/sdk/src/main/res/values/strings.xml).
@@ -170,50 +169,104 @@ It is possible to customize the colors of the App bar...
     <drawable name="wk_actionbar_back">@drawable/wk_ic_nav_back</drawable>
 ```
 
-... or the appeareance by directly overriding their layouts (`wk_appbar.xml` and `wk_appbar_no_filters`):
+... or the appeareance by directly overriding their layouts (`wk_root_navbar.xml` and `wk_toolbar`):
 
+##### wk_toolbar
+
+*Example: Toolbar with Progressbar and a centered ImageView (logo)*
+   
 ```xml
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/wk_actionbar_bg"
-        app:popupTheme="@style/WakupTheme.PopupOverlay"
-        app:theme="@style/WakupTheme.AppBarOverlay"
-        app:layout_scrollFlags="scroll|enterAlways">
-        
-        <!-- ProgressBar shown on wk_appbar_no_filters while loading -->
-        <ProgressBar
-            android:id="@+id/progress_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:indeterminate="true"
-            android:visibility="gone"/>
-                    
-        <!-- ImageView with logo centered -->
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:src="@drawable/ic_toolbar_logo"/>
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/wk_appbar_bg"
+    app:popupTheme="@style/WakupTheme.PopupOverlay"
+    app:theme="@style/WakupTheme.AppBarOverlay"
+    app:layout_scrollFlags="scroll|enterAlways">
 
-    </android.support.v7.widget.Toolbar>
+    <!-- ProgressBar shown on wk_appbar.xml while loading -->
+    <ProgressBar
+        android:id="@+id/progress_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:indeterminate="true"
+        android:visibility="gone" />
+
+    <!-- ImageView with logo centered -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:src="@drawable/wk_actionbar_logo"/>
+
+</android.support.v7.widget.Toolbar>
     
 ```
 
-To hide title, either on `wk_appbar.xml` or `wk_appbar_no_filters`, use empty Strings in the [activity titles](#strings)</a>.
+##### wk_ root_navbar
+
+*Example: LinearLayout with sections that can be removed (in this case 2 instead of 3)*
+
+```xml
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigationView"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/wk_navbar_bg"
+    app:layout_scrollFlags="scroll|enterAlways">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.yellowpineapple.wakup.sdk.views.NavBarButton
+            android:id="@+id/btnBigOffer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:navText="@string/wk_big_offer"
+            app:navIcon="@drawable/wk_nav_big_offer"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/wk_navbar_divider"/>
+
+        <com.yellowpineapple.wakup.sdk.views.NavBarButton
+            android:id="@+id/btnMap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:navText="@string/wk_offers_map"
+            app:navIcon="@drawable/wk_nav_map"/>
+
+    </LinearLayout>
+
+</LinearLayout>
+```
 
 ![](http://i.imgur.com/72p2G1r.png)
+
+To hide title use empty Strings in the [activity titles](#strings)</a>.
 
 ![](http://i.imgur.com/VO0GI1D.png)
 
 #### Navigation bar
 
-`wk_appbar.xml` includes filter's bar with its own styles
+`wk_root_navbar.xml` is a navigation bar with its own styles
 
 ![](http://i.imgur.com/jh6Sz22.png)
 

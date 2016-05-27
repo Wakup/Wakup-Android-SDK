@@ -6,7 +6,7 @@
     android:fitsSystemWindows="true"
     tools:context="com.yellowpineapple.wakup.sdk.activities.OffersActivity">
 
-    <include layout="@layout/wk_appbar" />
+    <include layout="@layout/wk_appbar_root" />
 
     <com.yellowpineapple.wakup.sdk.views.PullToRefreshLayout
         android:id="@+id/ptr_layout"

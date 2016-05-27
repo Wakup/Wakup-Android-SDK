@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.yellowpineapple.wakup.sdk.activities.OffersActivity">
 
-    <include layout="@layout/wk_appbar_no_filters" />
+    <include layout="@layout/wk_appbar" />
 
     <com.yellowpineapple.wakup.sdk.views.PullToRefreshLayout
         android:id="@+id/ptr_layout"
