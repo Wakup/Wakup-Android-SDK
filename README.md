@@ -148,7 +148,7 @@ If a more thorough customization is required, you can also override the secondar
 
 Following are described the different views of the application that can be customized, including the associated resources:
 
-#### App bar
+#### Action bar
 Wakup Activities uses two different customizable Appbars:
 
 - The first ActionBar is used for the main (or root) activity
@@ -169,7 +169,7 @@ It is possible to customize the colors of the App bar...
     <drawable name="wk_actionbar_back">@drawable/wk_ic_nav_back</drawable>
 ```
 
-... or the appeareance by directly overriding their layouts (`wk_root_navbar.xml` and `wk_toolbar`):
+... or the appeareance by directly overriding the layout `wk_toolbar`:
 
 ##### wk_toolbar
 
@@ -211,7 +211,33 @@ It is possible to customize the colors of the App bar...
     
 ```
 
+![](http://i.imgur.com/72p2G1r.png)
+
+To hide title use empty Strings in the [activity titles](#strings)</a>.
+
+![](http://i.imgur.com/VO0GI1D.png)
+
+#### Navigation bar
+
+`wk_root_navbar.xml` is a navigation bar with its own styles
+
 ##### wk_ root_navbar
+
+![](http://i.imgur.com/jh6Sz22.png)
+
+```xml
+<!-- Colors -->
+<color name="wk_navbar_bg">@color/wk_primary</color>
+<color name="wk_navbar_pressed">@color/wk_primary_pressed</color>
+<color name="wk_navbar_text">@color/wk_primary_reverse</color>
+<color name="wk_navbar_divider">@color/wk_primary_reverse</color>
+<!-- Icons -->
+<drawable name="wk_nav_big_offer">@drawable/wk_ic_nav_big_offer</drawable>
+<drawable name="wk_nav_map">@drawable/wk_ic_nav_map</drawable>
+<drawable name="wk_nav_my_offers">@drawable/wk_ic_nav_my_offers</drawable>
+```
+
+You can customize the Navigationbar by overriding `wk_root_navbar.xml`:
 
 *Example: LinearLayout with sections that can be removed (in this case 2 instead of 3)*
 
@@ -256,30 +282,6 @@ It is possible to customize the colors of the App bar...
     </LinearLayout>
 
 </LinearLayout>
-```
-
-![](http://i.imgur.com/72p2G1r.png)
-
-To hide title use empty Strings in the [activity titles](#strings)</a>.
-
-![](http://i.imgur.com/VO0GI1D.png)
-
-#### Navigation bar
-
-`wk_root_navbar.xml` is a navigation bar with its own styles
-
-![](http://i.imgur.com/jh6Sz22.png)
-
-```xml
-<!-- Colors -->
-<color name="wk_navbar_bg">@color/wk_primary</color>
-<color name="wk_navbar_pressed">@color/wk_primary_pressed</color>
-<color name="wk_navbar_text">@color/wk_primary_reverse</color>
-<color name="wk_navbar_divider">@color/wk_primary_reverse</color>
-<!-- Icons -->
-<drawable name="wk_nav_big_offer">@drawable/wk_ic_nav_big_offer</drawable>
-<drawable name="wk_nav_map">@drawable/wk_ic_nav_map</drawable>
-<drawable name="wk_nav_my_offers">@drawable/wk_ic_nav_my_offers</drawable>
 ```
 
 #### Offer item

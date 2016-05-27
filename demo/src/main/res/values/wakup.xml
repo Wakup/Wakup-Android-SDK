@@ -10,11 +10,5 @@
     <drawable name="wk_actionbar_logo">@drawable/wk_ic_btn_leisure</drawable>
     <!-- No titles -->
     <string name="wk_activity_offers"></string>
-    <string name="wk_activity_my_offers"></string>
-    <string name="wk_activity_offer_detail"></string>
-    <string name="wk_activity_big_offer"></string>
-    <string name="wk_activity_map"></string>
-    <string name="wk_activity_report"></string>
-
 
 </resources>

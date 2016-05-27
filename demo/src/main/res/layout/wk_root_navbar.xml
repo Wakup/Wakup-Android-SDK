@@ -13,13 +13,13 @@
         android:orientation="horizontal">
 
         <com.yellowpineapple.wakup.sdk.views.NavBarButton
-            android:id="@+id/btnBigOffer"
+            android:id="@+id/btnMap"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:navText="@string/wk_big_offer"
-            app:navIcon="@drawable/wk_nav_big_offer"
-            android:onClick="bigOfferPressed"/>
+            app:navText="@string/wk_offers_map"
+            app:navIcon="@drawable/wk_nav_map"
+            android:onClick="mapButtonPressed"/>
 
         <View
             android:layout_width="1dp"
@@ -29,13 +29,13 @@
             android:background="@color/wk_navbar_divider"/>
 
         <com.yellowpineapple.wakup.sdk.views.NavBarButton
-            android:id="@+id/btnMap"
+            android:id="@+id/btnMyOffers"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:navText="@string/wk_offers_map"
-            app:navIcon="@drawable/wk_nav_map"
-            android:onClick="mapButtonPressed"/>
+            app:navText="@string/wk_my_offers"
+            app:navIcon="@drawable/wk_nav_my_offers"
+            android:onClick="myOffersPressed"/>
 
     </LinearLayout>
 

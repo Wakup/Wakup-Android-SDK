@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="?attr/actionBarSize"
     android:background="@color/wk_appbar_bg"
     app:popupTheme="@style/WakupTheme.PopupOverlay"
     app:theme="@style/WakupTheme.AppBarOverlay"
@@ -26,6 +26,6 @@
         android:layout_gravity="center"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:src="@drawable/wk_actionbar_logo"/>
+        android:src="@drawable/ab_logo"/>
 
 </android.support.v7.widget.Toolbar>

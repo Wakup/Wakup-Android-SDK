@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:theme="@style/WakupTheme.AppBarOverlay">
 
-    <include layout="@layout/wk_toolbar"/>
+    <include layout="@layout/wk_toolbar_root"/>
 
     <include layout="@layout/wk_root_navbar"></include>
 
