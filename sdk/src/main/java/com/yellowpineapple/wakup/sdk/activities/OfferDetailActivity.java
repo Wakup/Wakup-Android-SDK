@@ -44,8 +44,6 @@ public class OfferDetailActivity extends OfferListActivity implements OfferDetai
         if (offerDetailView == null) {
             offerDetailView = new OfferDetailView(this);
             offerDetailView.setListener(this);
-            //recyclerView.addHeaderView(headerView);
-            //recyclerView.addHeaderView(new RelatedOffersHeader(this));
         }
         setSubtitle(offer.getCompany().getName());
         offerDetailView.setOffer(offer, location);

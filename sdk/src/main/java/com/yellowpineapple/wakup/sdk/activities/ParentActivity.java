@@ -346,12 +346,6 @@ public abstract class ParentActivity extends LocationActivity {
             progressBar.setVisibility(ProgressBar.VISIBLE);
         else
             progressBar.setVisibility(ProgressBar.GONE);
-
-        // TODO If progressBar is present, show/hide it
-
-
-
-
     }
 
 
