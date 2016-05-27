@@ -42,45 +42,6 @@ public class OffersActivity extends OfferListActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         navigationView = findViewById(R.id.navigationView);
         ptrLayout = ((PullToRefreshLayout) findViewById(R.id.ptr_layout));
-        View bMap = null, bBigOffer = null, bMyOffers = null;
-        try {
-            bMap = findViewById(R.id.btnMap);
-        } catch(NoSuchFieldError e) {
-            Log.d("NOFIELD", "btnMap");
-        }
-        try {
-            bBigOffer = findViewById(R.id.btnBigOffer);
-        } catch(NoSuchFieldError e) {
-            Log.d("NOFIELD", "btnBigOffer");
-        }
-        try {
-            bMyOffers = findViewById(R.id.btnMyOffers);
-        } catch(NoSuchFieldError e) {
-            Log.d("NOFIELD", "btnMyOffers");
-        }
-        final View btnMap = bMap;
-        final View btnBigOffer = bBigOffer;
-        final View btnMyOffers = bMyOffers;
-
-        View.OnClickListener clickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (view == btnMap && view != null) {
-                    mapButtonPressed();
-                } else if (view == btnBigOffer && view != null) {
-                    bigOfferPressed();
-                } else if (view == btnMyOffers && view != null) {
-                    myOffersPressed();
-                }
-            }
-        };
-
-        View[] onClickViews = new View[] {
-                btnMap, btnBigOffer, btnMyOffers
-        };
-        for (View view : onClickViews) {
-            if(view != null) view.setOnClickListener(clickListener);
-        }
         afterViews();
     }
 
@@ -113,7 +74,7 @@ public class OffersActivity extends OfferListActivity {
         finish();
     }
 
-    void bigOfferPressed() {
+    void bigOfferPressed(View view) {
         String bigOfferUrl = getWakup().getBigOffer();
         WebViewActivity.intent(this).
                 url(bigOfferUrl).
@@ -123,14 +84,14 @@ public class OffersActivity extends OfferListActivity {
         slideInTransition();
     }
 
-    void mapButtonPressed() {
+    void mapButtonPressed(View view) {
         int MAX_MAP_OFFERS = 20;
         List<Offer> mapOffers = new ArrayList<>(offers.subList(0, Math.min(MAX_MAP_OFFERS, offers.size())));
         OfferMapActivity.intent(this).offers(mapOffers).location(currentLocation).start();
         slideInTransition();
     }
 
-    void myOffersPressed() {
+    void myOffersPressed(View view) {
         SavedOffersActivity.intent(this).start();
         slideInTransition();
     }

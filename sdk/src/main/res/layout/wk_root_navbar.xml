@@ -18,7 +18,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:navText="@string/wk_big_offer"
-            app:navIcon="@drawable/wk_nav_big_offer"/>
+            app:navIcon="@drawable/wk_nav_big_offer"
+            android:onClick="bigOfferPressed"/>
 
         <View
             android:layout_width="1dp"
@@ -33,7 +34,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:navText="@string/wk_offers_map"
-            app:navIcon="@drawable/wk_nav_map"/>
+            app:navIcon="@drawable/wk_nav_map"
+            android:onClick="mapButtonPressed"/>
 
         <View
             android:layout_width="1dp"
@@ -48,7 +50,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:navText="@string/wk_my_offers"
-            app:navIcon="@drawable/wk_nav_my_offers"/>
+            app:navIcon="@drawable/wk_nav_my_offers"
+            android:onClick="myOffersPressed"/>
 
     </LinearLayout>
 
