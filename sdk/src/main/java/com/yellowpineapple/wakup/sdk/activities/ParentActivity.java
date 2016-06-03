@@ -13,10 +13,13 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ProgressBar;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -38,6 +41,8 @@ public abstract class ParentActivity extends LocationActivity {
 
     RequestClient requestClient = null;
     Wakup wakup = null;
+
+    Toolbar toolbar = null;
 
     private PersistenceHandler persistence;
 
@@ -127,6 +132,17 @@ public abstract class ParentActivity extends LocationActivity {
         if (ab != null) {
             ab.setSubtitle(subtitle);
         }
+    }
+
+    void setupToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
+    }
+
+    protected void injectViews() {
+        setupToolbar();
     }
 
     /* Dialogs */
@@ -304,18 +320,18 @@ public abstract class ParentActivity extends LocationActivity {
     /* Offer sharing */
 
     void shareOffer(final Offer offer) {
-        setProgressBarIndeterminateVisibility(true);
+        setSupportProgressBarIndeterminateVisibility(true);
         ImageLoader.getInstance().loadImage(offer.getImage().getUrl(), ImageOptions.get(),
                 new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                        setProgressBarIndeterminateVisibility(false);
+                        setSupportProgressBarIndeterminateVisibility(false);
                         displayErrorDialog(getString(R.string.wk_share_offer_error));
                     }
 
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        setProgressBarIndeterminateVisibility(false);
+                        setSupportProgressBarIndeterminateVisibility(false);
                         String shareTitle = getString(R.string.wk_share_offer_title);
                         String text = String.format(getString(R.string.wk_share_offer_subject), offer.getCompany().getName(), offer.getShortDescription());
                         String fileName = String.format("101_offer_%d.png", offer.getId());
@@ -325,7 +341,18 @@ public abstract class ParentActivity extends LocationActivity {
     }
 
     public void setLoading(boolean loading) {
-        setProgressBarIndeterminateVisibility(loading);
+
+        try {
+            ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_spinner);
+            if(loading)
+                progressBar.setVisibility(ProgressBar.VISIBLE);
+            else
+                progressBar.setVisibility(ProgressBar.GONE);
+        } catch(NoSuchFieldError e) {
+            Log.d("NOTPRESENT", "Progress bar not present");
+        }
+
+
     }
 
 

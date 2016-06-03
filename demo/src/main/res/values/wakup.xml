@@ -6,9 +6,9 @@
     <color name="wk_navbar_pressed">@color/wk_light_pressed_layer</color>
     <!-- Action buttons color -->
     <color name="wk_action_active">@color/wk_primary_pressed</color>
-
     <!-- ActionBar Logo -->
-    <drawable name="wk_actionbar_logo_root">@drawable/ic_action_logo</drawable>
-    <drawable name="wk_actionbar_logo">@android:color/transparent</drawable>
+    <drawable name="wk_actionbar_logo">@drawable/wk_ic_btn_leisure</drawable>
+    <!-- No titles -->
+    <string name="wk_activity_offers"></string>
 
 </resources>

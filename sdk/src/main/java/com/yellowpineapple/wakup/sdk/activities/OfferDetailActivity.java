@@ -3,18 +3,18 @@ package com.yellowpineapple.wakup.sdk.activities;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.etsy.android.grid.StaggeredGridView;
 import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.utils.IntentBuilder;
 import com.yellowpineapple.wakup.sdk.utils.PersistenceHandler;
 import com.yellowpineapple.wakup.sdk.views.OfferDetailView;
 import com.yellowpineapple.wakup.sdk.views.PullToRefreshLayout;
-import com.yellowpineapple.wakup.sdk.views.RelatedOffersHeader;
 
 public class OfferDetailActivity extends OfferListActivity implements OfferDetailView.Listener {
 
@@ -24,9 +24,10 @@ public class OfferDetailActivity extends OfferListActivity implements OfferDetai
     Offer offer;
     Location location;
     boolean fromStoreOffers = false;
+    Toolbar toolbar;
 
     /* Views */
-    StaggeredGridView gridView;
+    RecyclerView recyclerView;
     PullToRefreshLayout ptrLayout;
     OfferDetailView offerDetailView = null;
 
@@ -34,18 +35,24 @@ public class OfferDetailActivity extends OfferListActivity implements OfferDetai
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wk_activity_offers_list);
+
+        setupToolbar();
+
         injectExtras();
         injectViews();
 
         if (offerDetailView == null) {
             offerDetailView = new OfferDetailView(this);
             offerDetailView.setListener(this);
-            gridView.addHeaderView(offerDetailView);
-            gridView.addHeaderView(new RelatedOffersHeader(this));
         }
         setSubtitle(offer.getCompany().getName());
         offerDetailView.setOffer(offer, location);
-        setupOffersGrid(gridView, null, true);
+        setupOffersGrid(offerDetailView, recyclerView, null, null);
+    }
+
+    void setupToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 
     private void injectExtras() {
@@ -63,8 +70,10 @@ public class OfferDetailActivity extends OfferListActivity implements OfferDetai
         }
     }
 
-    private void injectViews() {
-        gridView = (StaggeredGridView) findViewById(R.id.grid_view);
+    protected void injectViews() {
+        super.injectViews();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        recyclerView = (RecyclerView) findViewById(R.id.grid_view);
         ptrLayout = (PullToRefreshLayout) findViewById(R.id.ptr_layout);
     }
 

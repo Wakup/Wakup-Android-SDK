@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/wk_appbar_bg"
+    app:popupTheme="@style/WakupTheme.PopupOverlay"
+    app:theme="@style/WakupTheme.AppBarOverlay"
+    app:layout_scrollFlags="scroll|enterAlways">
+
+    <!-- ProgressBar shown on wk_appbar.xml while loading -->
+    <ProgressBar
+        android:id="@+id/progress_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:indeterminate="true"
+        android:visibility="gone" />
+
+    <!-- ImageView with logo centered -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:src="@drawable/ab_logo"/>
+
+</android.support.v7.widget.Toolbar>

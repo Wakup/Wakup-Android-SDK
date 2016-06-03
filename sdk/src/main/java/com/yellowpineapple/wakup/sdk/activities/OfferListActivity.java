@@ -1,20 +1,21 @@
 package com.yellowpineapple.wakup.sdk.activities;
 
-import android.app.ActionBar;
-import android.content.res.TypedArray;
+import android.graphics.Rect;
 import android.location.Location;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AbsListView;
 import android.widget.Toast;
 
-import com.etsy.android.grid.StaggeredGridView;
 import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.communications.Request;
 import com.yellowpineapple.wakup.sdk.communications.requests.BaseRequest;
@@ -25,12 +26,11 @@ import com.yellowpineapple.wakup.sdk.views.PullToRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by agutierrez on 09/02/15.
  */
-public abstract class OfferListActivity extends ParentActivity implements AbsListView.OnScrollListener, OffersAdapter.Listener {
+public abstract class OfferListActivity extends ParentActivity implements OffersAdapter.Listener {
 
     OffersAdapter offersAdapter;
     boolean mHasRequestedMore;
@@ -47,14 +47,10 @@ public abstract class OfferListActivity extends ParentActivity implements AbsLis
     static int FIRST_PAGE = BaseRequest.FIRST_PAGE;
     static int PER_PAGE = BaseRequest.RESULTS_PER_PAGE;
 
-    AtomicInteger scrollPosition = new AtomicInteger(0);
-
-    private StaggeredGridView gridView;
-    private boolean hideActionBarOnScroll;
-    ActionBar mActionBar;
+    private RecyclerView recyclerView;
     View navigationView;
     View emptyView;
-    float actionBarHeight;
+    StaggeredGridLayoutManager staggeredGridLayoutManager;
 
     interface AnimationListener {
         void onAnimationCompleted();
@@ -64,17 +60,20 @@ public abstract class OfferListActivity extends ParentActivity implements AbsLis
         return !offersLoaded;
     }
 
-    void setupOffersGrid(StaggeredGridView gridView, View emptyView, final boolean hideActionBarOnScroll) {
-        setupOffersGrid(gridView, null, emptyView, hideActionBarOnScroll);
+    void setupOffersGrid(RecyclerView recyclerView) {
+        setupOffersGrid(recyclerView, null, null);
     }
 
-    void setupOffersGrid(StaggeredGridView gridView, View navigationView, View emptyView, final boolean hideActionBarOnScroll) {
-        this.gridView = gridView;
+    void setupOffersGrid(RecyclerView recyclerView, View navigationView, View emptyView) {
+        setupOffersGrid(null, recyclerView, navigationView, emptyView);
+    }
+
+    void setupOffersGrid(View headerView, RecyclerView recyclerView, View navigationView, View emptyView) {
+        this.recyclerView = recyclerView;
         this.emptyView = emptyView;
-        this.hideActionBarOnScroll = hideActionBarOnScroll;
         this.navigationView = navigationView;
 
-        registerForContextMenu(gridView);
+        registerForContextMenu(recyclerView);
 
         if (getPullToRefreshLayout() != null) {
             setupPullToRefresh(getPullToRefreshLayout());
@@ -82,26 +81,7 @@ public abstract class OfferListActivity extends ParentActivity implements AbsLis
 
         if (emptyView != null) emptyView.setVisibility(View.GONE);
 
-        if (hideActionBarOnScroll) {
-            final TypedArray styledAttributes = getTheme().obtainStyledAttributes(new int[] { android.R.attr.actionBarSize });
-            float mActionBarHeight = styledAttributes.getDimension(0, 0);
-            this.actionBarHeight = mActionBarHeight;
-            if (navigationView != null) {
-                mActionBarHeight *= 2;
-            }
-            styledAttributes.recycle();
-
-            mActionBar = getActionBar();
-
-            gridView.setPadding(gridView.getPaddingLeft(), Math.round(mActionBarHeight), gridView.getPaddingRight(), gridView.getPaddingBottom());
-            if (getPullToRefreshLayout() != null) {
-                getPullToRefreshLayout().setProgressViewOffset(false,
-                        Math.round(mActionBarHeight - actionBarHeight),
-                        Math.round(mActionBarHeight + getResources().getDimension(R.dimen.wk_pulltorefresh_margin)));
-            }
-        }
-
-        offersAdapter = new OffersAdapter(this);
+        offersAdapter = new OffersAdapter(headerView, this);
         offersAdapter.setListener(this);
 
         // do we have saved data?
@@ -109,8 +89,74 @@ public abstract class OfferListActivity extends ParentActivity implements AbsLis
 
         offersAdapter.setOffers(offers);
 
-        gridView.setAdapter(offersAdapter);
-        gridView.setOnScrollListener(this);
+        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(staggeredGridLayoutManager);
+
+
+        recyclerView.addItemDecoration(new SpaceItemDecoration(headerView != null ,
+                getResources().getDimensionPixelSize(R.dimen.wk_card_gap)));
+        recyclerView.setAdapter(offersAdapter);
+
+        recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                if (mHasMoreResults) {
+                    onLoadMoreItems();
+                }
+            }
+        });
+    }
+
+    public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+        boolean hasHeader;
+
+        public SpaceItemDecoration(boolean hasHeader, int space) {
+            this.space = space;
+            this.hasHeader = hasHeader;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int position = parent.getChildAdapterPosition(view);
+
+            StaggeredGridLayoutManager.LayoutParams lp = (StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams();
+            int spanIndex = lp.getSpanIndex();
+
+            if(hasHeader) {
+                if(position == 0) {
+                    ((StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams()).setFullSpan(true);
+                    outRect.top = space * 2;
+                    outRect.left = space * 2;
+                    outRect.right = space * 2;
+                } else {
+                    ((StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams()).setFullSpan(false);
+                    if (spanIndex == 1) {
+                        outRect.left = space;
+                        outRect.right = space * 2;
+                    } else {
+                        outRect.left = space * 2;
+                        outRect.right = space;
+                    }
+                }
+                outRect.bottom = space * 2;
+            } else {
+                if(position == 0 || position == 1) {
+                    outRect.top = space * 2;
+                }
+                if (position >= 0) {
+                    if (spanIndex == 1) {
+                        outRect.left = space;
+                        outRect.right = space * 2;
+                    } else {
+                        outRect.left = space * 2;
+                        outRect.right = space;
+                    }
+
+                    outRect.bottom = space * 2;
+                }
+            }
+        }
     }
 
     public PullToRefreshLayout getPullToRefreshLayout() {
@@ -125,7 +171,7 @@ public abstract class OfferListActivity extends ParentActivity implements AbsLis
             }
         });
         pullToRefreshLayout.setColorSchemeResources(R.color.wk_secondary, R.color.wk_primary);
-        pullToRefreshLayout.setSwipeableChildren(gridView, emptyView);
+        pullToRefreshLayout.setSwipeableChildren(recyclerView, emptyView);
     }
 
     protected void reloadOffers() {
@@ -159,16 +205,14 @@ public abstract class OfferListActivity extends ParentActivity implements AbsLis
     }
 
     @Override
-    public void setLoading(boolean loading) {
+    public void setLoading(final boolean loading) {
         if (getPullToRefreshLayout() != null) {
-            if (loading) {
-                if (!getPullToRefreshLayout().isRefreshing()) {
-                    setProgressBarIndeterminateVisibility(true);
+            getPullToRefreshLayout().post(new Runnable() {
+                @Override
+                public void run() {
+                    getPullToRefreshLayout().setRefreshing(loading);
                 }
-            } else {
-                setProgressBarIndeterminateVisibility(false);
-                getPullToRefreshLayout().setRefreshing(false);
-            }
+            });
         } else {
             super.setLoading(loading);
         }
@@ -224,44 +268,7 @@ public abstract class OfferListActivity extends ParentActivity implements AbsLis
     void setEmptyViewVisible(boolean visible) {
         if (emptyView != null) {
             emptyView.setVisibility(visible ? View.VISIBLE : View.GONE);
-            gridView.setVisibility(visible ? View.GONE : View.VISIBLE);
-        }
-    }
-
-    /* Scroll Events */
-
-    @Override
-    public void onScrollStateChanged(final AbsListView view, final int scrollState) {}
-
-    @Override
-    public void onScroll(final AbsListView view, final int firstVisibleItem, final int visibleItemCount, final int totalItemCount) {
-        if (!mHasRequestedMore && mHasMoreResults) {
-            int lastInScreen = firstVisibleItem + visibleItemCount;
-            if (lastInScreen >= totalItemCount) {
-                onLoadMoreItems();
-            }
-        }
-        if (hideActionBarOnScroll) {
-            // Only compare left column to avoid ActionBar show/hide jumps
-            if (firstVisibleItem == 0 || (firstVisibleItem - gridView.getHeaderViewsCount()) % 2 == 0) {
-                int compare = new Integer(firstVisibleItem).compareTo(scrollPosition.getAndSet(firstVisibleItem));
-                if (compare > 0) {
-                    if (mActionBar.isShowing()) {
-                        toggleNavigationBarVisibility(false, true, new AnimationListener() {
-                            @Override
-                            public void onAnimationCompleted() {
-                                mActionBar.hide();
-                            }
-                        });
-                    }
-
-                } else if (compare < 0) {
-                    if (!mActionBar.isShowing()) {
-                        mActionBar.show();
-                        delayNavigationToggle(true, true, null);
-                    }
-                }
-            }
+            recyclerView.setVisibility(visible ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -309,20 +316,20 @@ public abstract class OfferListActivity extends ParentActivity implements AbsLis
 
     @Override
     protected void onResume() {
-        getActionBar().show();
+        //getSupportActionBar().show();
         toggleNavigationBarVisibility(true, false, null);
         super.onResume();
     }
 
     @Override
-    public void onOfferClick(Offer offer, View view) {
+    public void onOfferClick(Offer offer) {
         showOfferDetail(offer, currentLocation);
     }
 
     @Override
-    public void onOfferLongClick(Offer offer, View view) {
+    public void onOfferLongClick(Offer offer) {
         this.selectedOffer = offer;
-        openContextMenu(gridView);
+        //openContextMenu(recyclerView);
     }
 
     abstract void onRequestOffers(final int page, final Location currentLocation);
@@ -364,8 +371,8 @@ public abstract class OfferListActivity extends ParentActivity implements AbsLis
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        if (v == gridView) {
+
+        if (v == recyclerView) {
             if (selectedOffer.hasLocation()) {
                 addMenuItem(menu, OfferMenuItem.VIEW_IN_MAP);
             }
@@ -407,5 +414,98 @@ public abstract class OfferListActivity extends ParentActivity implements AbsLis
 
     public List<Offer> getOffers() {
         return offers;
+    }
+
+    public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
+        // The minimum amount of items to have below your current scroll position
+        // before loading more.
+        private int visibleThreshold = 5;
+        // The current offset index of data you have loaded
+        private int currentPage = 0;
+        // The total number of items in the dataset after the last load
+        private int previousTotalItemCount = 0;
+        // True if we are still waiting for the last set of data to load.
+        private boolean loading = true;
+        // Sets the starting page index
+        private int startingPageIndex = 0;
+
+        RecyclerView.LayoutManager mLayoutManager;
+
+        public EndlessRecyclerViewScrollListener(LinearLayoutManager layoutManager) {
+            this.mLayoutManager = layoutManager;
+        }
+
+        public EndlessRecyclerViewScrollListener(GridLayoutManager layoutManager) {
+            this.mLayoutManager = layoutManager;
+            visibleThreshold = visibleThreshold * layoutManager.getSpanCount();
+        }
+
+        public EndlessRecyclerViewScrollListener(StaggeredGridLayoutManager layoutManager) {
+            this.mLayoutManager = layoutManager;
+            visibleThreshold = visibleThreshold * layoutManager.getSpanCount();
+        }
+
+        public int getLastVisibleItem(int[] lastVisibleItemPositions) {
+            int maxSize = 0;
+            for (int i = 0; i < lastVisibleItemPositions.length; i++) {
+                if (i == 0) {
+                    maxSize = lastVisibleItemPositions[i];
+                }
+                else if (lastVisibleItemPositions[i] > maxSize) {
+                    maxSize = lastVisibleItemPositions[i];
+                }
+            }
+            return maxSize;
+        }
+
+        // This happens many times a second during a scroll, so be wary of the code you place here.
+        // We are given a few useful parameters to help us work out if we need to load some more data,
+        // but first we check if we are waiting for the previous load to finish.
+        @Override
+        public void onScrolled(RecyclerView view, int dx, int dy) {
+            int lastVisibleItemPosition = 0;
+            int totalItemCount = mLayoutManager.getItemCount();
+
+            if (mLayoutManager instanceof StaggeredGridLayoutManager) {
+                int[] lastVisibleItemPositions = ((StaggeredGridLayoutManager) mLayoutManager).findLastVisibleItemPositions(null);
+                // get maximum element within the list
+                lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions);
+            } else if (mLayoutManager instanceof LinearLayoutManager) {
+                lastVisibleItemPosition = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
+            } else if (mLayoutManager instanceof GridLayoutManager) {
+                lastVisibleItemPosition = ((GridLayoutManager) mLayoutManager).findLastVisibleItemPosition();
+            }
+
+            // If the total item count is zero and the previous isn't, assume the
+            // list is invalidated and should be reset back to initial state
+            if (totalItemCount < previousTotalItemCount) {
+                this.currentPage = this.startingPageIndex;
+                this.previousTotalItemCount = totalItemCount;
+                if (totalItemCount == 0) {
+                    this.loading = true;
+                }
+            }
+            // If it’s still loading, we check to see if the dataset count has
+            // changed, if so we conclude it has finished loading and update the current page
+            // number and total item count.
+            if (loading && (totalItemCount > previousTotalItemCount)) {
+                loading = false;
+                previousTotalItemCount = totalItemCount;
+            }
+
+            // If it isn’t currently loading, we check to see if we have breached
+            // the visibleThreshold and need to reload more data.
+            // If we do need to reload some more data, we execute onLoadMore to fetch the data.
+            // threshold should reflect how many total columns there are too
+            if (!loading && (lastVisibleItemPosition + visibleThreshold) > totalItemCount) {
+                currentPage++;
+                onLoadMore(currentPage, totalItemCount);
+                loading = true;
+            }
+        }
+
+        // Defines the process for actually loading more data based on page
+        public abstract void onLoadMore(int page, int totalItemsCount);
+
     }
 }

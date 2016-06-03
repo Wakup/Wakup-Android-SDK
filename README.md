@@ -70,10 +70,9 @@ For example, to change the title of the Wakup activities, include and change thi
 <string name="wk_activity_offers">Ofertas</string>
 <string name="wk_activity_my_offers">Mis ofertas</string>
 <string name="wk_activity_offer_detail">Oferta</string>
-<string name="wk_activity_store_offers">Ofertas de marca</string>
-<string name="wk_activity_search_result">Resultados</string>
 <string name="wk_activity_big_offer">Ofertón</string>
 <string name="wk_activity_map">Mapa</string>
+<string name="wk_activity_report">Informar de un error</string>
 ```
 
 You can access to the full list of string resources used by the SDK [here](https://github.com/Wakup/Wakup-Android-SDK/blob/master/sdk/src/main/res/values/strings.xml).
@@ -95,12 +94,11 @@ The only exceptions to this behavior are:
 
 The platform uses icons referenced by drawable resources that can be easily overriden with references to another customized icons.
 
-For example, to set the action bar logo for the root view and the entire Wakup offers section, you only have to include this drawable resources in your `wakup.xml` file:
+For example, to set the big offer icon in the navigation bar, you only have to include this drawable resources in your `wakup.xml` file:
 
 ```xml
-<!-- ActionBar logo -->
-<drawable name="wk_actionbar_logo_root">@drawable/ic_action_logo</drawable>
-<drawable name="wk_actionbar_logo">@drawable/ic_action_logo</drawable>
+<!-- Navigation -->
+<drawable name="wk_nav_big_offer">@drawable/wk_ic_nav_big_offer</drawable>
 ```
 
 
@@ -117,6 +115,7 @@ To do so, copy and alter the primary colors on your `wakup.xml` file:
 <color name="wk_primary">#3C1E3D</color>
 <color name="wk_primary_pressed">#7B4C7D</color>
 <color name="wk_primary_reverse">#A47BA6</color>
+<color name="wk_primary_dark">#321933</color>
 <color name="wk_secondary">#809718</color>
 <color name="wk_secondary_pressed">#617213</color>
 <color name="wk_secondary_reverse">@color/wk_white</color>
@@ -150,47 +149,81 @@ If a more thorough customization is required, you can also override the secondar
 Following are described the different views of the application that can be customized, including the associated resources:
 
 #### Action bar
-Wakup Activities uses two different customizable Action bars:
+Wakup Activities uses two different customizable Appbars:
 
 - The first ActionBar is used for the main (or root) activity
   
-  ![](http://i.imgur.com/CnMLZfSm.png)
+  ![](http://i.imgur.com/btq2Rq9.png)
 
 - The second ActionBar is displayed in the rest of the application sections
 
-  ![](http://i.imgur.com/dZ5m6T1m.png)
+  ![](http://i.imgur.com/GNV07MH.png)
 
-Resources for the Root Action bar contains the `_root` sufix.
-
-```xml
-<!-- Colors -->
-<color name="wk_actionbar_bg">@color/wk_primary</color>
-<color name="wk_actionbar_text">@color/wk_primary_reverse</color>
-<color name="wk_actionbar_subtitle">#AFFF</color>
-<!-- Icons -->
-<drawable name="wk_actionbar_logo_root">@android:color/transparent</drawable>
-<drawable name="wk_actionbar_logo">@android:color/transparent</drawable>
-<drawable name="wk_actionbar_back_root">@drawable/wk_ic_nav_back</drawable>
-<drawable name="wk_actionbar_back">@drawable/wk_ic_nav_back</drawable>
-```
-
-In addition, it is possible to customize the appearance of both Action Bars by directly overriding their styles:
+It is possible to customize the colors of the App bar...
 
 ```xml
-<style name="WakupTheme.ActionBar.Root">
-    <item name="android:logo">@drawable/wk_actionbar_logo_root</item>
-    <item name="android:displayOptions">showHome|showTitle|useLogo</item>
-</style>
-
-<style name="WakupTheme.ActionBar.Default">
-    <item name="android:logo">@drawable/wk_actionbar_logo</item>
-    <item name="android:displayOptions">showHome|showTitle|useLogo|homeAsUp</item>
-</style>
+    <!-- Colors -->
+    <color name="wk_appbar_bg">@color/wk_primary</color>
+    <color name="wk_appbar_text">@color/wk_secondary_reverse</color>
+    <!-- Icon -->
+    <drawable name="wk_actionbar_back">@drawable/wk_ic_nav_back</drawable>
 ```
+
+... or the appeareance by directly overriding the layout `wk_toolbar`:
+
+##### wk_toolbar
+
+*Example: Toolbar with Progressbar and a centered ImageView (logo)*
+   
+```xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/wk_appbar_bg"
+    app:popupTheme="@style/WakupTheme.PopupOverlay"
+    app:theme="@style/WakupTheme.AppBarOverlay"
+    app:layout_scrollFlags="scroll|enterAlways">
+
+    <!-- ProgressBar shown on wk_appbar.xml while loading -->
+    <ProgressBar
+        android:id="@+id/progress_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:indeterminate="true"
+        android:visibility="gone" />
+
+    <!-- ImageView with logo centered -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:src="@drawable/wk_actionbar_logo"/>
+
+</android.support.v7.widget.Toolbar>
+    
+```
+
+![](http://i.imgur.com/72p2G1r.png)
+
+To hide title use empty Strings in the [activity titles](#strings)</a>.
+
+![](http://i.imgur.com/VO0GI1D.png)
 
 #### Navigation bar
 
-![](http://i.imgur.com/KXusEEkm.png)
+`wk_root_navbar.xml` is a navigation bar with its own styles
+
+##### wk_ root_navbar
+
+![](http://i.imgur.com/jh6Sz22.png)
 
 ```xml
 <!-- Colors -->
@@ -202,6 +235,53 @@ In addition, it is possible to customize the appearance of both Action Bars by d
 <drawable name="wk_nav_big_offer">@drawable/wk_ic_nav_big_offer</drawable>
 <drawable name="wk_nav_map">@drawable/wk_ic_nav_map</drawable>
 <drawable name="wk_nav_my_offers">@drawable/wk_ic_nav_my_offers</drawable>
+```
+
+You can customize the Navigationbar by overriding `wk_root_navbar.xml`:
+
+*Example: LinearLayout with sections that can be removed (in this case 2 instead of 3)*
+
+```xml
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigationView"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/wk_navbar_bg"
+    app:layout_scrollFlags="scroll|enterAlways">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.yellowpineapple.wakup.sdk.views.NavBarButton
+            android:id="@+id/btnBigOffer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:navText="@string/wk_big_offer"
+            app:navIcon="@drawable/wk_nav_big_offer"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/wk_navbar_divider"/>
+
+        <com.yellowpineapple.wakup.sdk.views.NavBarButton
+            android:id="@+id/btnMap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:navText="@string/wk_offers_map"
+            app:navIcon="@drawable/wk_nav_map"/>
+
+    </LinearLayout>
+
+</LinearLayout>
 ```
 
 #### Offer item
@@ -339,7 +419,6 @@ To change the default circle background, it would be required to override the de
 
 The following dependencies are used in the project:
 
-* [AndroidStaggeredGrid](https://github.com/etsy/AndroidStaggeredGrid): Multiple height grid view
 * [Async Http](http://loopj.com/android-async-http/): Library for asynchronous requests
 * [Gson](http://code.google.com/p/google-gson/): Parse and serialize JSON
 * [Calligraphy](https://github.com/chrisjenx/Calligraphy): Allows setting custom typeface to Text Views

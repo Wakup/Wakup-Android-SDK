@@ -2,12 +2,16 @@ package com.yellowpineapple.wakup.sdk.controllers;
 
 import android.content.Context;
 import android.location.Location;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
+import android.widget.FrameLayout;
 
+import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.models.Offer;
+import com.yellowpineapple.wakup.sdk.views.OfferDetailView;
 import com.yellowpineapple.wakup.sdk.views.OfferListView;
 
 import java.util.List;
@@ -16,69 +20,91 @@ import java.util.List;
  * ADAPTER
  */
 
-public class OffersAdapter extends BaseAdapter implements View.OnLongClickListener, View.OnClickListener {
+public class OffersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements OfferListView.Listener {
 
     List<Offer> offers;
     boolean loading;
     Context context;
     Location currentLocation;
     Listener listener;
+    View headerView;
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM = 1;
 
-    public OffersAdapter(final Context context) {
+    public OffersAdapter(View headerView, final Context context) {
         super();
+        this.headerView = headerView;
         this.context = context;
     }
 
     @Override
-    public int getCount() {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        switch (viewType) {
+            case TYPE_HEADER:
+                HeaderViewHolder headerViewHolder = new HeaderViewHolder(headerView);
+                return headerViewHolder;
+            default:
+                OfferListView offerView = new OfferListView(getContext());
+                offerView.setListener(this);
+                OfferViewHolder viewHolder = new OfferViewHolder(offerView);
+                return viewHolder;
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return isHeaderPresent() && position == 0 ? TYPE_HEADER : TYPE_ITEM;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+        if(getItemViewType(position) != TYPE_HEADER) {
+            OfferViewHolder offerViewHolder = (OfferViewHolder) holder;
+            offerViewHolder.offerView.setOffer(getOffer(position), currentLocation);
+        }
+
+    }
+
+    Offer getOffer(int position) {
+        return offers.get(isHeaderPresent() ? position - 1 : position);
+    }
+
+    @Override
+    public int getItemCount() {
         int count = 0;
         if (offers != null) {
             count = offers.size();
         }
+        if (isHeaderPresent()) {
+            count++;
+        }
+
         if (loading) {
             count++;
         }
         return count;
     }
 
-    @Override
-    public Object getItem(int position) {
-        Offer offer = null;
-        if (offers != null && position < offers.size()) {
-            offer = offers.get(position);
-        }
-        return offer;
+    boolean isHeaderPresent() {
+        return headerView != null;
     }
 
-    @Override
-    public long getItemId(int position) {
-        return 0;
+    public static class OfferViewHolder extends RecyclerView.ViewHolder {
+
+        public OfferListView offerView;
+        public OfferViewHolder(View v) {
+            super(v);
+            offerView = (OfferListView) v;
+        }
     }
 
-    @Override
-    public View getView(final int position, View convertView, final ViewGroup parent) {
-        View view;
-        if (!isLoadingView(position)) {
-            final OfferListView offerView;
-            if (convertView == null) {
-                offerView = new OfferListView(getContext());
-                offerView.setClickable(true);
-                offerView.setLongClickable(true);
-                offerView.setOnClickListener(this);
-                offerView.setOnLongClickListener(this);
-            } else {
-                offerView = (OfferListView) convertView;
-            }
-            final Offer offer = offers.get(position);
-            offerView.setOffer(offer, currentLocation);
-            view = offerView;
-        } else {
-            TextView loadingView = new TextView(getContext());
-            loadingView.setText("Loading...");
-            view = loadingView;
-        }
+    public static class HeaderViewHolder extends RecyclerView.ViewHolder {
 
-        return view;
+        public HeaderViewHolder(View v) {
+            super(v);
+        }
     }
 
     boolean isLoadingView(int position) {
@@ -87,26 +113,18 @@ public class OffersAdapter extends BaseAdapter implements View.OnLongClickListen
     }
 
     @Override
-    public void onClick(View v) {
-        if (v instanceof OfferListView) {
-            OfferListView offerView = (OfferListView) v;
-            if (listener != null) listener.onOfferClick(offerView.getOffer(), offerView);
-        }
+    public void onClick(Offer offer) {
+        if (listener != null) listener.onOfferClick(offer);
     }
 
     @Override
-    public boolean onLongClick(View v) {
-        if (v instanceof OfferListView) {
-            OfferListView offerView = (OfferListView) v;
-            if (listener != null) listener.onOfferLongClick(offerView.getOffer(), offerView);
-            return true;
-        }
-        return false;
+    public void onLongClick(Offer offer) {
+        if (listener != null) listener.onOfferLongClick(offer);
     }
 
     public interface Listener {
-        void onOfferClick(Offer offer, View view);
-        void onOfferLongClick(Offer offer, View view);
+        void onOfferClick(Offer offer);
+        void onOfferLongClick(Offer offer);
     }
 
     public Listener getListener() {
