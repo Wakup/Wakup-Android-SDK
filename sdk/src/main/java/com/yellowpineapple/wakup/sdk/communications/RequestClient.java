@@ -9,6 +9,7 @@ import com.yellowpineapple.wakup.sdk.communications.requests.OfferListRequestLis
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.CompanyOffersRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.FindOffersRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetOffersByIdRequest;
+import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetRedemptionCodeRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.RelatedOffersRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.register.RegisterRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.search.SearchRequest;
@@ -103,6 +104,10 @@ public class RequestClient {
 
     public Request getCompanyOffers(CompanyDetail company, Store store, int page, OfferListRequestListener listener) {
         return launch(new CompanyOffersRequest(company, store, page, BaseRequest.RESULTS_PER_PAGE, listener));
+    }
+
+    public Request getRedemptionCode(Offer offer, GetRedemptionCodeRequest.Listener listener) {
+        return launch(new GetRedemptionCodeRequest(offer, listener));
     }
 
     // Search
