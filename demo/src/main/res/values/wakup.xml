@@ -9,6 +9,6 @@
     <!-- ActionBar Logo -->
     <drawable name="wk_actionbar_logo">@drawable/wk_ic_btn_leisure</drawable>
     <!-- No titles -->
-    <string name="wk_activity_offers"></string>
+    <string name="wk_activity_offers">@null</string>
 
 </resources>
