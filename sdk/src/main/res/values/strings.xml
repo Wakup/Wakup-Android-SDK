@@ -81,6 +81,7 @@
     <string name="wk_search_error">Ocurrió un error al procesar la solicitud</string>
     <string name="wk_near_me">Cerca de mí</string>
     <string name="wk_search_brands">Marcas</string>
+    <string name="wk_search_tags">Categorías</string>
     <string name="wk_search_recent">Últimas búsquedas</string>
     <string name="wk_search_locations">Ubicaciones</string>
 

@@ -25,6 +25,7 @@ import com.yellowpineapple.wakup.sdk.WakupOptions;
 import com.yellowpineapple.wakup.sdk.communications.Request;
 import com.yellowpineapple.wakup.sdk.communications.requests.search.SearchRequest;
 import com.yellowpineapple.wakup.sdk.controllers.SearchResultAdapter;
+import com.yellowpineapple.wakup.sdk.models.Category;
 import com.yellowpineapple.wakup.sdk.models.SearchResult;
 import com.yellowpineapple.wakup.sdk.models.SearchResultItem;
 import com.yellowpineapple.wakup.sdk.utils.IntentBuilder;
@@ -33,6 +34,7 @@ import com.yellowpineapple.wakup.sdk.utils.Strings;
 import com.yellowpineapple.wakup.sdk.views.SearchFiltersView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SearchActivity extends ParentActivity {
@@ -94,17 +96,25 @@ public class SearchActivity extends ParentActivity {
         listAdapter.setListener(new SearchResultAdapter.Listener() {
             @Override
             public void onItemClick(SearchResultItem item, View view) {
+                List<String> tags = new ArrayList<String>();
+                for (Category category : filtersView.getSelectedCategories()) {
+                    tags.addAll(Arrays.asList(category.getTags()));
+                }
+                switch (item.getType()) {
+                    case TAG: tags.add(item.getDescription());
+                    case COMPANY:
+                    case LOCATION:
+                        getPersistence().addRecentSearch(item);
+                        listAdapter.setRecentSearches(getPersistence().getRecentSearches());
+                        refreshList();
+                        break;
+                }
+
                 SearchResultActivity.intent(SearchActivity.this).
                         searchItem(item).
-                        categories(filtersView.getSelectedCategories()).
+                        tags(tags).
                         start();
                 slideInTransition();
-                if (item.getType() == SearchResultItem.Type.COMPANY ||
-                        item.getType() == SearchResultItem.Type.LOCATION) {
-                    getPersistence().addRecentSearch(item);
-                    listAdapter.setRecentSearches(getPersistence().getRecentSearches());
-                    refreshList();
-                }
             }
         });
         filtersView = new SearchFiltersView(this);
@@ -245,7 +255,7 @@ public class SearchActivity extends ParentActivity {
                         searchRequest = null;
                         // Check if query is still valid
                         if (Strings.equals(query, searchQuery)) {
-                            listAdapter.setCompanies(searchResult.getCompanies());
+                            listAdapter.setSearchResult(searchResult);
                             refreshList();
                         }
                     }
@@ -259,7 +269,7 @@ public class SearchActivity extends ParentActivity {
                 });
                 geoSearch(query.trim());
             } else {
-                listAdapter.setCompanies(null);
+                listAdapter.setSearchResult(null);
                 listAdapter.setAddresses(null);
                 refreshList();
             }

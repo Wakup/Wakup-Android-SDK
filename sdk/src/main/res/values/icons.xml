@@ -23,6 +23,7 @@
     <!-- Search results -->
     <drawable name="wk_search_brand">@drawable/wk_ic_search_brand</drawable>
     <drawable name="wk_search_geo">@drawable/wk_ic_search_geo</drawable>
+    <drawable name="wk_search_tag">@drawable/wk_ic_search_tag</drawable>
 
     <!-- Offer details -->
     <drawable name="wk_offer_expiration">@drawable/wk_ic_expiration</drawable>

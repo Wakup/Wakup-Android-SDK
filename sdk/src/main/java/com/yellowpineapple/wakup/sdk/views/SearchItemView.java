@@ -55,6 +55,10 @@ public class SearchItemView extends FrameLayout {
                     imgIcon.setImageResource(R.drawable.wk_search_brand);
                     txtDescription.setVisibility(GONE);
                     break;
+                case TAG:
+                    imgIcon.setImageResource(R.drawable.wk_search_tag);
+                    txtDescription.setVisibility(GONE);
+                    break;
                 case NEAR_ME:
                     txtDescription.setVisibility(GONE);
                 case LOCATION:

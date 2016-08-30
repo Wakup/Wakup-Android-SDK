@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 
 import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.models.Company;
+import com.yellowpineapple.wakup.sdk.models.SearchResult;
 import com.yellowpineapple.wakup.sdk.models.SearchResultItem;
 import com.yellowpineapple.wakup.sdk.views.SearchHeaderView;
 import com.yellowpineapple.wakup.sdk.views.SearchItemView;
@@ -25,6 +26,7 @@ public class SearchResultAdapter extends BaseAdapter implements View.OnClickList
 
     List<Company> companies = null;
     List<Address> addresses = null;
+    List<String> tags = null;
     Context context;
     Location currentLocation;
 
@@ -49,8 +51,14 @@ public class SearchResultAdapter extends BaseAdapter implements View.OnClickList
         refreshResultItems();
     }
 
-    public void setCompanies(List<Company> companies) {
-        this.companies = companies;
+    public void setSearchResult(SearchResult searchResult) {
+        if (searchResult != null) {
+            this.companies = searchResult.getCompanies();
+            this.tags = searchResult.getTags();
+        } else {
+            this.companies = null;
+            this.tags = null;
+        }
         refreshResultItems();
     }
 
@@ -60,6 +68,12 @@ public class SearchResultAdapter extends BaseAdapter implements View.OnClickList
             items.add(SearchResultItem.header(context.getString(R.string.wk_search_brands)));
             for (Company company : companies) {
                 items.add(SearchResultItem.company(false, company));
+            }
+        }
+        if (tags != null && !tags.isEmpty()) {
+            items.add(SearchResultItem.header(context.getString(R.string.wk_search_tags)));
+            for (String tag : tags) {
+                items.add(SearchResultItem.tag(false, tag));
             }
         }
         if (addresses != null && !addresses.isEmpty()) {
