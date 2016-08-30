@@ -13,7 +13,6 @@ import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetRedemptio
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.RelatedOffersRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.register.RegisterRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.search.SearchRequest;
-import com.yellowpineapple.wakup.sdk.models.Category;
 import com.yellowpineapple.wakup.sdk.models.Company;
 import com.yellowpineapple.wakup.sdk.models.CompanyDetail;
 import com.yellowpineapple.wakup.sdk.models.Offer;
@@ -86,8 +85,12 @@ public class RequestClient {
         return launch(new FindOffersRequest(location, null, null, page, listener));
     }
 
-    public Request findOffers(Location location, Company company, List<Category> categories, int page, OfferListRequestListener listener) {
-        return launch(new FindOffersRequest(location, company, categories, page, listener));
+    public Request findOffers(Location location, List<String> tags, int page, OfferListRequestListener listener) {
+        return launch(new FindOffersRequest(location, null, tags, page, listener));
+    }
+
+    public Request findOffers(Location location, Company company, List<String> tags, int page, OfferListRequestListener listener) {
+        return launch(new FindOffersRequest(location, company, tags, page, listener));
     }
 
     public Request findLocatedOffers(Location location, Double radius, OfferListRequestListener listener) {

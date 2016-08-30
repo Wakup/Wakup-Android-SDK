@@ -6,8 +6,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.yellowpineapple.wakup.sdk.communications.RESTJSONRequest;
 import com.yellowpineapple.wakup.sdk.communications.RequestClient;
-import com.yellowpineapple.wakup.sdk.communications.serializers.CategorySerializer;
-import com.yellowpineapple.wakup.sdk.models.Category;
 
 public abstract class BaseRequest extends RESTJSONRequest {
 
@@ -51,7 +49,6 @@ public abstract class BaseRequest extends RESTJSONRequest {
         return new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
                 .setDateFormat("yyyy-MM-dd")
-                .registerTypeAdapter(Category.class, new CategorySerializer())
                 .create();
     }
 }

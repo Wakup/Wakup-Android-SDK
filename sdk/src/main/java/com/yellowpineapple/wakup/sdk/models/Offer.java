@@ -165,11 +165,11 @@ public class Offer implements Serializable {
         return link;
     }
 
-    public void setTags(List<String> tags) {
-        this.tags = tags;
+    public List<String> getTags() {
+        return tags;
     }
 
-    public void setRedemptionCode(RedemptionCode redemptionCode) {
-        this.redemptionCode = redemptionCode;
+    public RedemptionCode getRedemptionCode() {
+        return redemptionCode;
     }
 }

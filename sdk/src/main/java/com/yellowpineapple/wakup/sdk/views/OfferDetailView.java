@@ -16,7 +16,7 @@ import com.yellowpineapple.wakup.sdk.utils.Strings;
 /**
  * Created by agutierrez on 09/02/15.
  */
-public class OfferDetailView extends LinearLayout {
+public class OfferDetailView extends LinearLayout implements OfferTagsView.OnTagSelectedListener{
 
     public interface Listener {
         void onViewOnMapClicked(Offer offer);
@@ -25,6 +25,7 @@ public class OfferDetailView extends LinearLayout {
         void onShareClicked(Offer offer);
         void onDescriptionClicked(Offer offer);
         void onStoreOffersClicked(Offer offer);
+        void onTagSelected(String tag);
     }
 
     Offer offer;
@@ -45,6 +46,8 @@ public class OfferDetailView extends LinearLayout {
     ImageView imgDisclosureAddress;
     View storeOffersView;
     TextView txtStoreOffers;
+    View tagsViewHolder;
+    OfferTagsView tagsView;
 
     OfferActionButton btnWebsite;
     OfferActionButton btnMap;
@@ -94,6 +97,14 @@ public class OfferDetailView extends LinearLayout {
             txtStoreOffers.setText(String.valueOf(offer.getCompany().getOfferCount()));
             storeOffersView.setVisibility(offer.getCompany().getOfferCount() > 1 ? VISIBLE : GONE);
 
+            // Tags
+            if (offer.getTags().size() > 0) {
+                tagsViewHolder.setVisibility(VISIBLE);
+                tagsView.setOffer(offer);
+            } else {
+                tagsViewHolder.setVisibility(GONE);
+            }
+
             boolean hasLocation = offer.hasLocation();
             imgDisclosureAddress.setVisibility(hasLocation ? VISIBLE : GONE);
             storeView.setClickable(hasLocation);
@@ -136,6 +147,9 @@ public class OfferDetailView extends LinearLayout {
         txtAddress = ((TextView) findViewById(R.id.txtAddress));
         txtDistance = ((TextView) findViewById(R.id.txtDistance));
         btnSave = ((OfferActionButton) findViewById(R.id.btnSave));
+        tagsViewHolder = findViewById(R.id.tagsViewHolder);
+        tagsView = (OfferTagsView) findViewById(R.id.tagsView);
+        tagsView.setOnTagSelectedListener(this);
 
         OnClickListener clickListener = new OnClickListener() {
             @Override
@@ -186,4 +200,9 @@ public class OfferDetailView extends LinearLayout {
     void shareOffer() { if (listener != null) listener.onShareClicked(offer); }
 
     void openStoreDetails() { if (listener != null) listener.onStoreOffersClicked(offer); }
+
+    @Override
+    public void onTagSelected(String tag) {
+        if (listener != null) listener.onTagSelected(tag);
+    }
 }

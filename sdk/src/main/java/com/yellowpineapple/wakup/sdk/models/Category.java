@@ -8,35 +8,23 @@ import com.yellowpineapple.wakup.sdk.R;
 public enum Category {
 
     UNKNOWN(null, R.string.wk_category_unknown, R.drawable.wk_pin_unknown),
-    LEISURE("leisure", R.string.wk_category_leisure, R.drawable.wk_pin_leisure),
-    RESTAURANTS("restaurants", R.string.wk_category_restaurants, R.drawable.wk_pin_restaurants),
-    SERVICES("services", R.string.wk_category_services, R.drawable.wk_pin_services),
-    SHOPPING("shopping", R.string.wk_category_shopping, R.drawable.wk_pin_shopping);
+    LEISURE(new String[]{"leisure"}, R.string.wk_category_leisure, R.drawable.wk_pin_leisure),
+    RESTAURANTS(new String[]{"restaurants"}, R.string.wk_category_restaurants, R.drawable.wk_pin_restaurants),
+    SERVICES(new String[]{"services"}, R.string.wk_category_services, R.drawable.wk_pin_services),
+    SHOPPING(new String[]{"shopping"}, R.string.wk_category_shopping, R.drawable.wk_pin_shopping);
 
-    String identifier;
+    String[] tags;
     int nameResId;
     int iconResId;
 
-    private Category(String identifier, int nameResId, int iconResId) {
-        this.identifier = identifier;
+    Category(String[] tags, int nameResId, int iconResId) {
+        this.tags = tags;
         this.nameResId = nameResId;
         this.iconResId = iconResId;
     }
 
-    public static Category fromIdentifier(String identifier) {
-        Category value = UNKNOWN;
-        for (Category category : Category.values()) {
-            if (category != UNKNOWN) {
-                if (category.getIdentifier().equals(identifier)) {
-                    value = category;
-                }
-            }
-        }
-        return value;
-    }
-
-    public String getIdentifier() {
-        return identifier;
+    public String[] getTags() {
+        return tags;
     }
 
     public int getIconResId() {

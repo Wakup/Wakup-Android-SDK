@@ -11,10 +11,14 @@ import android.view.MenuItem;
 
 import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.models.Offer;
+import com.yellowpineapple.wakup.sdk.models.SearchResultItem;
 import com.yellowpineapple.wakup.sdk.utils.IntentBuilder;
 import com.yellowpineapple.wakup.sdk.utils.PersistenceHandler;
 import com.yellowpineapple.wakup.sdk.views.OfferDetailView;
 import com.yellowpineapple.wakup.sdk.views.PullToRefreshLayout;
+
+import java.util.Collections;
+import java.util.List;
 
 public class OfferDetailActivity extends OfferListActivity implements OfferDetailView.Listener {
 
@@ -127,6 +131,14 @@ public class OfferDetailActivity extends OfferListActivity implements OfferDetai
             StoreOffersActivity.intent(this).offer(offer).location(location).start();
             slideInTransition();
         }
+    }
+
+    @Override
+    public void onTagSelected(String tag) {
+        SearchResultItem tagItem = SearchResultItem.tag(false, tag);
+        List<String> tags = Collections.singletonList(tag);
+        SearchResultActivity.intent(this).searchItem(tagItem).tags(tags).start();
+        slideInTransition();
     }
 
     // Menu

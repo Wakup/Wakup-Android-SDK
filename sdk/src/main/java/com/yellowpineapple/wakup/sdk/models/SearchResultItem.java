@@ -16,7 +16,7 @@ import java.util.List;
 public class SearchResultItem implements Serializable {
 
     public enum Type {
-        COMPANY, LOCATION, NEAR_ME, HEADER;
+        TAG, COMPANY, LOCATION, NEAR_ME, HEADER;
     }
 
     static final int MAX_FIELDS = 3;
@@ -28,6 +28,9 @@ public class SearchResultItem implements Serializable {
     double latitude = 0;
     double longitude = 0;
     Company company = null;
+
+    public SearchResultItem() {
+    }
 
     public SearchResultItem(boolean recent, Address address) {
             this.recent = recent;
@@ -60,24 +63,39 @@ public class SearchResultItem implements Serializable {
         return mLocation;
     }
 
-    public SearchResultItem(String name) {
-        this.type = Type.HEADER;
-        this.name = this.description = name;
+    public static SearchResultItem header(String name) {
+        SearchResultItem item = new SearchResultItem();
+        item.type = Type.HEADER;
+        item.name = item.description = name;
+        return item;
     }
 
-    public SearchResultItem(boolean recent, Company company) {
-        this.recent = recent;
-        this.type = Type.COMPANY;
-        this.name = this.description = company.getName();
-        this.company = company;
+    public static SearchResultItem company(boolean recent, Company company) {
+        SearchResultItem item = new SearchResultItem();
+        item.recent = recent;
+        item.type = Type.COMPANY;
+        item.name = item.description = company.getName();
+        item.company = company;
+        return item;
     }
 
-    public SearchResultItem(String name, Location location) {
-        this.recent = false;
-        this.type = Type.NEAR_ME;
-        this.name = this.description = name;
-        this.latitude = location.getLatitude();
-        this.longitude = location.getLongitude();
+    public static SearchResultItem location(String name, Location location) {
+        SearchResultItem item = new SearchResultItem();
+        item.recent = false;
+        item.type = Type.NEAR_ME;
+        item.name = item.description = name;
+        item.latitude = location.getLatitude();
+        item.longitude = location.getLongitude();
+        return item;
+    }
+
+    public static SearchResultItem tag(boolean recent, String name) {
+        SearchResultItem item = new SearchResultItem();
+        item.type = Type.TAG;
+        item.recent = recent;
+        item.name = String.format("#%s", name);
+        item.description = name;
+        return item;
     }
 
     @Override
@@ -93,6 +111,8 @@ public class SearchResultItem implements Serializable {
                         return otherItem.getLatitude() == latitude &&
                                 otherItem.getLongitude() == longitude &&
                                 Strings.equals(otherItem.getName(), name);
+                    case TAG:
+                        return Strings.equals(otherItem.getName(), name);
                 }
             }
         }

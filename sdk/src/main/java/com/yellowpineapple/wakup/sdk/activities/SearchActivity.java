@@ -7,18 +7,13 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,7 +32,6 @@ import com.yellowpineapple.wakup.sdk.utils.Ln;
 import com.yellowpineapple.wakup.sdk.utils.Strings;
 import com.yellowpineapple.wakup.sdk.views.SearchFiltersView;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +65,7 @@ public class SearchActivity extends ParentActivity {
 
     protected void injectViews() {
         super.injectViews();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         listView = ((ListView) findViewById(R.id.list_view));
         afterViews();
     }
@@ -100,7 +94,6 @@ public class SearchActivity extends ParentActivity {
         listAdapter.setListener(new SearchResultAdapter.Listener() {
             @Override
             public void onItemClick(SearchResultItem item, View view) {
-                // TODO getSelectedCategories()
                 SearchResultActivity.intent(SearchActivity.this).
                         searchItem(item).
                         categories(filtersView.getSelectedCategories()).

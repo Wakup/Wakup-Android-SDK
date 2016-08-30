@@ -14,14 +14,18 @@ import com.yellowpineapple.wakup.sdk.utils.IntentBuilder;
 import com.yellowpineapple.wakup.sdk.views.PullToRefreshLayout;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SearchResultActivity extends OfferListActivity {
 
+    public final static String TAGS_EXTRA = "tags";
     public final static String CATEGORIES_EXTRA = "categories";
     public final static String SEARCH_ITEM_EXTRA = "searchItem";
     SearchResultItem searchItem;
     List<Category> categories = null;
+    List<String> tags = null;
 
     /* Views */
     RecyclerView gridView;
@@ -38,7 +42,7 @@ public class SearchResultActivity extends OfferListActivity {
 
     protected void injectViews() {
         super.injectViews();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ptrLayout = ((PullToRefreshLayout) findViewById(R.id.ptr_layout));
         gridView = ((RecyclerView) findViewById(R.id.recycler_view));
         emptyView = findViewById(R.id.emptyView);
@@ -51,6 +55,9 @@ public class SearchResultActivity extends OfferListActivity {
         if (extras!= null) {
             if (extras.containsKey(CATEGORIES_EXTRA)) {
                 categories = ((List<Category> ) extras.getSerializable(CATEGORIES_EXTRA));
+            }
+            if (extras.containsKey(TAGS_EXTRA)) {
+                tags = extras.getStringArrayList(TAGS_EXTRA);
             }
             if (extras.containsKey(SEARCH_ITEM_EXTRA)) {
                 searchItem = ((SearchResultItem) extras.getSerializable(SEARCH_ITEM_EXTRA));
@@ -65,14 +72,24 @@ public class SearchResultActivity extends OfferListActivity {
 
     @Override
     void onRequestOffers(final int page, final Location location) {
+        List<String> selectedTags = new ArrayList<>();
+        if (tags != null) selectedTags.addAll(tags);
+        if (categories != null) {
+            for (Category category : categories) {
+                tags.addAll(Arrays.asList(category.getTags()));
+            }
+        }
         switch (searchItem.getType()) {
             case COMPANY: {
-                offersRequest = getRequestClient().findOffers(location, searchItem.getCompany(), categories, page, getOfferListRequestListener());
+                offersRequest = getRequestClient().findOffers(location, searchItem.getCompany(), tags, page, getOfferListRequestListener());
                 break;
+            }
+            case TAG: {
+                offersRequest = getRequestClient().findOffers(location, tags, page, getOfferListRequestListener());
             }
             case NEAR_ME:
             case LOCATION: {
-                offersRequest = getRequestClient().findOffers(searchItem.getLocation(), null, categories, page, getOfferListRequestListener());
+                offersRequest = getRequestClient().findOffers(searchItem.getLocation(), tags, page, getOfferListRequestListener());
                 // Display offers as if the user was in the requested location
                 currentLocation = searchItem.getLocation();
                 break;
@@ -108,6 +125,11 @@ public class SearchResultActivity extends OfferListActivity {
 
         public Builder categories(List<Category> categories) {
             getIntent().putExtra(CATEGORIES_EXTRA, (Serializable) categories);
+            return this;
+        }
+
+        public Builder tags(List<String> tags) {
+            getIntent().putStringArrayListExtra(TAGS_EXTRA, new ArrayList<>(tags));
             return this;
         }
 

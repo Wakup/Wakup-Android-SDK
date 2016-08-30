@@ -7,13 +7,11 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.yellowpineapple.wakup.sdk.communications.requests.BaseRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.OfferListRequestListener;
-import com.yellowpineapple.wakup.sdk.models.Category;
 import com.yellowpineapple.wakup.sdk.models.Company;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.utils.Strings;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 public class FindOffersRequest extends BaseRequest {
@@ -29,11 +27,11 @@ public class FindOffersRequest extends BaseRequest {
         this(location, null, null, false, FIRST_PAGE, LOCATED_RESULTS_PER_PAGE, radiusInKm, listener);
     }
 
-    public FindOffersRequest(Location location, Company company, List<Category> categories, int page, OfferListRequestListener listener) {
-        this(location, company, categories, true, page, RESULTS_PER_PAGE, null, listener);
+    public FindOffersRequest(Location location, Company company, List<String> tags, int page, OfferListRequestListener listener) {
+        this(location, company, tags, true, page, RESULTS_PER_PAGE, null, listener);
     }
 
-    public FindOffersRequest(Location location, Company company, List<Category> categories, boolean includeOnline, int page, int perPage, Double radiusInKm, OfferListRequestListener listener) {
+    public FindOffersRequest(Location location, Company company, List<String> tags, boolean includeOnline, int page, int perPage, Double radiusInKm, OfferListRequestListener listener) {
         super();
         this.httpMethod = HttpMethod.GET;
         addSegmentParams(SEGMENTS);
@@ -43,10 +41,8 @@ public class FindOffersRequest extends BaseRequest {
         addParam("longitude", location.getLongitude());
         if (radiusInKm != null) addParam("radiusInKm", radiusInKm);
         if (company != null)    addParam("companyId", company.getId());
-        if (categories != null && categories.size() > 0) {
-            List<String> categoryKeys = new ArrayList<>();
-            for (Category category : categories) { categoryKeys.add(category.getIdentifier()); }
-            addParam("categories", Strings.join(",", categoryKeys));
+        if (tags != null && tags.size() > 0) {
+            addParam("tags", Strings.join(",", tags));
         }
         this.listener = listener;
     }

@@ -3,15 +3,10 @@ package com.yellowpineapple.wakup.sdk.controllers;
 import android.content.Context;
 import android.location.Location;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
-import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.models.Offer;
-import com.yellowpineapple.wakup.sdk.views.OfferDetailView;
 import com.yellowpineapple.wakup.sdk.views.OfferListView;
 
 import java.util.List;
@@ -23,7 +18,6 @@ import java.util.List;
 public class OffersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements OfferListView.Listener {
 
     List<Offer> offers;
-    boolean loading;
     Context context;
     Location currentLocation;
     Listener listener;
@@ -81,9 +75,6 @@ public class OffersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             count++;
         }
 
-        if (loading) {
-            count++;
-        }
         return count;
     }
 
@@ -105,11 +96,6 @@ public class OffersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public HeaderViewHolder(View v) {
             super(v);
         }
-    }
-
-    boolean isLoadingView(int position) {
-        int size = offers != null ? offers.size() : 0;
-        return position == size;
     }
 
     @Override
@@ -141,14 +127,6 @@ public class OffersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public void setOffers(List<Offer> offers) {
         this.offers = offers;
-    }
-
-    public boolean isLoading() {
-        return loading;
-    }
-
-    public void setLoading(boolean loading) {
-        this.loading = loading;
     }
 
     public Context getContext() {
