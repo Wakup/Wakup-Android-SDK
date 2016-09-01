@@ -8,6 +8,7 @@ import com.yellowpineapple.wakup.sdk.communications.requests.BaseRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.OfferListRequestListener;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.CompanyOffersRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.FindOffersRequest;
+import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetCouponImageRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetOffersByIdRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetRedemptionCodeRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.RelatedOffersRequest;
@@ -17,6 +18,7 @@ import com.yellowpineapple.wakup.sdk.models.Company;
 import com.yellowpineapple.wakup.sdk.models.CompanyDetail;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.models.RegistrationInfo;
+import com.yellowpineapple.wakup.sdk.models.RemoteImage;
 import com.yellowpineapple.wakup.sdk.models.Store;
 import com.yellowpineapple.wakup.sdk.utils.PersistenceHandler;
 import com.yellowpineapple.wakup.sdk.utils.Strings;
@@ -112,6 +114,12 @@ public class RequestClient {
     public Request getRedemptionCode(Offer offer, GetRedemptionCodeRequest.Listener listener) {
         return launch(new GetRedemptionCodeRequest(offer, listener));
     }
+
+    public RemoteImage getCouponImage(Offer offer, String format) {
+        GetCouponImageRequest request = new GetCouponImageRequest(offer, format, environment, persistence.getDeviceToken());
+        return request.getRemoteImage();
+    }
+
 
     // Search
 

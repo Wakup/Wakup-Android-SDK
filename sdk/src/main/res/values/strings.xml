@@ -10,9 +10,9 @@
     <string name="wk_activity_big_offer">Ofertón</string>
     <string name="wk_activity_map">Mapa</string>
     <string name="wk_activity_report">Informar de un error</string>
-    <string name="wk_activity_store_offers"></string>
-    <string name="wk_activity_search"></string>
-    <string name="wk_activity_search_result"></string>
+    <string name="wk_activity_store_offers"/>
+    <string name="wk_activity_search"/>
+    <string name="wk_activity_search_result"/>
 
     <!-- Dialogs -->
     <string name="wk_loading_default">Cargando…</string>
@@ -53,6 +53,14 @@
     <string name="wk_share_offer_error">Ocurrió un error al tratar de compartir la oferta</string>
     <string name="wk_share_offer_subject" formatted="false">Wakup - %s: %s</string>
     <string name="wk_store_offers">ofertas en este comercio</string>
+
+    <!-- Coupon codes -->
+    <string name="wk_offer_coupon_show">Ver código</string>
+    <string name="wk_offer_coupon_get">Obtener código</string>
+    <string name="wk_offer_coupon_out_of_stock">No quedan códigos</string>
+    <string name="wk_offer_coupon_x_left">Quedan %d</string>
+    <string name="wk_offer_coupon_last">Último código</string>
+    <string name="wk_offer_coupon_assigned">Ya obtenido</string>
 
     <!-- Expiration -->
     <string name="wk_offer_expired">caducado</string>

@@ -16,9 +16,11 @@ import com.yellowpineapple.wakup.sdk.utils.Strings;
 /**
  * Created by agutierrez on 09/02/15.
  */
-public class OfferDetailView extends LinearLayout implements OfferTagsView.OnTagSelectedListener{
+public class OfferDetailView
+        extends LinearLayout
+        implements OfferTagsView.OnTagSelectedListener, OfferCouponSummaryView.CouponSummaryListener {
 
-    public interface Listener {
+    public interface Listener extends OfferTagsView.OnTagSelectedListener, OfferCouponSummaryView.CouponSummaryListener {
         void onViewOnMapClicked(Offer offer);
         void onSaveClicked(Offer offer);
         void onOpenLinkClicked(Offer offer);
@@ -48,6 +50,8 @@ public class OfferDetailView extends LinearLayout implements OfferTagsView.OnTag
     TextView txtStoreOffers;
     View tagsViewHolder;
     OfferTagsView tagsView;
+    View couponViewHolder;
+    OfferCouponSummaryView couponView;
 
     OfferActionButton btnWebsite;
     OfferActionButton btnMap;
@@ -98,12 +102,12 @@ public class OfferDetailView extends LinearLayout implements OfferTagsView.OnTag
             storeOffersView.setVisibility(offer.getCompany().getOfferCount() > 1 ? VISIBLE : GONE);
 
             // Tags
-            if (offer.getTags().size() > 0) {
-                tagsViewHolder.setVisibility(VISIBLE);
-                tagsView.setOffer(offer);
-            } else {
-                tagsViewHolder.setVisibility(GONE);
-            }
+            tagsViewHolder.setVisibility(offer.getTags().size() > 0 ? VISIBLE : GONE);
+            tagsView.setOffer(offer);
+
+            // Coupons
+            couponViewHolder.setVisibility(offer.getRedemptionCode() != null ? VISIBLE : GONE);
+            couponView.setOffer(offer);
 
             boolean hasLocation = offer.hasLocation();
             imgDisclosureAddress.setVisibility(hasLocation ? VISIBLE : GONE);
@@ -150,6 +154,9 @@ public class OfferDetailView extends LinearLayout implements OfferTagsView.OnTag
         tagsViewHolder = findViewById(R.id.tagsViewHolder);
         tagsView = (OfferTagsView) findViewById(R.id.tagsView);
         tagsView.setOnTagSelectedListener(this);
+        couponViewHolder = findViewById(R.id.couponViewHolder);
+        couponView = (OfferCouponSummaryView) findViewById(R.id.couponView);
+        couponView.setListener(this);
 
         OnClickListener clickListener = new OnClickListener() {
             @Override
@@ -204,5 +211,10 @@ public class OfferDetailView extends LinearLayout implements OfferTagsView.OnTag
     @Override
     public void onTagSelected(String tag) {
         if (listener != null) listener.onTagSelected(tag);
+    }
+
+    @Override
+    public void onCouponSelected(Offer offer) {
+        if (listener != null) listener.onCouponSelected(offer);
     }
 }

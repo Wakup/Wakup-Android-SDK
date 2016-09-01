@@ -30,6 +30,7 @@ public class RemoteImageView extends AspectKeepFrameLayout {
 
     public RemoteImageView(Context context) {
         super(context);
+        init(null, 0);
     }
 
     public RemoteImageView(Context context, AttributeSet attrs) {

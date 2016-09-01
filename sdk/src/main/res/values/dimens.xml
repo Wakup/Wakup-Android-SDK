@@ -13,4 +13,5 @@
     <dimen name="wk_pulltorefresh_margin">10dp</dimen>
     <dimen name="wk_card_gap">4dp</dimen>
 
+    <dimen name="wk_coupon_padding">50dp</dimen>
 </resources>

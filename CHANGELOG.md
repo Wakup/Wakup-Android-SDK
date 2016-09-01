@@ -3,9 +3,17 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-- Replaced ActionBar by Toolbar
-- Replaced offers ListView by RecyclerView
 
+### Added
+- Included offer tags functionality: now it is possible to search and navigate through the offer tags
+- Included offer redemption codes viewing (mainly barcode and QR Codes)
+
+### Changed
+- Replaced ActionBar by AppCompat Toolbar with material design
+- Replaced offers ListView by RecyclerView
+- Offer categories used to filter are now customizable in SDK setup
+- Store map pin icons are now customizable depending on offer tags in SDK setup
+ 
 ## [1.2.2] - 2016-02-29
 ### Changed
 - Improved displayed message and behavior on connectivity errors

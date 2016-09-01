@@ -13,7 +13,7 @@
         android:id="@+id/content_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/wk_white">
+        android:background="@drawable/wk_modal_background">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="New text"
-                android:background="@drawable/wk_clickable_view"
+                android:background="@drawable/wk_ripple_effect"
                 android:autoLink="web"
                 android:id="@+id/textView"/>
 

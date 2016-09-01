@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/selectableItemBackground">
+
+    <com.yellowpineapple.wakup.sdk.views.ColorImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgIcon"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/wk_ic_barcode"
+        app:imageColor="@color/wk_main_text" />
+
+    <TextView
+        style="@style/WakupTheme.Text.Bold"
+        android:id="@+id/txtTitle"
+        android:text="@string/wk_offer_coupon_show"
+        android:textSize="@dimen/wk_medium_text"
+        android:layout_marginLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/imgIcon"
+        android:layout_toRightOf="@+id/imgIcon"
+        android:layout_toLeftOf="@+id/imgDisclosure"
+        android:layout_toStartOf="@+id/imgDisclosure" />
+
+    <com.yellowpineapple.wakup.sdk.views.ColorImageView
+        android:id="@+id/imgDisclosure"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:imageColor="@color/wk_light_text"
+        android:src="@drawable/wk_ic_disclosure"/>
+
+</RelativeLayout>

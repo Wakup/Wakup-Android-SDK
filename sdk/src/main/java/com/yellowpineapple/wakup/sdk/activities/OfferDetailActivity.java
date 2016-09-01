@@ -10,7 +10,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.yellowpineapple.wakup.sdk.R;
+import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetRedemptionCodeRequest;
 import com.yellowpineapple.wakup.sdk.models.Offer;
+import com.yellowpineapple.wakup.sdk.models.RedemptionCodeDetail;
 import com.yellowpineapple.wakup.sdk.models.SearchResultItem;
 import com.yellowpineapple.wakup.sdk.utils.IntentBuilder;
 import com.yellowpineapple.wakup.sdk.utils.PersistenceHandler;
@@ -76,7 +78,7 @@ public class OfferDetailActivity extends OfferListActivity implements OfferDetai
 
     protected void injectViews() {
         super.injectViews();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recyclerView = (RecyclerView) findViewById(R.id.grid_view);
         ptrLayout = (PullToRefreshLayout) findViewById(R.id.ptr_layout);
     }
@@ -139,6 +141,24 @@ public class OfferDetailActivity extends OfferListActivity implements OfferDetai
         List<String> tags = Collections.singletonList(tag);
         SearchResultActivity.intent(this).searchItem(tagItem).tags(tags).start();
         slideInTransition();
+    }
+
+    @Override
+    public void onCouponSelected(final Offer offer) {
+        setLoading(true);
+        getRequestClient().getRedemptionCode(offer, new GetRedemptionCodeRequest.Listener() {
+            @Override
+            public void onSuccess(RedemptionCodeDetail codeDetail) {
+                setLoading(false);
+                OfferCouponsActivity.intent(OfferDetailActivity.this, offer, codeDetail).start();
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                setLoading(false);
+                displayErrorDialog(exception);
+            }
+        });
     }
 
     // Menu

@@ -34,6 +34,13 @@
         </activity>
 
         <activity
+            android:name=".activities.OfferCouponsActivity"
+            android:theme="@style/WakupTheme.Dialog"
+            android:noHistory="true"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
             android:name=".activities.OfferMapActivity"
             android:theme="@style/WakupTheme"
             android:label="@string/wk_activity_map">

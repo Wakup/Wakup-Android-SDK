@@ -207,7 +207,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:background="@drawable/wk_clickable_view">
+        android:background="?attr/selectableItemBackground">
 
         <View
             android:layout_width="match_parent"
@@ -306,6 +306,24 @@
             android:layout_margin="5dp"
             app:buttonText="@string/wk_action_offer_share"
             app:buttonIcon="@drawable/wk_action_share"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/couponViewHolder">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/wk_background"/>
+
+        <com.yellowpineapple.wakup.sdk.views.OfferCouponSummaryView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/couponView"/>
 
     </LinearLayout>
 
