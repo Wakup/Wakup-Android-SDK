@@ -11,4 +11,10 @@
     <!-- No titles -->
     <string name="wk_activity_offers">@null</string>
 
+    <!-- Tag buttons -->
+    <color name="wk_tag_active_bg">@color/wk_primary_pressed</color>
+    <color name="wk_tag_pressed_bg">@color/wk_primary</color>
+    <color name="wk_tag_active_border">@color/wk_primary</color>
+    <color name="wk_tag_pressed_border">@color/wk_primary</color>
+
 </resources>

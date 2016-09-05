@@ -14,4 +14,5 @@
     <dimen name="wk_card_gap">4dp</dimen>
 
     <dimen name="wk_coupon_padding">50dp</dimen>
+    <dimen name="wk_tags_padding">3dp</dimen>
 </resources>

@@ -51,6 +51,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.2.0'
     // Carousel view
     compile 'com.synnapps:carouselview:0.0.9'
+    // Tags Flow Layout
+    compile 'org.apmem.tools:layouts:1.10@aar'
 }
 
 install {

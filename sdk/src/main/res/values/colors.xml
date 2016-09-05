@@ -49,6 +49,7 @@
     <color name="wk_action_active">@color/wk_primary</color>
     <color name="wk_action_pressed">@color/wk_white</color>
     <color name="wk_action_inactive">@color/wk_light_text</color>
+
     <!-- Deep Customization -->
     <color name="wk_action_active_bg">@color/wk_action_active</color>
     <color name="wk_action_pressed_bg">@color/wk_action_active</color>
@@ -66,10 +67,19 @@
     <color name="wk_search_header_bg">#F6F6F6</color>
     <color name="wk_search_list_bg">@color/wk_white</color>
     <color name="wk_search_icon">@color/wk_light_text</color>
+
     <!-- Category colors -->
     <color name="wk_search_cat_leisure">@color/wk_action_active</color>
     <color name="wk_search_cat_restaurants">@color/wk_action_active</color>
     <color name="wk_search_cat_services">@color/wk_action_active</color>
     <color name="wk_search_cat_shopping">@color/wk_action_active</color>
+
+    <!-- Tag button -->
+    <color name="wk_tag_active_bg">@color/wk_primary</color>
+    <color name="wk_tag_pressed_bg">@color/wk_primary_pressed</color>
+    <color name="wk_tag_active_border">@color/wk_primary_pressed</color>
+    <color name="wk_tag_pressed_border">@color/wk_primary_pressed</color>
+    <color name="wk_tag_text">@color/wk_white</color>
+
 
 </resources>
