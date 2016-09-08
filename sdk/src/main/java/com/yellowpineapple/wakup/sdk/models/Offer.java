@@ -20,7 +20,6 @@ public class Offer implements Serializable {
     int id;
     boolean isOnline;
     CompanyDetail company;
-    Category category;
     String description;
     String shortDescription;
     String shortOffer;
@@ -123,10 +122,6 @@ public class Offer implements Serializable {
 
     public CompanyDetail getCompany() {
         return company;
-    }
-
-    public Category getCategory() {
-        return category;
     }
 
     public String getDescription() {

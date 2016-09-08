@@ -136,6 +136,11 @@ public class OfferMapActivity
 
     }
 
+    private int getOfferIcon(Offer offer) {
+        // TODO Get Offer Category from its tags
+        return getPersistence().getOptions().getMapPins().get(0).getIconResId();
+    }
+
     private void displayInMap(List<Offer> offers) {
         if (offers != null) {
             for (Offer offer : offers) {
@@ -143,7 +148,7 @@ public class OfferMapActivity
                     Store store = offer.getStore();
                     final Marker storeMarker = googleMap.addMarker(
                             new MarkerOptions()
-                                    .icon(BitmapDescriptorFactory.fromResource(offer.getCategory().getIconResId()))
+                                    .icon(BitmapDescriptorFactory.fromResource(getOfferIcon(offer)))
                                     .position(new LatLng(store.getLatitude(), store.getLongitude()))
                                     .title(offer.getCompany().getName())
                                     .snippet(store.getAddress()));
@@ -294,7 +299,7 @@ public class OfferMapActivity
     @Override
     protected void injectViews() {
         super.injectViews();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mapFragment = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment));
         afterViews();
     }

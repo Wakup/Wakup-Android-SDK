@@ -4,19 +4,18 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.models.Category;
+import com.yellowpineapple.wakup.sdk.utils.PersistenceHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFiltersView extends FrameLayout {
 
-    OfferActionButton btnLeisure;
-    OfferActionButton btnRestaurants;
-    OfferActionButton btnServices;
-    OfferActionButton btnShopping;
+    List<SearchFilterButton> buttons = new ArrayList<>();
 
     public SearchFiltersView(Context context) {
         super(context);
@@ -39,11 +38,7 @@ public class SearchFiltersView extends FrameLayout {
 
     private void injectViews() {
         inflate(getContext(), R.layout.wk_view_search_filters, this);
-        btnLeisure = ((OfferActionButton) findViewById(R.id.btnLeisure));
-        btnServices = ((OfferActionButton) findViewById(R.id.btnServices));
-        btnRestaurants = ((OfferActionButton) findViewById(R.id.btnRestaurants));
-        btnShopping = ((OfferActionButton) findViewById(R.id.btnShopping));
-
+        LinearLayout buttonsContainer = (LinearLayout) findViewById(R.id.buttonsContainer);
         OnClickListener onClickListener = new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,9 +46,15 @@ public class SearchFiltersView extends FrameLayout {
             }
         };
 
-        OfferActionButton[] buttons = new OfferActionButton[] {
-                btnRestaurants, btnLeisure, btnServices, btnShopping
-        };
+        PersistenceHandler persistenceHandler = PersistenceHandler.getSharedInstance(getContext());
+        List<Category> categories = persistenceHandler.getOptions().getCategories();
+        for (Category category : categories) {
+            SearchFilterButton button = new SearchFilterButton(getContext());
+            button.setCategory(category);
+            button.setOnClickListener(onClickListener);
+            buttonsContainer.addView(button);
+        }
+
         for (OfferActionButton button : buttons) {
             button.setOnClickListener(onClickListener);
         }
@@ -61,10 +62,9 @@ public class SearchFiltersView extends FrameLayout {
 
     public List<Category> getSelectedCategories() {
         List<Category> categories = new ArrayList<>();
-        if (btnLeisure.isSelected()) categories.add(Category.LEISURE);
-        if (btnRestaurants.isSelected()) categories.add(Category.RESTAURANTS);
-        if (btnServices.isSelected()) categories.add(Category.SERVICES);
-        if (btnShopping.isSelected()) categories.add(Category.SHOPPING);
+        for (SearchFilterButton button : buttons) {
+            if (button.isSelected()) categories.add(button.getCategory());
+        }
         return categories;
     }
 }

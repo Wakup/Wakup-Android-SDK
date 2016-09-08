@@ -18,9 +18,6 @@ import android.widget.TextView;
 
 import com.yellowpineapple.wakup.sdk.R;
 
-/**
- * Created by agutierrez on 05/02/15.
- */
 public class OfferActionButton extends FrameLayout {
 
     static final int[] SELECTED_STATE_SET = new int[] { android.R.attr.state_selected, android.R.attr.state_enabled };
@@ -28,8 +25,8 @@ public class OfferActionButton extends FrameLayout {
     static final int[] DISABLED_STATE_SET = new int[] { - android.R.attr.state_enabled };
     static final int[] DEFAULT_STATE_SET = new int[] { android.R.attr.state_enabled };
 
-    CharSequence text;
-    Drawable icon;
+    CharSequence text = null;
+    Drawable icon = null;
     int iconColor = 0;
     Float fontSize = 0f;
 
@@ -54,18 +51,17 @@ public class OfferActionButton extends FrameLayout {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.OfferActionButton);
             if (a.hasValue(R.styleable.OfferActionButton_buttonText)) {
                 String text = a.getString(R.styleable.OfferActionButton_buttonText);
-                setText(text);
+                this.text = text;
             }
             if (a.hasValue(R.styleable.OfferActionButton_buttonIconColor)) {
-                iconColor = a.getColor(R.styleable.OfferActionButton_buttonIconColor,
+                this.iconColor = a.getColor(R.styleable.OfferActionButton_buttonIconColor,
                         ContextCompat.getColor(getContext(), R.color.wk_action_active_icon));
             }
             if (a.hasValue(R.styleable.OfferActionButton_buttonIcon)) {
-                Drawable icon = a.getDrawable(R.styleable.OfferActionButton_buttonIcon);
-                setIcon(icon);
+                this.icon = a.getDrawable(R.styleable.OfferActionButton_buttonIcon);
             }
             if (a.hasValue(R.styleable.OfferActionButton_buttonFontSize)) {
-                fontSize = a.getDimension(R.styleable.OfferActionButton_buttonFontSize, 0f);
+                this.fontSize = a.getDimension(R.styleable.OfferActionButton_buttonFontSize, 0f);
             }
             a.recycle();
         }
@@ -75,13 +71,11 @@ public class OfferActionButton extends FrameLayout {
     private void init() {
         injectViews();
         // Set text
-        setText(text);
+        if (text != null) setText(text);
         // Set image
-        setIcon(icon);
+        if (icon != null) setIcon(icon, iconColor);
         // Set font size
-        if (fontSize > 0) {
-            txtAction.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize);
-        }
+        if (fontSize > 0) setFontSize(fontSize);
     }
 
     private void injectViews() {
@@ -102,7 +96,11 @@ public class OfferActionButton extends FrameLayout {
         }
     }
 
-    public void setIcon(Drawable icon) {
+    public void setIcon(int iconResource, int iconColor) {
+        setIcon(getResources().getDrawable(iconResource), iconColor);
+    }
+
+    public void setIcon(Drawable icon, int iconColor) {
         this.icon = icon;
         if (imgIcon != null) {
             if (!isInEditMode()) {
@@ -130,6 +128,11 @@ public class OfferActionButton extends FrameLayout {
                 imgIcon.setImageDrawable(icon);
             }
         }
+    }
+
+    public void setFontSize(Float fontSize) {
+        this.fontSize = fontSize;
+        txtAction.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize);
     }
 
     public BitmapDrawable drawableToBitmap(Drawable drawable) {
