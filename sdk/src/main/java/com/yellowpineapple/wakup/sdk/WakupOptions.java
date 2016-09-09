@@ -3,7 +3,7 @@ package com.yellowpineapple.wakup.sdk;
 import android.location.Location;
 
 import com.yellowpineapple.wakup.sdk.models.Category;
-import com.yellowpineapple.wakup.sdk.models.MapPin;
+import com.yellowpineapple.wakup.sdk.models.MapMarker;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,15 +32,15 @@ public class WakupOptions {
     );
     List<Category> categories = DEFAULT_CATEGORIES;
 
-    final static List<MapPin> DEFAULT_MAP_PINS = Arrays.asList(
-            new MapPin(R.drawable.wk_pin_leisure,     "leisure"),
-            new MapPin(R.drawable.wk_pin_restaurants, "restaurants"),
-            new MapPin(R.drawable.wk_pin_services,    "services"),
-            new MapPin(R.drawable.wk_pin_shopping,    "shopping"),
-            new MapPin(R.drawable.wk_pin_unknown)
+    final static List<MapMarker> DEFAULT_MAP_PINS = Arrays.asList(
+            new MapMarker(R.drawable.wk_pin_leisure,     "leisure"),
+            new MapMarker(R.drawable.wk_pin_restaurants, "restaurants"),
+            new MapMarker(R.drawable.wk_pin_services,    "services"),
+            new MapMarker(R.drawable.wk_pin_shopping,    "shopping"),
+            new MapMarker(R.drawable.wk_pin_unknown)
     );
 
-    List<MapPin> mapPins = DEFAULT_MAP_PINS;
+    List<MapMarker> mapPins = DEFAULT_MAP_PINS;
 
     /**
      * Creates an Options object to setup the Wakup SDK
@@ -117,7 +117,7 @@ public class WakupOptions {
         return categories;
     }
 
-    public List<MapPin> getMapPins() {
+    public List<MapMarker> getMapPins() {
         return mapPins;
     }
 }

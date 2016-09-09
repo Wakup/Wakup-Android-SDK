@@ -25,7 +25,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.communications.requests.OfferListRequestListener;
-import com.yellowpineapple.wakup.sdk.models.MapPin;
+import com.yellowpineapple.wakup.sdk.models.MapMarker;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.models.Store;
 import com.yellowpineapple.wakup.sdk.utils.ImageOptions;
@@ -73,7 +73,7 @@ public class OfferMapActivity
 
     private Handler mainThreadHandler = new Handler(Looper.getMainLooper());
 
-    List<MapPin> mapPinCategories;
+    List<MapMarker> mapPinCategories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,7 +147,7 @@ public class OfferMapActivity
         if (mapPinCategories != null && mapPinCategories.size() > 0) {
             List<String> offerTags = offer.getTags();
             if (offerTags != null && offerTags.size() > 0) {
-                for (MapPin category: mapPinCategories) {
+                for (MapMarker category: mapPinCategories) {
                     if (category.getTags() != null && category.getTags().length > 0) {
                         List<String> categoryTags = Arrays.asList(category.getTags());
                         // Disjoint will return true when collections have no elements in common
