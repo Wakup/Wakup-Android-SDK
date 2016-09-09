@@ -1,7 +1,7 @@
 package com.yellowpineapple.wakup.sdk.models;
 
 /**
- * Created by agutierrez on 10/02/15.
+ * Representation of an offer category used to filter the search results
  */
 public class Category {
 
@@ -10,6 +10,15 @@ public class Category {
     int iconResId;
     int iconColorResId;
 
+    /**
+     * Creates a representation of an offer category that will be offered to the user to filter
+     * search results using the selected tags
+     *
+     * @param nameResId Name that will be displayed in filter button
+     * @param iconResId Icon that will be displayed in filter button
+     * @param iconColorResId Color for de icon
+     * @param tags Array of tags that will be allowed for results when the filter is applied
+     */
     public Category(int nameResId, int iconResId, int iconColorResId, String... tags) {
         this.tags = tags;
         this.nameResId = nameResId;
