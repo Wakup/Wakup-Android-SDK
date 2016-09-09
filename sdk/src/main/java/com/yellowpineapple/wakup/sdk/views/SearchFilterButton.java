@@ -29,7 +29,7 @@ public class SearchFilterButton extends OfferActionButton {
     }
 
     void init() {
-        setFontSize((float) getResources().getDimensionPixelSize(R.dimen.wk_small_text));
+        setFontSize((float) getResources().getDimensionPixelSize(R.dimen.wk_category_button_text));
     }
 
     public void setCategory(Category category) {

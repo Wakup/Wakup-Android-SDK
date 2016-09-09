@@ -9,8 +9,8 @@ import com.yellowpineapple.wakup.sdk.R;
 
 public class AspectKeepFrameLayout extends FrameLayout {
 
-    int virtualHeight;
-    int virtualWidth;
+    int virtualHeight = 1;
+    int virtualWidth = 1;
 
     public AspectKeepFrameLayout(Context context) {
         super(context);

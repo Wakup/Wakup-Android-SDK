@@ -30,7 +30,7 @@ public class WakupOptions {
             new Category(R.string.wk_category_services, R.drawable.wk_cat_services, R.color.wk_search_cat_services, "services"),
             new Category(R.string.wk_category_shopping, R.drawable.wk_cat_shopping, R.color.wk_search_cat_shopping, "shopping")
     );
-    List<Category> categories = null;
+    List<Category> categories = DEFAULT_CATEGORIES;
 
     final static List<MapPin> DEFAULT_MAP_PINS = Arrays.asList(
             new MapPin(R.drawable.wk_pin_leisure,     "leisure"),
@@ -40,7 +40,7 @@ public class WakupOptions {
             new MapPin(R.drawable.wk_pin_unknown)
     );
 
-    List<MapPin> mapPins = null;
+    List<MapPin> mapPins = DEFAULT_MAP_PINS;
 
     /**
      * Creates an Options object to setup the Wakup SDK
@@ -79,10 +79,12 @@ public class WakupOptions {
     }
 
     /**
+     * Set the categories available to filter in search results.
      *
+     * Each category contains a list of tags that will be used to filter search results.
      *
-     * @param categories
-     * @return
+     * @param categories Desired search filter categories
+     * @return options instance to allow in-line setup
      */
     public WakupOptions categories(List<Category> categories) {
         this.categories = categories;
@@ -112,10 +114,10 @@ public class WakupOptions {
     }
 
     public List<Category> getCategories() {
-        return categories != null ? categories : DEFAULT_CATEGORIES;
+        return categories;
     }
 
     public List<MapPin> getMapPins() {
-        return mapPins != null ? mapPins : DEFAULT_MAP_PINS;
+        return mapPins;
     }
 }

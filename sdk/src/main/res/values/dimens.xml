@@ -15,4 +15,9 @@
 
     <dimen name="wk_coupon_padding">50dp</dimen>
     <dimen name="wk_tags_padding">3dp</dimen>
+
+    <!-- Filter buttons -->
+    <dimen name="wk_category_button_size">75dp</dimen>
+    <dimen name="wk_category_button_text">@dimen/wk_small_text</dimen>
+    <dimen name="wk_category_button_margin">8dp</dimen>
 </resources>

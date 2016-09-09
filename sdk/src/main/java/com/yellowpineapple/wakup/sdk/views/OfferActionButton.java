@@ -12,13 +12,12 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yellowpineapple.wakup.sdk.R;
 
-public class OfferActionButton extends FrameLayout {
+public class OfferActionButton extends AspectKeepFrameLayout {
 
     static final int[] SELECTED_STATE_SET = new int[] { android.R.attr.state_selected, android.R.attr.state_enabled };
     static final int[] PRESSED_STATE_SET = new int[] { android.R.attr.state_pressed, android.R.attr.state_enabled };
@@ -97,7 +96,7 @@ public class OfferActionButton extends FrameLayout {
     }
 
     public void setIcon(int iconResource, int iconColor) {
-        setIcon(getResources().getDrawable(iconResource), iconColor);
+        setIcon(getResources().getDrawable(iconResource), getResources().getColor(iconColor));
     }
 
     public void setIcon(Drawable icon, int iconColor) {

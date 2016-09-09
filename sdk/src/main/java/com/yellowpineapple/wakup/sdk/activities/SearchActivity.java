@@ -117,8 +117,12 @@ public class SearchActivity extends ParentActivity {
                 slideInTransition();
             }
         });
-        filtersView = new SearchFiltersView(this);
-        listView.addHeaderView(filtersView, null, false);
+        List<Category> categories = getPersistence().getOptions().getCategories();
+
+        if (categories != null && categories.size() > 0) {
+            filtersView = new SearchFiltersView(this, categories);
+            listView.addHeaderView(filtersView, null, false);
+        }
         listView.setAdapter(listAdapter);
         refreshList();
     }
@@ -131,7 +135,7 @@ public class SearchActivity extends ParentActivity {
                     View child = vg.getChildAt(i);
                     View editText = getEditText(context, child);
 
-                    if (editText instanceof EditText) {
+                    if (editText != null) {
                         return (EditText) editText;
                     }
                 }
