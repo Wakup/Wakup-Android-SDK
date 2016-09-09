@@ -11,7 +11,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -50,17 +49,6 @@ public abstract class ParentActivity extends LocationActivity {
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
-
-        ActionBar actionBar = getActionBar();
-        if (actionBar != null) {
-            // Retrieve the current set of display options
-            final int displayOptions = actionBar.getDisplayOptions();
-            // Determine which display options are enabled
-            final boolean isHomeAsUpEnabled = (displayOptions & ActionBar.DISPLAY_HOME_AS_UP) != 0;
-            if (isHomeAsUpEnabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                actionBar.setHomeAsUpIndicator(R.drawable.wk_actionbar_back);
-            }
-        }
 
         requestClient = RequestClient.getSharedInstance(this);
         persistence = PersistenceHandler.getSharedInstance(this);

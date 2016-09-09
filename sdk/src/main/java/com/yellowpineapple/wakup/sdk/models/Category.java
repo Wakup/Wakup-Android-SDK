@@ -1,5 +1,7 @@
 package com.yellowpineapple.wakup.sdk.models;
 
+import com.yellowpineapple.wakup.sdk.R;
+
 /**
  * Representation of an offer category used to filter the search results
  */
@@ -12,7 +14,19 @@ public class Category {
 
     /**
      * Creates a representation of an offer category that will be offered to the user to filter
-     * search results using the selected tags
+     * search results using the selected tags. This category will use the default color.
+     *
+     * @param nameResId Name that will be displayed in filter button
+     * @param iconResId Icon that will be displayed in filter button
+     * @param tags Array of tags that will be allowed for results when the filter is applied
+     */
+    public Category(int nameResId, int iconResId, String... tags) {
+        this(nameResId, iconResId, R.color.wk_action_active, tags);
+    }
+
+    /**
+     * Creates a representation of an offer category with custom color that will be offered to the
+     * user to filter search results using the selected tags
      *
      * @param nameResId Name that will be displayed in filter button
      * @param iconResId Icon that will be displayed in filter button

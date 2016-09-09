@@ -91,7 +91,7 @@ public class OfferMapActivity
         }
         preloadCompanyLogos(offers);
         mapFragment.getMapAsync(this);
-        mapPinCategories = getPersistence().getOptions().getMapPins();
+        mapPinCategories = getPersistence().getOptions().getMapMarkers();
     }
 
     void preloadCompanyLogos(List<Offer> offers) {

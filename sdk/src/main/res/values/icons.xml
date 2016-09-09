@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Root section ActionBar -->
-    <drawable name="wk_actionbar_logo_root">@android:color/transparent</drawable>
-    <drawable name="wk_actionbar_back_root">@drawable/wk_ic_nav_back</drawable>
-
-    <!-- Default ActionBar -->
-    <drawable name="wk_actionbar_logo">@android:color/transparent</drawable>
-    <drawable name="wk_actionbar_back">@drawable/wk_ic_nav_back</drawable>
-
     <!-- Navigation -->
     <drawable name="wk_nav_big_offer">@drawable/wk_ic_nav_big_offer</drawable>
     <drawable name="wk_nav_map">@drawable/wk_ic_nav_map</drawable>

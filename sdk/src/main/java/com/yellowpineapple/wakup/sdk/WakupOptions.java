@@ -17,12 +17,14 @@ public class WakupOptions {
     /** Wakup Client API Key */
     private String apiKey = null;
 
-    /**  */
+    /** Country for address search  */
     private String country = "ES";
 
     /** Default Coordinates for offers search when geo-location is disabled */
     private double defaultLatitude = 40.41678;
     private double defaultLongitude = -3.70379;
+
+    private boolean showBackInRoot = false;
 
     final static List<Category> DEFAULT_CATEGORIES = Arrays.asList(
             new Category(R.string.wk_category_leisure, R.drawable.wk_cat_leisure, R.color.wk_search_cat_leisure,  "leisure"),
@@ -32,7 +34,7 @@ public class WakupOptions {
     );
     List<Category> categories = DEFAULT_CATEGORIES;
 
-    final static List<MapMarker> DEFAULT_MAP_PINS = Arrays.asList(
+    final static List<MapMarker> DEFAULT_MAP_MARKERS = Arrays.asList(
             new MapMarker(R.drawable.wk_pin_leisure,     "leisure"),
             new MapMarker(R.drawable.wk_pin_restaurants, "restaurants"),
             new MapMarker(R.drawable.wk_pin_services,    "services"),
@@ -40,7 +42,7 @@ public class WakupOptions {
             new MapMarker(R.drawable.wk_pin_unknown)
     );
 
-    List<MapMarker> mapPins = DEFAULT_MAP_PINS;
+    List<MapMarker> mapMarkers = DEFAULT_MAP_MARKERS;
 
     /**
      * Creates an Options object to setup the Wakup SDK
@@ -91,6 +93,32 @@ public class WakupOptions {
         return this;
     }
 
+    /**
+     * Set the customized markers to display offers in Map View
+     * Each marker is associated with an array of tags and will represent all the offers that
+     * contains any of the selected tags.
+     * If no tags are included in the Marker, it will be used as default when the offer does not
+     * match with other markers.
+     *
+     * @param mapMarkers List of markers to represent offers in the MapView
+     * @return options instance to allow in-line setup
+     */
+    public WakupOptions mapMarkers(List<MapMarker> mapMarkers) {
+        this.mapMarkers = mapMarkers;
+        return this;
+    }
+
+    /**
+     * Defines if the back navigation button should be displayed in the Toolbar of the Root activity.
+     * Default is false.
+     * @param showBackInRoot true to display back navigation button in Root activity
+     * @return  options instance to allow in-line setup
+     */
+    public WakupOptions showBackInRoot(boolean showBackInRoot) {
+        this.showBackInRoot = showBackInRoot;
+        return this;
+    }
+
     /* Getters */
 
     public String getApiKey() {
@@ -117,7 +145,11 @@ public class WakupOptions {
         return categories;
     }
 
-    public List<MapMarker> getMapPins() {
-        return mapPins;
+    public List<MapMarker> getMapMarkers() {
+        return mapMarkers;
+    }
+
+    public boolean showBackInRoot() {
+        return showBackInRoot;
     }
 }
