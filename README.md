@@ -165,15 +165,15 @@ Wakup Activities uses two different customizable Appbars:
 
 - The first ActionBar is used for the main (or root) activity
   
-  ![](http://i.imgur.com/btq2Rq9.png)
+![](http://i.imgur.com/btq2Rq9.png)
   
   That includes a navigation bar:
   
-  ![](http://i.imgur.com/jh6Sz22.png)
+![](http://i.imgur.com/jh6Sz22.png)
 
 - The second ActionBar is displayed in the rest of the application sections
 
-  ![](http://i.imgur.com/GNV07MH.png)
+![](http://i.imgur.com/GNV07MH.png)
 
 It is possible to customize the colors of the App bar...
 
