@@ -3,7 +3,13 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-No changes
+
+No pending changes
+
+## [2.0.1] - 2016-09-12
+
+###Changed
+- Updated Android Play Services library version to 9.4.0
 
 ## [2.0.0] - 2016-09-12
 
@@ -58,7 +64,8 @@ No changes
 ### Added
 - First fully functional public release.
 
-[Unreleased]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.2.2...v2.0.0
 [1.2.2]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.2.0...v1.2.1
