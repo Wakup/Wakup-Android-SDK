@@ -1,7 +1,7 @@
 Wakup SDK Library
 ==================
 
-[![Download](https://api.bintray.com/packages/wakup/sdk/android-sdk/images/download.svg)](https://bintray.com/wakup/sdk/android-sdk/_latestVersion) [ ![Method Count](https://img.shields.io/badge/Methods count-core: 1789 | deps: 27515-e91e63.svg)](http://www.methodscount.com/?lib=com.wakup.android%3Asdk%3A1.2.2)
+[![Download](https://api.bintray.com/packages/wakup/sdk/android-sdk/images/download.svg)](https://bintray.com/wakup/sdk/android-sdk/_latestVersion) [ ![Method Count](https://img.shields.io/badge/Methods count-core: 1789 | deps: 27515-e91e63.svg)](http://www.methodscount.com/?lib=com.wakup.android%3Asdk%3A2.0.0)
 
 Native Android SDK for [Wakup platform](http://wakup.net).
 
@@ -15,7 +15,7 @@ Include this dependency in the `build.gradle` file of your application project m
 
 ```groovy
 dependencies {
-    compile 'com.wakup.android:sdk:1.2.2'
+    compile 'com.wakup.android:sdk:2.0.0'
 }
 ```
 
@@ -35,23 +35,29 @@ To start the main Wakup activity, that will be the entry point for the entire of
 Wakup.instance(this).launch(
         new WakupOptions("WAKUP_API_KEY").          // Auth API Key
                 country("ES").                      // Region for address search
-                defaultLocation(41.38506, 2.17340)  // For disabled location devices
+                defaultLocation(41.38506, 2.17340). // For disabled location devices
+                showBackInRoot(true)                // Display or not back button in Wakup
 );
 
 ```
 
 Trough the `WakupOptions` object it is possible to setup the following parameters:
 
-- **Api Key** (mandatory): Authentication token for your application
-- **Country**: [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1) used for region filter on places search
-- **Default location**: coordinates to find offers near to when the user does not allow application access to device location
+| Parameter | Description |
+|-----------|-------------|
+| **apiKey** | Included in the constructor, is the authentication token for your application |
+| **country** | [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1) used for region filter on places search. Default is `"ES"`.
+| **defaultLocation** | Default coordinates when device location is not available. Default location is Madrid.
+| **showBackInRoot** | Defines if the back navigation button should be displayed in Wakup Main activity. Default is `false`.
+| **categories** | List of categories to be used as filter in search results. If null of empty, no filters will be displayed.
+| **mapMarkers** | Customized markers to represent offers in Map View.
 
 ## Customization
 
 Wakup uses its own theme with preset styles, icons and colors that can be easily customized.
 The default Wakup appearance looks like the following:
 
-[![](http://i.imgur.com/ooIBrcWm.png)](http://i.imgur.com/ooIBrcW.png) [![](http://i.imgur.com/TJsEQNAm.png)](http://i.imgur.com/TJsEQNA.png) [![](http://i.imgur.com/sHaR41nm.png)](http://i.imgur.com/sHaR41n.png)
+[![](http://i.imgur.com/r48ftsEm.png)](http://i.imgur.com/r48ftsE.png) [![](http://i.imgur.com/WvISmNbm.png)](http://i.imgur.com/WvISmNb.png) [![](http://i.imgur.com/Rnz2cEfm.png)](http://i.imgur.com/Rnz2cEf.png)
 
 The application appearance can be customized by overriding the resources used by the styles and layouts of the Wakup SDK. This resources contains the prefix `'wk_'` to avoid clashing with client application resources.
 
@@ -142,6 +148,9 @@ Wakup SDK provides a method to customize easily the typeface used in the applica
 <string name="wk_font_short_offer">fonts/AllerDisplay.ttf</string>
 ```
 
+Note that the Category object constructor takes the Array of tags as a [vararg](http://docs.oracle.com/javase/tutorial/java/javaOO/arguments.html#varargs) that allows to include all the tags as seperated parameters avoiding the need of creating a `String[]` instance.
+
+
 ### Deep customization
 
 If a more thorough customization is required, you can also override the secondary colors (that are mostly based in previously defined primary colors) that will allow to set colors to every section more precisely.
@@ -149,11 +158,18 @@ If a more thorough customization is required, you can also override the secondar
 Following are described the different views of the application that can be customized, including the associated resources:
 
 #### Action bar
+
+The action bar is present in all the activities, and offers back navigation, context information and options menu.
+
 Wakup Activities uses two different customizable Appbars:
 
 - The first ActionBar is used for the main (or root) activity
   
   ![](http://i.imgur.com/btq2Rq9.png)
+  
+  That includes a navigation bar:
+  
+  ![](http://i.imgur.com/jh6Sz22.png)
 
 - The second ActionBar is displayed in the rest of the application sections
 
@@ -169,14 +185,13 @@ It is possible to customize the colors of the App bar...
     <drawable name="wk_actionbar_back">@drawable/wk_ic_nav_back</drawable>
 ```
 
-... or the appeareance by directly overriding the layout `wk_toolbar`:
+... or the appeareance by directly overriding the layout `wk_toolbar.xml` or `wk_toolbar_root.xml`:
 
-##### wk_toolbar
+##### Include logo
 
-*Example: Toolbar with Progressbar and a centered ImageView (logo)*
+In the following example we customize `wk_toolbar_root.xml` to include a centered ImageView that will display a logo only on root activity:
    
 ```xml
-
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.Toolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -219,11 +234,9 @@ To hide title use empty Strings in the [activity titles](#strings)</a>.
 
 #### Navigation bar
 
-`wk_root_navbar.xml` is a navigation bar with its own styles
-
-##### wk_ root_navbar
-
 ![](http://i.imgur.com/jh6Sz22.png)
+
+Throug the following resources it is easy to change icons or color of the navigation bar:
 
 ```xml
 <!-- Colors -->
@@ -237,52 +250,7 @@ To hide title use empty Strings in the [activity titles](#strings)</a>.
 <drawable name="wk_nav_my_offers">@drawable/wk_ic_nav_my_offers</drawable>
 ```
 
-You can customize the Navigationbar by overriding `wk_root_navbar.xml`:
-
-*Example: LinearLayout with sections that can be removed (in this case 2 instead of 3)*
-
-```xml
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/navigationView"
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:background="@color/wk_navbar_bg"
-    app:layout_scrollFlags="scroll|enterAlways">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <com.yellowpineapple.wakup.sdk.views.NavBarButton
-            android:id="@+id/btnBigOffer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:navText="@string/wk_big_offer"
-            app:navIcon="@drawable/wk_nav_big_offer"/>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp"
-            android:layout_height="match_parent"
-            android:background="@color/wk_navbar_divider"/>
-
-        <com.yellowpineapple.wakup.sdk.views.NavBarButton
-            android:id="@+id/btnMap"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:navText="@string/wk_offers_map"
-            app:navIcon="@drawable/wk_nav_map"/>
-
-    </LinearLayout>
-
-</LinearLayout>
-```
+If a deeper customization is required, it is possible to override `wk_root_navbar.xml` layout.
 
 #### Offer item
 
@@ -299,14 +267,21 @@ You can customize the Navigationbar by overriding `wk_root_navbar.xml`:
 ```
 #### Offer detail
 
-![](http://i.imgur.com/sDpRiiwm.png?1)
+[![](http://i.imgur.com/WvISmNbm.png)](http://i.imgur.com/WvISmNb.png)
 
 ```xml
 <!-- Colors -->
 <color name="wk_store_offers">@color/wk_secondary_reverse</color>
 <color name="wk_store_offers_bg">@color/wk_secondary</color>
 <color name="wk_store_offers_bg_pressed">@color/wk_secondary_pressed</color>
+<!-- Tag button -->
+<color name="wk_tag_active_bg">@color/wk_primary</color>
+<color name="wk_tag_pressed_bg">@color/wk_primary_pressed</color>
+<color name="wk_tag_active_border">@color/wk_primary_pressed</color>
+<color name="wk_tag_pressed_border">@color/wk_primary_pressed</color>
+<color name="wk_tag_text">@color/wk_white</color>
 ```
+
 #### Offer actions
 
 ![](http://i.imgur.com/cGItnT0m.png)
@@ -354,7 +329,11 @@ To change the default circle background, it would be required to override the de
 
 #### Search view
 
-![](http://i.imgur.com/sMJl5z0m.png)
+This view allows users to find places, brands or tags and filter results using categories.
+
+[![](http://i.imgur.com/SnlkUYAm.png)](http://i.imgur.com/SnlkUYA.png)
+
+To customize texts, colors or icons
 
 ```xml
 <!-- Colors -->
@@ -376,11 +355,39 @@ To change the default circle background, it would be required to override the de
 <!-- Result item icons -->
 <drawable name="wk_search_brand">@drawable/wk_ic_search_brand</drawable>
 <drawable name="wk_search_geo">@drawable/wk_ic_search_geo</drawable>
+<drawable name="wk_search_tag">@drawable/wk_ic_search_tag</drawable>
+```
+
+It is also possible to customize the filters that can be selected by the users and applied in the search results. This will allow to show only results of offers that match any of the tags contained in the selected categories.
+
+To change the default values, it is needed to include an array of Categories with the desired options in the WakupOptions object of the setup method:
+
+```java
+List<Category> categories = Arrays.asList(
+        new Category(R.string.cat_book, R.drawable.cat_book, "books", "ebooks"),
+        new Category(R.string.cat_leisure, R.drawable.cat_leisure, "bowling", "cinema"),
+        new Category(R.string.cat_tech, R.drawable.cat_tech, "technology"),
+        new Category(R.string.cat_promo, R.drawable.promo, "offers", "promotions"),
+        new Category(R.string.cat_partners, R.drawable.partners, "partners")
+);
+
+Wakup.instance(this).launch(
+        new WakupOptions("WAKUP_API_KEY").
+                categories(categories)
+);
+
 ```
 
 #### Offers map
 
-![](http://i.imgur.com/0bCSGksm.png)
+[![](http://i.imgur.com/Rnz2cEfm.png)](http://i.imgur.com/Rnz2cEf.png)
+
+The icon for the Map Marker that represents an offer location will change depending on the tags associated with the displayed offer.
+
+Default markers will show different icons for offers with the following tags:
+
+
+You can change the icon used for the default categories by updating its drawable reference:
 
 ```xml
 <!-- Icons (colored) -->
@@ -390,6 +397,29 @@ To change the default circle background, it would be required to override the de
 <drawable name="wk_pin_services">@drawable/wk_ic_pin_services</drawable>
 <drawable name="wk_pin_shopping">@drawable/wk_ic_pin_shopping</drawable>
 ```
+
+It is also possible to customize the tag categories that determine the used Map Marker for each case.
+
+To do so, include an Collection of MapMarker objects in the WakupOptions object created for the setup method:
+
+```java
+List<MapMarker> mapMarkers = Arrays.asList(
+        new MapMarker(R.drawable.pin_books, "books", "ebooks"),
+        new MapMarker(R.drawable.pin_leisure, "leisure"),
+        new MapMarker(R.drawable.pin_tech, "technology"),
+        new MapMarker(R.drawable.pin_promo, "offers", "promotions"),
+        new MapMarker(R.drawable.pin_restaurants, "restaurants"),
+        new MapMarker(R.drawable.pin_default)
+);
+
+// Wakup
+Wakup.instance(this).launch(
+        new WakupOptions("WAKUP_API_KEY").
+                mapMarkers(mapMarkers)
+);
+```
+
+Each Map Marker will contain the associated icon and an array of offer tags that will be represented by it. To include a default icon for offers that does not match any of the tags of the another markers, you can use the constructor with no tags.
 
 #### Empty result views
 
@@ -424,3 +454,5 @@ The following dependencies are used in the project:
 * [Calligraphy](https://github.com/chrisjenx/Calligraphy): Allows setting custom typeface to Text Views
 * [Universal-Image-Loader](https://github.com/nostra13/Android-Universal-Image-Loader): Library to load and cache images by URL
 * [Autofit TextView](https://github.com/grantland/android-autofittextview): Auto shrink large texts to adapt to available space
+* [Carousel View](https://github.com/sayyam/carouselview): Horizontal view pager with page indicator
+* [Flow layout](https://github.com/ApmeM/android-flowlayout): Linear layout, that wrap its content to the next line if there is no space in the current line.
