@@ -17,6 +17,7 @@ No changes
 - Offer categories used to filter are now customizable in SDK setup
 - Store map pin icons are now customizable depending on offer tags in SDK setup
 - Now it is required to set `showBackInRoot(true)` in setup to show navigation back in main activity
+- Updated Android build tools and target SDK to last available version: 24
  
 ## [1.2.2] - 2016-02-29
 ### Changed
