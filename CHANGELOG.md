@@ -6,12 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 No pending changes
 
-## [2.0.1] - 2016-09-12
-
-###Changed
-- Updated Android Play Services library version to 9.4.0
-
-## [2.0.0] - 2016-09-12
+## [2.0.2] - 2016-09-13
 
 ### Added
 - Included offer tags functionality: now it is possible to search and navigate through the offer tags
@@ -24,6 +19,7 @@ No pending changes
 - Store map pin icons are now customizable depending on offer tags in SDK setup
 - Now it is required to set `showBackInRoot(true)` in setup to show navigation back in main activity
 - Updated Android build tools and target SDK to last available version: 24
+- Updated Android Play Services library version to 9.4.0
  
 ## [1.2.2] - 2016-02-29
 ### Changed
@@ -64,9 +60,8 @@ No pending changes
 ### Added
 - First fully functional public release.
 
-[Unreleased]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.0.1...HEAD
-[2.0.1]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.0.0...v2.0.1
-[2.0.0]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.2.2...v2.0.0
+[Unreleased]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.0.2...HEAD
+[2.0.2]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.2.2...v2.0.2
 [1.2.2]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.1.0...v1.2.0

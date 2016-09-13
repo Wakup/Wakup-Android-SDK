@@ -76,7 +76,7 @@ public class OffersActivity extends OfferListActivity {
         finish();
     }
 
-    void bigOfferPressed(View view) {
+    public void bigOfferPressed(View view) {
         String bigOfferUrl = getWakup().getBigOffer();
         WebViewActivity.intent(this).
                 url(bigOfferUrl).
@@ -86,14 +86,14 @@ public class OffersActivity extends OfferListActivity {
         slideInTransition();
     }
 
-    void mapButtonPressed(View view) {
+    public void mapButtonPressed(View view) {
         int MAX_MAP_OFFERS = 20;
         List<Offer> mapOffers = new ArrayList<>(offers.subList(0, Math.min(MAX_MAP_OFFERS, offers.size())));
         OfferMapActivity.intent(this).offers(mapOffers).location(currentLocation).start();
         slideInTransition();
     }
 
-    void myOffersPressed(View view) {
+    public void myOffersPressed(View view) {
         SavedOffersActivity.intent(this).start();
         slideInTransition();
     }
@@ -133,6 +133,7 @@ public class OffersActivity extends OfferListActivity {
     public static Builder intent(Context context) {
         return new Builder(context);
     }
+
     public static class Builder extends IntentBuilder<OffersActivity> {
         public Builder(Context context) {
             super(OffersActivity.class, context);
