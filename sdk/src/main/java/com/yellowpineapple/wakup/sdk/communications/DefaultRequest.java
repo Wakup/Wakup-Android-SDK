@@ -66,7 +66,7 @@ public abstract class DefaultRequest implements Request {
     @Override
     public void cancel() {
         canceled = true;
-        this.requestLauncher.cancelRequest(this);
+		if (this.requestLauncher != null) this.requestLauncher.cancelRequest(this);
     }
 
     public HttpMethod getHttpMethod() {
