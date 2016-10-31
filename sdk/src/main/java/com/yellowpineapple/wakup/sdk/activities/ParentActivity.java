@@ -307,25 +307,53 @@ public abstract class ParentActivity extends LocationActivity {
 
     /* Offer sharing */
 
+    Offer sharedOffer = null;
     void shareOffer(final Offer offer) {
-        setSupportProgressBarIndeterminateVisibility(true);
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            this.sharedOffer = offer;
+            requestStoragePermission();
+            return;
+        }
         ImageLoader.getInstance().loadImage(offer.getImage().getUrl(), ImageOptions.get(),
                 new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                        setSupportProgressBarIndeterminateVisibility(false);
                         displayErrorDialog(getString(R.string.wk_share_offer_error));
                     }
 
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        setSupportProgressBarIndeterminateVisibility(false);
                         String shareTitle = getString(R.string.wk_share_offer_title);
                         String text = String.format(getString(R.string.wk_share_offer_subject), offer.getCompany().getName(), offer.getShortDescription());
-                        String fileName = String.format("101_offer_%d.png", offer.getId());
+                        String fileName = String.format(Locale.ENGLISH, "wakup_offer_%d.png", offer.getId());
                         ShareManager.shareImage(ParentActivity.this, loadedImage, fileName, shareTitle, text);
                     }
                 });
+    }
+
+    protected final static int PERMISSION_REQUEST_STORAGE = 0x90;
+    void requestStoragePermission() {
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                PERMISSION_REQUEST_STORAGE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case PERMISSION_REQUEST_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission is granted
+                    shareOffer(sharedOffer);
+                }
+            }
+        }
     }
 
     public void setLoading(boolean loading) {
