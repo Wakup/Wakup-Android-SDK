@@ -9,9 +9,9 @@ import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -29,8 +29,9 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.utils.Ln;
+import com.yellowpineapple.wakup.sdk.utils.PersistenceHandler;
 
-public abstract class LocationActivity extends AppCompatActivity {
+public class LocationActivity extends AppCompatActivity {
 
     protected class LocationException extends Exception {
         protected LocationException(String message) {
@@ -84,7 +85,7 @@ public abstract class LocationActivity extends AppCompatActivity {
             });
             googleApiClient.registerConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
                 @Override
-                public void onConnectionFailed(ConnectionResult connectionResult) {
+                public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
                     if (mResolvingError) {
                         // If connection to Google Services failed, try to obtain location directly from provider
                         Toast.makeText(getApplicationContext(), "Could not obtain location: Connection to Google API Services failed", Toast.LENGTH_SHORT).show();
@@ -132,7 +133,7 @@ public abstract class LocationActivity extends AppCompatActivity {
                 LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
         result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
             @Override
-            public void onResult(LocationSettingsResult result) {
+            public void onResult(@NonNull LocationSettingsResult result) {
                 final Status status = result.getStatus();
                 switch (status.getStatusCode()) {
                     case LocationSettingsStatusCodes.SUCCESS:
@@ -209,7 +210,7 @@ public abstract class LocationActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSION_REQUEST_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
@@ -220,7 +221,6 @@ public abstract class LocationActivity extends AppCompatActivity {
                 } else {
                     locationListener.onLocationError(new Exception("Permission denied"));
                 }
-                return;
             }
         }
     }
@@ -292,7 +292,7 @@ public abstract class LocationActivity extends AppCompatActivity {
         public ErrorDialogFragment() { }
 
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
+        public Dialog onCreateDialog(@NonNull Bundle savedInstanceState) {
             // Get the error code and retrieve the appropriate dialog
             int errorCode = this.getArguments().getInt(DIALOG_ERROR);
             return GooglePlayServicesUtil.getErrorDialog(errorCode,
@@ -309,24 +309,32 @@ public abstract class LocationActivity extends AppCompatActivity {
      * Checks if the user has been already requested to enable location in this session
      * @return true if the user has been already asked to enable location
      */
-    public abstract boolean isLocationAsked();
-
-    /**
-     * Set whether the user has been already asked or not to enable device location.
-     * This value should be stored for the current session.
-     */
-    public abstract void setLocationAsked(boolean locationAsked);
+    public boolean isLocationAsked() {
+        return PersistenceHandler.getSharedInstance(this).isLocationAsked();
+    }
 
     /**
      * Checks if the user has been already requested to give location permissions to the
      * application in this session
      * @return true if the user has been already asked to give permissions
      */
-    public abstract boolean isLocationPermissionAsked();
+    public boolean isLocationPermissionAsked() {
+        return PersistenceHandler.getSharedInstance(this).isLocationPermissionAsked();
+    }
+
+    /**
+     * Set whether the user has been already asked or not to enable device location.
+     * This value will be stored for the current session.
+     */
+    public void setLocationAsked(boolean locationAsked) {
+        PersistenceHandler.getSharedInstance(this).setLocationAsked(locationAsked);
+    }
 
     /**
      * Set whether the user has been already asked or not to enable location permissions for the
      * application. This value should be stored for the current session.
      */
-    public abstract void setLocationPermissionAsked(boolean permissionAsked);
+    public void setLocationPermissionAsked(boolean permissionAsked) {
+        PersistenceHandler.getSharedInstance(this).setLocationPermissionAsked(permissionAsked);
+    }
 }

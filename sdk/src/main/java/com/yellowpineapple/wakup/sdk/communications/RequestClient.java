@@ -7,6 +7,7 @@ import com.yellowpineapple.wakup.sdk.Wakup;
 import com.yellowpineapple.wakup.sdk.communications.requests.BaseRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.OfferListRequestListener;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.CompanyOffersRequest;
+import com.yellowpineapple.wakup.sdk.communications.requests.offers.FeaturedOffersRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.FindOffersRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetCouponImageRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetOffersByIdRequest;
@@ -109,6 +110,10 @@ public class RequestClient {
 
     public Request getCompanyOffers(CompanyDetail company, Store store, int page, OfferListRequestListener listener) {
         return launch(new CompanyOffersRequest(company, store, page, BaseRequest.RESULTS_PER_PAGE, listener));
+    }
+
+    public Request getFeaturedOffers(Location location, OfferListRequestListener listener) {
+        return launch(new FeaturedOffersRequest(location, listener));
     }
 
     public Request getRedemptionCode(Offer offer, GetRedemptionCodeRequest.Listener listener) {

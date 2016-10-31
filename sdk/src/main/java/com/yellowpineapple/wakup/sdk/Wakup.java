@@ -5,12 +5,14 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.yellowpineapple.wakup.sdk.activities.OfferDetailActivity;
 import com.yellowpineapple.wakup.sdk.activities.OffersActivity;
 import com.yellowpineapple.wakup.sdk.communications.Request;
 import com.yellowpineapple.wakup.sdk.communications.RequestClient;
 import com.yellowpineapple.wakup.sdk.communications.requests.register.RegisterRequest;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.models.RegistrationInfo;
+import com.yellowpineapple.wakup.sdk.utils.Ln;
 import com.yellowpineapple.wakup.sdk.utils.PersistenceHandler;
 
 public class Wakup {
@@ -35,9 +37,30 @@ public class Wakup {
         return sharedInstance;
     }
 
+    public void launch() {
+        if (getOptions() != null) {
+            OffersActivity.intent(context).start();
+        } else {
+            Ln.e("WAKUP NOT LAUNCHING. OPTIONS NOT PROVIDED");
+        }
+    }
+
     public void launch(WakupOptions options) {
         persistence.setOptions(options);
         OffersActivity.intent(context).start();
+    }
+
+    public void launchWithOffer(Offer offer) {
+        if (getOptions() != null) {
+            OffersActivity.intent(context).start();
+            OfferDetailActivity.intent(context).offer(offer).start();
+        } else {
+            Ln.e("WAKUP NOT LAUNCHING. OPTIONS NOT PROVIDED");
+        }
+    }
+
+    public void setup(WakupOptions options) {
+        persistence.setOptions(options);
     }
 
     public WakupOptions getOptions() {

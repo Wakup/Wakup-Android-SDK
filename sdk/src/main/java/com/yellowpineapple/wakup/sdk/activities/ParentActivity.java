@@ -1,5 +1,6 @@
 package com.yellowpineapple.wakup.sdk.activities;
 
+import android.Manifest;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -8,10 +9,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -33,6 +38,7 @@ import com.yellowpineapple.wakup.sdk.utils.PersistenceHandler;
 import com.yellowpineapple.wakup.sdk.utils.ShareManager;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -369,26 +375,5 @@ public abstract class ParentActivity extends LocationActivity {
         }
 
 
-    }
-
-
-    @Override
-    public boolean isLocationAsked() {
-        return getPersistence().isLocationAsked();
-    }
-
-    @Override
-    public void setLocationAsked(boolean locationAsked) {
-        getPersistence().setLocationAsked(locationAsked);
-    }
-
-    @Override
-    public boolean isLocationPermissionAsked() {
-        return getPersistence().isLocationPermissionAsked();
-    }
-
-    @Override
-    public void setLocationPermissionAsked(boolean permissionAsked) {
-        getPersistence().setLocationPermissionAsked(permissionAsked);
     }
 }
