@@ -13,8 +13,15 @@
     <dimen name="wk_pulltorefresh_margin">10dp</dimen>
     <dimen name="wk_card_gap">4dp</dimen>
 
-    <dimen name="wk_coupon_padding">50dp</dimen>
+    <dimen name="wk_carousel_paging_padding">50dp</dimen>
+
+    <dimen name="wk_coupon_padding">@dimen/wk_carousel_paging_padding</dimen>
     <dimen name="wk_tags_padding">3dp</dimen>
+
+    <dimen name="wk_carousel_widget_padding">10dp</dimen>
+    <dimen name="wk_carousel_widget_height">200dp</dimen>
+    <dimen name="wk_carousel_info_min_width">160dp</dimen>
+    <dimen name="wk_carousel_info_min_width_">-160dp</dimen>
 
     <!-- Filter buttons -->
     <dimen name="wk_category_button_size">75dp</dimen>
