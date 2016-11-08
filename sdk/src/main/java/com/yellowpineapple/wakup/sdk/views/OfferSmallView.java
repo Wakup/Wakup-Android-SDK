@@ -25,6 +25,7 @@ public abstract class OfferSmallView extends FrameLayout {
 
 
     Offer offer;
+    Display display = Display.BRAND_AND_NAME;
 
     /* Views */
     RemoteImageView offerImageView;
@@ -65,18 +66,6 @@ public abstract class OfferSmallView extends FrameLayout {
 
     private void init(AttributeSet attrs, int defStyle) {
         injectViews();
-        // Ensure that the description fits allowed lines by component height
-        ViewTreeObserver observer = txtDescription.getViewTreeObserver();
-        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                int maxLines = (int) txtDescription.getHeight()
-                        / txtDescription.getLineHeight();
-                txtDescription.setMaxLines(maxLines);
-                txtDescription.setEllipsize(TextUtils.TruncateAt.END);
-                txtDescription.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-            }
-        });
     }
 
     private void injectViews() {
@@ -109,27 +98,33 @@ public abstract class OfferSmallView extends FrameLayout {
     public void setOffer(Offer offer, Location currentLocation) {
         this.offer = offer;
         offerImageView.setImage(offer.getThumbnail());
-        txtCompany.setText(offer.getCompany().getName());
-        txtDescription.setText(offer.getShortDescription());
-        txtDistance.setText(offer.getHumanizedDistance(getContext(), currentLocation));
-        txtExpiration.setText(offer.getHumanizedExpiration(getContext()));
+        if (txtCompany != null) txtCompany.setText(offer.getCompany().getName());
+        if (txtDescription != null) txtDescription.setText(offer.getShortDescription());
+        if (txtDistance != null) txtDistance.setText(offer.getHumanizedDistance(getContext(), currentLocation));
+        if (txtExpiration != null) txtExpiration.setText(offer.getHumanizedExpiration(getContext()));
         createShortOfferLabel(offer);
     }
 
+    public void setDisplay(Display display) {
+        this.display = display;
+    }
+
     private void createShortOfferLabel(Offer offer) {
-        viewShortOffer.removeAllViews();
+        if (viewShortOffer != null) {
+            viewShortOffer.removeAllViews();
 
-        float maxSize = getContext().getResources().getDimension(R.dimen.wk_title_text);
-        float minSize = getContext().getResources().getDimension(R.dimen.wk_small_text);
+            float maxSize = getContext().getResources().getDimension(R.dimen.wk_title_text);
+            float minSize = getContext().getResources().getDimension(R.dimen.wk_small_text);
 
-        AutofitTextView txtShortOffer = (AutofitTextView) ((Activity) getContext()).getLayoutInflater().inflate(R.layout.wk_textview_shortoffer, null);
-        txtShortOffer.setMaxTextSize(TypedValue.COMPLEX_UNIT_PX, maxSize);
-        txtShortOffer.setMinTextSize(TypedValue.COMPLEX_UNIT_PX, minSize);
-        txtShortOffer.setText(offer.getShortOffer());
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        layoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
-        viewShortOffer.addView(txtShortOffer, layoutParams);
+            AutofitTextView txtShortOffer = (AutofitTextView) ((Activity) getContext()).getLayoutInflater().inflate(R.layout.wk_textview_shortoffer, null);
+            txtShortOffer.setMaxTextSize(TypedValue.COMPLEX_UNIT_PX, maxSize);
+            txtShortOffer.setMinTextSize(TypedValue.COMPLEX_UNIT_PX, minSize);
+            txtShortOffer.setText(offer.getShortOffer());
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            layoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
+            viewShortOffer.addView(txtShortOffer, layoutParams);
+        }
     }
 
     public Offer getOffer() {
@@ -137,5 +132,9 @@ public abstract class OfferSmallView extends FrameLayout {
     }
 
 
+    public enum Display {
+        BRAND_AND_NAME,
+        NAME_AND_DESCRIPTION
+    }
 
 }
