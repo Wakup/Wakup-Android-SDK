@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         app:imageColor="@color/wk_navbar_text"
-        android:src="@drawable/wk_ic_location"/>
+        android:src="@drawable/wk_ic_location"
+        android:background="@color/wk_transparent"/>
 
     <TextView
         android:id="@+id/txtAction"
@@ -26,6 +27,7 @@
         android:textAppearance="@style/WakupTheme.Text.Regular"
         android:layout_marginLeft="8dp"
         android:enabled="false"
-        android:text="Offer Action"/>
+        android:text="Offer Action"
+        android:background="@color/wk_transparent"/>
 
 </LinearLayout>
