@@ -112,8 +112,8 @@ public class RequestClient {
         return launch(new CompanyOffersRequest(company, store, page, BaseRequest.RESULTS_PER_PAGE, listener));
     }
 
-    public Request getFeaturedOffers(Location location, OfferListRequestListener listener) {
-        return launch(new FeaturedOffersRequest(location, listener));
+    public Request getFeaturedOffers(Location location, int page, int perPage, OfferListRequestListener listener) {
+        return launch(new FeaturedOffersRequest(location, page, perPage, listener));
     }
 
     public Request getRedemptionCode(Offer offer, GetRedemptionCodeRequest.Listener listener) {

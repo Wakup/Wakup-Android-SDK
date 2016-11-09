@@ -15,14 +15,14 @@ group = "com.wakup.android"                               // Maven Group ID for 
 
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
 
     resourcePrefix 'wk_'
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionName libraryVersion
         versionCode libraryVersionCode
 
@@ -38,17 +38,17 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.google.android.gms:play-services-maps:9.4.0'
-    compile 'com.google.android.gms:play-services-location:9.4.0'
+    compile 'com.google.android.gms:play-services-maps:9.8.0'
+    compile 'com.google.android.gms:play-services-location:9.8.0'
     compile 'com.google.code.gson:gson:2.4'
-    compile 'uk.co.chrisjenx:calligraphy:2.0.1'
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
     compile 'me.grantland:autofittextview:0.2.1'
     compile 'cz.msebera.android:httpclient:4.4.1.1'
-    compile 'com.android.support:appcompat-v7:24.2.0'
-    compile 'com.android.support:design:24.2.0'
-    compile 'com.android.support:cardview-v7:24.2.0'
-    compile 'com.android.support:recyclerview-v7:24.2.0'
+    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.android.support:design:25.0.0'
+    compile 'com.android.support:cardview-v7:25.0.0'
+    compile 'com.android.support:recyclerview-v7:25.0.0'
     // Carousel view
     compile 'com.synnapps:carouselview:0.0.10'
     // Tags Flow Layout
@@ -106,7 +106,7 @@ bintray {
         version {
             name = libraryVersion
             desc = 'Wakup SDK for Android ' + libraryVersion
-            released  = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ").format(new java.util.Date())
+            released  = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ").format(new Date())
             vcsTag = 'v' + libraryVersion
         }
     }

@@ -8,11 +8,11 @@
         android:id="@+id/carouselView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:fillColor="@color/wk_primary"
-        app:pageColor="@color/wk_white"
+        app:fillColor="@color/wk_carousel_indicator_active"
+        app:pageColor="@color/wk_carousel_indicator_page"
+        app:strokeColor="@color/wk_carousel_indicator_border"
         app:radius="6dp"
-        app:autoPlay="false"
-        app:strokeColor="#FF777777"
+        app:autoPlay="true"
         app:strokeWidth="1dp" />
 
 </FrameLayout>

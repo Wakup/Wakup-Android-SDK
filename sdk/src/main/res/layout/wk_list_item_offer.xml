@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:text="New Text"
                 style="@style/WakupTheme.Text.Italic"
-                android:id="@+id/txtDescription" />
+                android:id="@+id/txtShortDescription" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -120,19 +120,25 @@
                 </LinearLayout>
 
                 <RelativeLayout
-                    android:id="@+id/viewShortOffer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/infoView">
 
-                    <include
+                    <FrameLayout
+                        android:id="@+id/viewShortOffer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        layout="@layout/wk_textview_shortoffer"
-                        android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true">
+
+                        <include
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            layout="@layout/wk_textview_shortoffer" />
+
+                    </FrameLayout>
 
                 </RelativeLayout>
 

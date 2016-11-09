@@ -41,7 +41,7 @@ public class Wakup {
         if (getOptions() != null) {
             OffersActivity.intent(context).start();
         } else {
-            Ln.e("WAKUP NOT LAUNCHING. OPTIONS NOT PROVIDED");
+            Ln.e("WAKUP NOT LAUNCHING. OPTIONS NOT PROVIDED. Call 'setup(WakupOptions) first'");
         }
     }
 
@@ -52,10 +52,9 @@ public class Wakup {
 
     public void launchWithOffer(Offer offer) {
         if (getOptions() != null) {
-            OffersActivity.intent(context).start();
             OfferDetailActivity.intent(context).offer(offer).start();
         } else {
-            Ln.e("WAKUP NOT LAUNCHING. OPTIONS NOT PROVIDED");
+            Ln.e("WAKUP NOT LAUNCHING. OPTIONS NOT PROVIDED. Call 'setup(WakupOptions) first'");
         }
     }
 

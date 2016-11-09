@@ -81,5 +81,11 @@
     <color name="wk_tag_pressed_border">@color/wk_primary_pressed</color>
     <color name="wk_tag_text">@color/wk_white</color>
 
+    <!-- Carousel widget -->
+    <color name="wk_carousel_indicator_page">@color/wk_secondary_reverse</color>
+    <color name="wk_carousel_indicator_active">@color/wk_secondary</color>
+    <color name="wk_carousel_indicator_border">@color/wk_light_text</color>
+
+
 
 </resources>

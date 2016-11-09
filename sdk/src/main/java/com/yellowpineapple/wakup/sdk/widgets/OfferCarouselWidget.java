@@ -12,18 +12,20 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ViewListener;
 import com.yellowpineapple.wakup.sdk.R;
+import com.yellowpineapple.wakup.sdk.Wakup;
 import com.yellowpineapple.wakup.sdk.communications.RequestClient;
 import com.yellowpineapple.wakup.sdk.communications.requests.OfferListRequestListener;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.utils.ImageOptions;
 import com.yellowpineapple.wakup.sdk.views.OfferCarouselItemView;
+import com.yellowpineapple.wakup.sdk.views.OfferSmallView;
 
 import java.util.List;
 
 /**
  * Created by agutierrez on 3/11/16.
  */
-public class OfferCarouselWidget extends LinearLayout {
+public class OfferCarouselWidget extends LinearLayout implements OfferSmallView.Listener {
 
     Location location;
 
@@ -58,9 +60,15 @@ public class OfferCarouselWidget extends LinearLayout {
     }
 
     public void loadOffers(Location location) {
+        int DEFAULT_OFFER_COUNT = 5;
+        loadOffers(location, DEFAULT_OFFER_COUNT);
+    }
+
+    public void loadOffers(Location location, int offerCount) {
         this.location = location;
         if (location != null) {
-            RequestClient.getSharedInstance(getContext()).getFeaturedOffers(location, new OfferListRequestListener() {
+            int FIRST_PAGE = 0;
+            RequestClient.getSharedInstance(getContext()).getFeaturedOffers(location, FIRST_PAGE, offerCount, new OfferListRequestListener() {
                 @Override
                 public void onSuccess(List<Offer> offers) {
                     displayOffers(offers);
@@ -99,10 +107,20 @@ public class OfferCarouselWidget extends LinearLayout {
             OfferCarouselItemView offerView = new OfferCarouselItemView(getContext());
             Offer offer = offers.get(position);
             offerView.setOffer(offer, location);
+            offerView.setListener(OfferCarouselWidget.this);
             int paddingBottom = getResources().getDimensionPixelSize(R.dimen.wk_coupon_padding);
             int padding = getResources().getDimensionPixelSize(R.dimen.wk_carousel_widget_padding);
             offerView.setPadding(padding, 0, padding, paddingBottom);
             return offerView;
         }
+    }
+
+    @Override
+    public void onClick(Offer offer) {
+        Wakup.instance(getContext()).launchWithOffer(offer);
+    }
+
+    @Override
+    public void onLongClick(Offer offer) {
     }
 }

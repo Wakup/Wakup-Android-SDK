@@ -23,15 +23,14 @@ import me.grantland.widget.AutofitTextView;
  */
 public abstract class OfferSmallView extends FrameLayout {
 
-
     Offer offer;
-    Display display = Display.BRAND_AND_NAME;
 
     /* Views */
     RemoteImageView offerImageView;
     TextView txtCompany;
+    TextView txtShortDescription;
     TextView txtDescription;
-    RelativeLayout viewShortOffer;
+    ViewGroup viewShortOffer;
     TextView txtDistance;
     TextView txtExpiration;
     View rippleView;
@@ -71,8 +70,9 @@ public abstract class OfferSmallView extends FrameLayout {
     private void injectViews() {
         inflate(getContext(), getLayoutResource(), this);
         txtDistance = ((TextView) findViewById(R.id.txtDistance));
-        viewShortOffer = ((RelativeLayout) findViewById(R.id.viewShortOffer));
+        viewShortOffer = ((ViewGroup) findViewById(R.id.viewShortOffer));
         txtExpiration = ((TextView) findViewById(R.id.txtExpiration));
+        txtShortDescription = ((TextView) findViewById(R.id.txtShortDescription));
         txtDescription = ((TextView) findViewById(R.id.txtDescription));
         txtCompany = ((TextView) findViewById(R.id.txtCompany));
         offerImageView = ((RemoteImageView) findViewById(R.id.offerImageView));
@@ -99,14 +99,11 @@ public abstract class OfferSmallView extends FrameLayout {
         this.offer = offer;
         offerImageView.setImage(offer.getThumbnail());
         if (txtCompany != null) txtCompany.setText(offer.getCompany().getName());
-        if (txtDescription != null) txtDescription.setText(offer.getShortDescription());
+        if (txtShortDescription != null) txtShortDescription.setText(offer.getShortDescription());
+        if (txtDescription != null) txtDescription.setText(offer.getDescription());
         if (txtDistance != null) txtDistance.setText(offer.getHumanizedDistance(getContext(), currentLocation));
         if (txtExpiration != null) txtExpiration.setText(offer.getHumanizedExpiration(getContext()));
         createShortOfferLabel(offer);
-    }
-
-    public void setDisplay(Display display) {
-        this.display = display;
     }
 
     private void createShortOfferLabel(Offer offer) {
@@ -120,21 +117,13 @@ public abstract class OfferSmallView extends FrameLayout {
             txtShortOffer.setMaxTextSize(TypedValue.COMPLEX_UNIT_PX, maxSize);
             txtShortOffer.setMinTextSize(TypedValue.COMPLEX_UNIT_PX, minSize);
             txtShortOffer.setText(offer.getShortOffer());
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            layoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             viewShortOffer.addView(txtShortOffer, layoutParams);
         }
     }
 
     public Offer getOffer() {
         return offer;
-    }
-
-
-    public enum Display {
-        BRAND_AND_NAME,
-        NAME_AND_DESCRIPTION
     }
 
 }

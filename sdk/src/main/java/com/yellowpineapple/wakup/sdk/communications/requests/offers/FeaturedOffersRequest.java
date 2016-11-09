@@ -21,9 +21,10 @@ public class FeaturedOffersRequest extends BaseRequest {
     /* Properties */
     OfferListRequestListener listener;
 
-    public FeaturedOffersRequest(Location location, OfferListRequestListener listener) {
+    public FeaturedOffersRequest(Location location, int page, int perPage, OfferListRequestListener listener) {
         super();
         this.httpMethod = HttpMethod.GET;
+        addPagination(page, perPage);
         addSegmentParams(SEGMENTS);
         if (location != null) {
             addParam("latitude", location.getLatitude());

@@ -1,5 +1,6 @@
 package com.yellowpineapple.wakup;
 
+import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +9,8 @@ import com.yellowpineapple.wakup.sdk.Wakup;
 import com.yellowpineapple.wakup.sdk.WakupOptions;
 import com.yellowpineapple.wakup.sdk.activities.LocationActivity;
 import com.yellowpineapple.wakup.sdk.widgets.OfferCarouselWidget;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class DemoActivity extends LocationActivity {
 
@@ -42,5 +45,11 @@ public class DemoActivity extends LocationActivity {
                 carouselWidget.displayError("Location is not enabled");
             }
         });
+    }
+
+    /* Include custom Wakup fonts */
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
