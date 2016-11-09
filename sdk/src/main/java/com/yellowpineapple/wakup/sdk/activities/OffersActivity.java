@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.Wakup;
@@ -44,6 +45,34 @@ public class OffersActivity extends OfferListActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         navigationView = findViewById(R.id.navigationView);
         ptrLayout = ((PullToRefreshLayout) findViewById(R.id.ptr_layout));
+        // Set actions for Navigation bar
+        View btnBigOffer = findViewById(R.id.btnBigOffer);
+        if (btnBigOffer != null) {
+            btnBigOffer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    bigOfferPressed();
+                }
+            });
+        }
+        View btnMap = findViewById(R.id.btnMap);
+        if (btnMap != null) {
+            btnMap.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mapButtonPressed();
+                }
+            });
+        }
+        View btnMyOffers = findViewById(R.id.btnMyOffers);
+        if (btnMyOffers != null) {
+            btnMyOffers.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    myOffersPressed();
+                }
+            });
+        }
         afterViews();
     }
 
@@ -76,7 +105,7 @@ public class OffersActivity extends OfferListActivity {
         finish();
     }
 
-    public void bigOfferPressed(View view) {
+    void bigOfferPressed() {
         String bigOfferUrl = getWakup().getBigOffer();
         WebViewActivity.intent(this).
                 url(bigOfferUrl).
@@ -86,14 +115,14 @@ public class OffersActivity extends OfferListActivity {
         slideInTransition();
     }
 
-    public void mapButtonPressed(View view) {
+    void mapButtonPressed() {
         int MAX_MAP_OFFERS = 20;
         List<Offer> mapOffers = new ArrayList<>(offers.subList(0, Math.min(MAX_MAP_OFFERS, offers.size())));
         OfferMapActivity.intent(this).offers(mapOffers).location(currentLocation).start();
         slideInTransition();
     }
 
-    public void myOffersPressed(View view) {
+    void myOffersPressed() {
         SavedOffersActivity.intent(this).start();
         slideInTransition();
     }
