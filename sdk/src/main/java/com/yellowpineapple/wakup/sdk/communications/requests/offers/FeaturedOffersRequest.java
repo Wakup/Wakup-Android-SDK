@@ -16,7 +16,7 @@ public class FeaturedOffersRequest extends BaseRequest {
 
     /* Constants */
 	/* Segments */
-    final static String[] SEGMENTS = new String[] { "offers", "find" };
+    final static String[] SEGMENTS = new String[] { "offers", "recommended" };
 
     /* Properties */
     OfferListRequestListener listener;
