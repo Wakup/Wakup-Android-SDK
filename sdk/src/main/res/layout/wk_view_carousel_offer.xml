@@ -52,6 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
+                    android:background="@color/wk_transparent"
                     android:text="New Text"
                     style="@style/WakupTheme.Text.Title" />
 
@@ -60,6 +61,7 @@
                     android:layout_marginTop="2dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/wk_transparent"
                     android:text="New Text"
                     android:layout_below="@+id/txtCompany"
                     style="@style/WakupTheme.Text.Italic" />

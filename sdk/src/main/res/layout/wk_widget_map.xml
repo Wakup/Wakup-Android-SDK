@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="120dp"
+    android:padding="@dimen/wk_map_widget_padding"
+    android:theme="@style/WakupTheme">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/wk_offer_list_view_bg"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp">
+
+            </com.google.android.gms.maps.MapView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/txtTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="@string/wk_widget_map_title"
+                    android:textColor="@color/wk_light_text"
+                    android:textSize="@dimen/wk_small_text"
+                    style="@style/WakupTheme.Text.Italic"/>
+
+                <com.yellowpineapple.wakup.sdk.views.DynamicLinesTextView
+                    android:id="@+id/txtAddress"
+                    android:layout_below="@+id/txtTitle"
+                    android:layout_above="@+id/callToActionView"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center_vertical|start"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <RelativeLayout
+                    android:id="@+id/callToActionView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true">
+
+                    <com.yellowpineapple.wakup.sdk.views.ColorImageView
+                        android:id="@+id/imgDistance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        app:imageColor="@color/wk_light_text"
+                        android:src="@drawable/wk_ic_location"/>
+
+                    <TextView
+                        android:id="@+id/txtCallToAction"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toRightOf="@+id/imgDistance"
+                        android:layout_toEndOf="@+id/imgDistance"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/wk_widget_map_call_to_action"
+                        android:textColor="@color/wk_light_text"
+                        android:textSize="@dimen/wk_small_text"
+                        style="@style/WakupTheme.Text.Italic" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <View
+        android:id="@+id/rippleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:background="@drawable/wk_ripple_effect_round" >
+    </View>
+
+</FrameLayout>

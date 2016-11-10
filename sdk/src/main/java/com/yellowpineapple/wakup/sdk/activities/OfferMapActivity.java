@@ -84,15 +84,15 @@ public class OfferMapActivity
     }
 
     void afterViews() {
-        if (offer != null){
+        if (offer != null) {
             offers = new ArrayList<>();
             offers.add(offer);
             singleOffer = true;
         }
         preloadCompanyLogos(offers);
         mapFragment.getMapAsync(this);
-        mapPinCategories = getPersistence().getOptions().getMapMarkers();
     }
+
 
     void preloadCompanyLogos(List<Offer> offers) {
         ImageLoader imageLoader = ImageLoader.getInstance();
@@ -141,29 +141,6 @@ public class OfferMapActivity
 
     }
 
-    private int getOfferIcon(Offer offer) {
-        // Set default value
-        int offerIcon = R.drawable.wk_ic_pin_unknown;
-        if (mapPinCategories != null && mapPinCategories.size() > 0) {
-            List<String> offerTags = offer.getTags();
-            if (offerTags != null && offerTags.size() > 0) {
-                for (MapMarker category: mapPinCategories) {
-                    if (category.getTags() != null && category.getTags().length > 0) {
-                        List<String> categoryTags = Arrays.asList(category.getTags());
-                        // Disjoint will return true when collections have no elements in common
-                        if (!Collections.disjoint(categoryTags, offerTags)) {
-                            offerIcon = category.getIconResId();
-                            break;
-                        }
-                    } else {
-                        offerIcon = category.getIconResId();
-                    }
-                }
-            }
-        }
-        return offerIcon;
-    }
-
     private void displayInMap(List<Offer> offers) {
         if (offers != null) {
             for (Offer offer : offers) {
@@ -171,7 +148,7 @@ public class OfferMapActivity
                     Store store = offer.getStore();
                     final Marker storeMarker = googleMap.addMarker(
                             new MarkerOptions()
-                                    .icon(BitmapDescriptorFactory.fromResource(getOfferIcon(offer)))
+                                    .icon(BitmapDescriptorFactory.fromResource(MapMarker.getOfferIcon(getApplicationContext(), offer)))
                                     .position(new LatLng(store.getLatitude(), store.getLongitude()))
                                     .title(offer.getCompany().getName())
                                     .snippet(store.getAddress()));

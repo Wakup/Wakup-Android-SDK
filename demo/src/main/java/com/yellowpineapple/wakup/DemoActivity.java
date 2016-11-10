@@ -8,6 +8,7 @@ import android.view.View;
 import com.yellowpineapple.wakup.sdk.Wakup;
 import com.yellowpineapple.wakup.sdk.WakupOptions;
 import com.yellowpineapple.wakup.sdk.activities.LocationActivity;
+import com.yellowpineapple.wakup.sdk.widgets.MapWidget;
 import com.yellowpineapple.wakup.sdk.widgets.OfferCarouselWidget;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -34,15 +35,18 @@ public class DemoActivity extends LocationActivity {
             }
         });
         final OfferCarouselWidget carouselWidget = (OfferCarouselWidget) findViewById(R.id.offersCarousel);
+        final MapWidget mapWidget = (MapWidget) findViewById(R.id.mapWidget);
         getLastKnownLocation(new LocationListener() {
             @Override
             public void onLocationSuccess(Location location) {
                 carouselWidget.loadOffers(location);
+                mapWidget.loadNearestOffer(location);
             }
 
             @Override
             public void onLocationError(Exception exception) {
                 carouselWidget.displayError("Location is not enabled");
+                mapWidget.displayError("Location is not enabled");
             }
         });
     }

@@ -11,7 +11,7 @@
         app:fillColor="@color/wk_carousel_indicator_active"
         app:pageColor="@color/wk_carousel_indicator_page"
         app:strokeColor="@color/wk_carousel_indicator_border"
-        app:radius="6dp"
+        app:radius="@dimen/wk_carousel_dot_size"
         app:autoPlay="true"
         app:strokeWidth="1dp" />
 

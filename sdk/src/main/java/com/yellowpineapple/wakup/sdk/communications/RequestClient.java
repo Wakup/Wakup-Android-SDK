@@ -6,6 +6,7 @@ import android.location.Location;
 import com.yellowpineapple.wakup.sdk.Wakup;
 import com.yellowpineapple.wakup.sdk.communications.requests.BaseRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.OfferListRequestListener;
+import com.yellowpineapple.wakup.sdk.communications.requests.OfferRequestListener;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.CompanyOffersRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.FeaturedOffersRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.FindOffersRequest;
@@ -98,6 +99,20 @@ public class RequestClient {
 
     public Request findLocatedOffers(Location location, Double radius, OfferListRequestListener listener) {
         return launch(new FindOffersRequest(location, radius, listener));
+    }
+
+    public Request findNearestOffer(Location location, final OfferRequestListener listener) {
+        return launch(new FindOffersRequest(location, null, null, false, BaseRequest.FIRST_PAGE, 1, null, new OfferListRequestListener() {
+            @Override
+            public void onSuccess(List<Offer> offers) {
+                listener.onSuccess(offers.get(0));
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                listener.onError(exception);
+            }
+        }));
     }
 
     public Request relatedOffers(Offer offer, int page, int perPage, OfferListRequestListener listener) {

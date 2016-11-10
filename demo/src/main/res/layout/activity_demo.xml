@@ -20,4 +20,9 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/wk_carousel_widget_height"/>
 
+    <com.yellowpineapple.wakup.sdk.widgets.MapWidget
+        android:id="@+id/mapWidget"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/wk_carousel_widget_height"/>
+
 </LinearLayout>
