@@ -96,6 +96,6 @@
     <!-- Map widget -->
     <string name="wk_widget_map_title">Establecimiento más cercano:</string>
     <string name="wk_widget_map_call_to_action">Cómo llegar</string>
-    <string name="wk_map_link_format" formatted="false">https://www.google.com/maps/place/%f,%f</string>
+    <string name="wk_map_link_format" formatted="false">https://www.google.com/maps/place/%s,%s</string>
 
 </resources>

@@ -135,11 +135,12 @@ public class MapWidget extends LinearLayout {
     }
 
     void onLocationClick() {
+        String url = String.format(getContext().getString(R.string.wk_map_link_format),
+                String.valueOf(store.getLatitude()),
+                String.valueOf(store.getLongitude())
+        );
         // Creates an Intent that will load a map of location
-        Uri gmmIntentUri = Uri.parse(
-                String.format(getContext().getString(R.string.wk_map_link_format),
-                        store.getLatitude(),
-                        store.getLongitude()));
+        Uri gmmIntentUri = Uri.parse(url);
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         getContext().startActivity(mapIntent);
     }
