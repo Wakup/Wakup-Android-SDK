@@ -6,7 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 No pending changes
 
-## [2.1.0] - 2016-11-14
+## [2.1.1] - 2016-11-14
 
 ### Fixed
 - Fixed an error that was preventing the sharing of offers due to storage permissions issues
@@ -74,8 +74,8 @@ No pending changes
 ### Added
 - First fully functional public release.
 
-[Unreleased]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.1.0...HEAD
-[2.1.0]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.0.2...v2.1.0
+[Unreleased]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.1.1...HEAD
+[2.1.1]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.0.2...v2.1.1
 [2.0.2]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.2.2...v2.0.2
 [1.2.2]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.2.0...v1.2.1
