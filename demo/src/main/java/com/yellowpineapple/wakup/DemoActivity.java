@@ -8,12 +8,17 @@ import android.view.View;
 import com.yellowpineapple.wakup.sdk.Wakup;
 import com.yellowpineapple.wakup.sdk.WakupOptions;
 import com.yellowpineapple.wakup.sdk.activities.LocationActivity;
+import com.yellowpineapple.wakup.sdk.utils.PersistenceHandler;
 import com.yellowpineapple.wakup.sdk.widgets.MapWidget;
 import com.yellowpineapple.wakup.sdk.widgets.OfferCarouselWidget;
+import com.yellowpineapple.wakup.sdk.widgets.Widget;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class DemoActivity extends LocationActivity {
+public class DemoActivity extends LocationActivity implements Widget.OnRetryListener {
+
+    OfferCarouselWidget carouselWidget;
+    MapWidget mapWidget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +39,16 @@ public class DemoActivity extends LocationActivity {
                 wakup.launch();
             }
         });
-        final OfferCarouselWidget carouselWidget = (OfferCarouselWidget) findViewById(R.id.offersCarousel);
-        final MapWidget mapWidget = (MapWidget) findViewById(R.id.mapWidget);
+        carouselWidget = (OfferCarouselWidget) findViewById(R.id.offersCarousel);
+        carouselWidget.setOnRetryListener(this);
+        mapWidget = (MapWidget) findViewById(R.id.mapWidget);
+        mapWidget.setOnRetryListener(this);
+        loadNearestOffers();
+    }
+
+    void loadNearestOffers() {
+        carouselWidget.setLoading(true);
+        mapWidget.setLoading(true);
         getLastKnownLocation(new LocationListener() {
             @Override
             public void onLocationSuccess(Location location) {
@@ -45,8 +58,8 @@ public class DemoActivity extends LocationActivity {
 
             @Override
             public void onLocationError(Exception exception) {
-                carouselWidget.displayError("Location is not enabled");
-                mapWidget.displayError("Location is not enabled");
+                carouselWidget.loadOffers(null);
+                mapWidget.loadNearestOffer(null);
             }
         });
     }
@@ -55,5 +68,13 @@ public class DemoActivity extends LocationActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    public void onRetry() {
+        // Force ask again
+        PersistenceHandler.getSharedInstance(this).setLocationAsked(false);
+        PersistenceHandler.getSharedInstance(this).setLocationPermissionAsked(false);
+        loadNearestOffers();
     }
 }

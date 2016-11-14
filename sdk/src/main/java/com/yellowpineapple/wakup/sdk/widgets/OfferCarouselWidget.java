@@ -25,13 +25,11 @@ import java.util.List;
 /**
  * Created by agutierrez on 3/11/16.
  */
-public class OfferCarouselWidget extends LinearLayout implements OfferSmallView.Listener {
+public class OfferCarouselWidget extends Widget implements OfferSmallView.Listener {
 
     Location location;
-
     // Views
     CarouselView carouselView;
-
 
     public OfferCarouselWidget(Context context) {
         super(context);
@@ -57,6 +55,7 @@ public class OfferCarouselWidget extends LinearLayout implements OfferSmallView.
 
         inflate(getContext(), R.layout.wk_widget_offers_carousel, this);
         carouselView = (CarouselView) findViewById(R.id.carouselView);
+        afterViews();
     }
 
     public void loadOffers(Location location) {
@@ -67,20 +66,24 @@ public class OfferCarouselWidget extends LinearLayout implements OfferSmallView.
     public void loadOffers(Location location, int offerCount) {
         this.location = location;
         if (location != null) {
+            loadingView.setVisible(true);
+            loadingView.setLoading(true);
             int FIRST_PAGE = 0;
             RequestClient.getSharedInstance(getContext()).getFeaturedOffers(location, FIRST_PAGE, offerCount, new OfferListRequestListener() {
                 @Override
                 public void onSuccess(List<Offer> offers) {
                     displayOffers(offers);
+                    loadingView.setLoading(false);
+                    loadingView.setVisible(false);
                 }
 
                 @Override
                 public void onError(Exception exception) {
-                    displayError("Could not load offers");
+                    displayError(getContext().getString(R.string.wk_connection_error_message));
                 }
             });
         } else {
-            displayError("Location is not enabled");
+            displayLocationError();
         }
     }
 
@@ -88,10 +91,6 @@ public class OfferCarouselWidget extends LinearLayout implements OfferSmallView.
         CarouselViewListener viewListener = new CarouselViewListener(offers);
         carouselView.setViewListener(viewListener);
         carouselView.setPageCount(offers.size());
-    }
-
-    public void displayError(String errorMessage) {
-        new AlertDialog.Builder(getContext()).setTitle(errorMessage).create();
     }
 
     class CarouselViewListener implements ViewListener {

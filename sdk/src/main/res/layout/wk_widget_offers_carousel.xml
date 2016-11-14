@@ -15,4 +15,12 @@
         app:autoPlay="true"
         app:strokeWidth="1dp" />
 
+    <com.yellowpineapple.wakup.sdk.widgets.WidgetLoadingView
+        android:id="@+id/loadingView"
+        android:layout_margin="@dimen/wk_carousel_widget_padding"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.yellowpineapple.wakup.sdk.widgets.WidgetLoadingView>
+
 </FrameLayout>

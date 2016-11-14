@@ -6,8 +6,6 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -21,29 +19,17 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.synnapps.carouselview.CarouselView;
-import com.synnapps.carouselview.ViewListener;
 import com.yellowpineapple.wakup.sdk.R;
-import com.yellowpineapple.wakup.sdk.Wakup;
 import com.yellowpineapple.wakup.sdk.communications.RequestClient;
-import com.yellowpineapple.wakup.sdk.communications.requests.OfferListRequestListener;
 import com.yellowpineapple.wakup.sdk.communications.requests.OfferRequestListener;
 import com.yellowpineapple.wakup.sdk.models.MapMarker;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.models.Store;
-import com.yellowpineapple.wakup.sdk.utils.ImageOptions;
-import com.yellowpineapple.wakup.sdk.views.OfferCarouselItemView;
-import com.yellowpineapple.wakup.sdk.views.OfferSmallView;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by agutierrez on 3/11/16.
  */
-public class MapWidget extends LinearLayout {
+public class MapWidget extends Widget {
 
     Location location;
 
@@ -82,11 +68,14 @@ public class MapWidget extends LinearLayout {
                 onLocationClick();
             }
         });
+        afterViews();
     }
 
     public void loadNearestOffer(final Location location) {
         this.location = location;
         if (location != null) {
+            loadingView.setVisible(true);
+            loadingView.setLoading(true);
             RequestClient.getSharedInstance(getContext()).findNearestOffer(location, new OfferRequestListener() {
                 @Override
                 public void onSuccess(final Offer offer) {
@@ -112,6 +101,8 @@ public class MapWidget extends LinearLayout {
                                     // Center map
                                     googleMap.moveCamera(CameraUpdateFactory.newLatLng(storeMarker.getPosition()));
                                     googleMap.moveCamera(CameraUpdateFactory.zoomTo(14));
+                                    loadingView.setLoading(false);
+                                    loadingView.setVisible(false);
                                 }
                             });
                         }
@@ -120,29 +111,27 @@ public class MapWidget extends LinearLayout {
 
                 @Override
                 public void onError(Exception exception) {
-                    displayError(getContext().getString(R.string.wk_search_error));
+                    displayError(getContext().getString(R.string.wk_connection_error_message));
                 }
 
             });
 
         } else {
-            displayError("Location is not enabled");
+            displayLocationError();
         }
     }
 
-    public void displayError(String errorMessage) {
-        new AlertDialog.Builder(getContext()).setTitle(errorMessage).create();
-    }
-
     void onLocationClick() {
-        String url = String.format(getContext().getString(R.string.wk_map_link_format),
-                String.valueOf(store.getLatitude()),
-                String.valueOf(store.getLongitude())
-        );
-        // Creates an Intent that will load a map of location
-        Uri gmmIntentUri = Uri.parse(url);
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-        getContext().startActivity(mapIntent);
+        if (store != null) {
+            String url = String.format(getContext().getString(R.string.wk_map_link_format),
+                    String.valueOf(store.getLatitude()),
+                    String.valueOf(store.getLongitude())
+            );
+            // Creates an Intent that will load a map of location
+            Uri gmmIntentUri = Uri.parse(url);
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            getContext().startActivity(mapIntent);
+        }
     }
 
 }

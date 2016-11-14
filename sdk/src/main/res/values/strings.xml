@@ -93,6 +93,11 @@
     <string name="wk_search_recent">Últimas búsquedas</string>
     <string name="wk_search_locations">Ubicaciones</string>
 
+    <!-- Widgets -->
+    <string name="wk_widget_default_error_title">Ocurrió un error</string>
+    <string name="wk_widget_location_error_title">Ubicación desactivada</string>
+    <string name="wk_widget_location_error_message">Activa la ubicación para acceder a las ofertas más cercanas</string>
+
     <!-- Map widget -->
     <string name="wk_widget_map_title">Establecimiento más cercano:</string>
     <string name="wk_widget_map_call_to_action">Cómo llegar</string>
