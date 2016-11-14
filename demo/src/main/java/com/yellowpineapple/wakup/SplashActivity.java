@@ -22,7 +22,7 @@ public class SplashActivity extends LocationActivity {
         final Wakup wakup = Wakup.instance(this);
         // Wakup
         wakup.launch(
-                    new WakupOptions("075f9656-6909-4e4e-a286-3ddc562a2513").
+                    new WakupOptions(getString(R.string.wakup_api_key)).
                             country("ES").
                             defaultLocation(41.38506, 2.17340)
             );

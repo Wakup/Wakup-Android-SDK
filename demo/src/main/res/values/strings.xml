@@ -4,4 +4,6 @@
     <!-- Customize offers section -->
     <string name="wk_app_name">@string/app_name</string>
 
+    <string name="wakup_api_key">ENTER YOUR API KEY</string>
+
 </resources>
