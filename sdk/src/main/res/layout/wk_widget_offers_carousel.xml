@@ -12,6 +12,7 @@
         app:pageColor="@color/wk_carousel_indicator_page"
         app:strokeColor="@color/wk_carousel_indicator_border"
         app:radius="@dimen/wk_carousel_dot_size"
+        android:layout_marginBottom="-15dp"
         app:autoPlay="true"
         app:strokeWidth="1dp" />
 
