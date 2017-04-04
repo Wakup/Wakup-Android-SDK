@@ -6,6 +6,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 No pending changes
 
+## [2.1.2] - 2017-04-04
+
+### Fixed
+
+- Fixed issue with MapWidget that could cause error when there is no offers nearby
+
+### Changed
+- Updated Android Play Services library version to 10.2.1
+
 ## [2.1.1] - 2016-11-14
 
 ### Fixed
@@ -74,7 +83,8 @@ No pending changes
 ### Added
 - First fully functional public release.
 
-[Unreleased]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.1.1...HEAD
+[Unreleased]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.1.2...HEAD
+[2.1.2]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.1.1...v2.1.2
 [2.1.1]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.0.2...v2.1.1
 [2.0.2]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.2.2...v2.0.2
 [1.2.2]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.2.1...v1.2.2
