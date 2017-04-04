@@ -26,9 +26,6 @@ import com.yellowpineapple.wakup.sdk.models.MapMarker;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.models.Store;
 
-/**
- * Created by agutierrez on 3/11/16.
- */
 public class MapWidget extends Widget {
 
     Location location;
@@ -79,34 +76,40 @@ public class MapWidget extends Widget {
             RequestClient.getSharedInstance(getContext()).findNearestOffer(location, new OfferRequestListener() {
                 @Override
                 public void onSuccess(final Offer offer) {
-                    MapWidget.this.offer = offer;
-                    MapWidget.this.store = offer.getStore();
-                    txtAddress.setText(store.getAddress());
+                    if (offer != null) {
+                        MapWidget.this.offer = offer;
+                        MapWidget.this.store = offer.getStore();
+                        txtAddress.setText(store.getAddress());
 
-                    // Run on Main Thread
-                    Handler mainHandler = new Handler(getContext().getMainLooper());
-                    mainHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mapView.getMapAsync(new OnMapReadyCallback() {
-                                @Override
-                                public void onMapReady(final GoogleMap googleMap) {
+                        // Run on Main Thread
+                        Handler mainHandler = new Handler(getContext().getMainLooper());
+                        mainHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mapView.getMapAsync(new OnMapReadyCallback() {
+                                    @Override
+                                    public void onMapReady(final GoogleMap googleMap) {
 
-                                    MapWidget.this.googleMap = googleMap;
+                                        MapWidget.this.googleMap = googleMap;
 
-                                    final Marker storeMarker = googleMap.addMarker(
-                                            new MarkerOptions()
-                                                    .icon(BitmapDescriptorFactory.fromResource(MapMarker.getOfferIcon(getContext(), offer)))
-                                                    .position(new LatLng(store.getLatitude(), store.getLongitude())));
-                                    // Center map
-                                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(storeMarker.getPosition()));
-                                    googleMap.moveCamera(CameraUpdateFactory.zoomTo(14));
-                                    loadingView.setLoading(false);
-                                    loadingView.setVisible(false);
-                                }
-                            });
-                        }
-                    });
+                                        final Marker storeMarker = googleMap.addMarker(
+                                                new MarkerOptions()
+                                                        .icon(BitmapDescriptorFactory.fromResource(MapMarker.getOfferIcon(getContext(), offer)))
+                                                        .position(new LatLng(store.getLatitude(), store.getLongitude())));
+                                        // Center map
+                                        googleMap.moveCamera(CameraUpdateFactory.newLatLng(storeMarker.getPosition()));
+                                        googleMap.moveCamera(CameraUpdateFactory.zoomTo(14));
+                                        loadingView.setLoading(false);
+                                        loadingView.setVisible(false);
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        MapWidget.this.setVisibility(INVISIBLE);
+                        loadingView.setLoading(false);
+                        loadingView.setVisible(false);
+                    }
                 }
 
                 @Override

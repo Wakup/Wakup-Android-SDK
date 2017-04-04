@@ -55,11 +55,10 @@ public class RequestClient {
     }
 	
 	/* Properties */
-	RequestLauncher requestLauncher;
-    PersistenceHandler persistence;
-    Environment environment;
-    Context context;
-	String apiKey = null;
+	private RequestLauncher requestLauncher;
+    private PersistenceHandler persistence;
+    private Environment environment;
+    private String apiKey = null;
 	
 	public static RequestClient getSharedInstance(Context context) {
 		if (sharedInstance == null) {
@@ -71,7 +70,6 @@ public class RequestClient {
 	private RequestClient(Context context, Environment environment) {
 		requestLauncher = new DefaultRequestLauncher(context);
         persistence = PersistenceHandler.getSharedInstance(context);
-        this.context = context;
         this.environment = environment;
         apiKey = Wakup.instance(context).getOptions().getApiKey();
 	}
@@ -105,7 +103,7 @@ public class RequestClient {
         return launch(new FindOffersRequest(location, null, null, false, BaseRequest.FIRST_PAGE, 1, null, new OfferListRequestListener() {
             @Override
             public void onSuccess(List<Offer> offers) {
-                listener.onSuccess(offers.get(0));
+                listener.onSuccess(offers.size() > 0 ? offers.get(0) : null);
             }
 
             @Override

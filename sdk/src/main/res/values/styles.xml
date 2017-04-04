@@ -22,7 +22,7 @@
         <item name="android:textColorPrimary">@color/wk_appbar_text</item>
         <item name="android:background">@color/wk_appbar_bg</item>
     </style>
-    <style name="WakupTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"></style>
+    <style name="WakupTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
     <!-- Theme without ActionBar shadow (inherits main theme) -->
     <style name="WakupTheme.Root">

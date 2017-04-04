@@ -363,7 +363,6 @@ public abstract class ParentActivity extends LocationActivity {
     }
 
     public void setLoading(boolean loading) {
-
         try {
             ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_spinner);
             if(loading)
@@ -373,7 +372,5 @@ public abstract class ParentActivity extends LocationActivity {
         } catch(NoSuchFieldError e) {
             Log.d("NOTPRESENT", "Progress bar not present");
         }
-
-
     }
 }
