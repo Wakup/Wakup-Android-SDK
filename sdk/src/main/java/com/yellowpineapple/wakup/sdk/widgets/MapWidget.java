@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -25,6 +25,7 @@ import com.yellowpineapple.wakup.sdk.communications.requests.OfferRequestListene
 import com.yellowpineapple.wakup.sdk.models.MapMarker;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.models.Store;
+import com.yellowpineapple.wakup.sdk.utils.Ln;
 
 public class MapWidget extends Widget {
 
@@ -68,60 +69,77 @@ public class MapWidget extends Widget {
         afterViews();
     }
 
+
     public void loadNearestOffer(final Location location) {
         this.location = location;
-        if (location != null) {
-            loadingView.setVisible(true);
-            loadingView.setLoading(true);
-            RequestClient.getSharedInstance(getContext()).findNearestOffer(location, new OfferRequestListener() {
-                @Override
-                public void onSuccess(final Offer offer) {
-                    if (offer != null) {
-                        MapWidget.this.offer = offer;
-                        MapWidget.this.store = offer.getStore();
-                        txtAddress.setText(store.getAddress());
+        try {
+            // Disable mapWidget for Marshmallow version in Xiaomi devices
+            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M && "Xiaomi".equalsIgnoreCase(Build.MANUFACTURER)) {
+                Ln.w("MapWidget is disabled for Xiaomi devices running Android 6.0");
+                disable();
+            } else {
+                if (location != null) {
+                    loadingView.setVisible(true);
+                    loadingView.setLoading(true);
+                    RequestClient.getSharedInstance(getContext()).findNearestOffer(location, new OfferRequestListener() {
+                        @Override
+                        public void onSuccess(final Offer offer) {
+                            if (offer != null) {
+                                MapWidget.this.offer = offer;
+                                MapWidget.this.store = offer.getStore();
+                                txtAddress.setText(store.getAddress());
 
-                        // Run on Main Thread
-                        Handler mainHandler = new Handler(getContext().getMainLooper());
-                        mainHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                mapView.getMapAsync(new OnMapReadyCallback() {
+                                // Run on Main Thread
+                                Handler mainHandler = new Handler(getContext().getMainLooper());
+                                mainHandler.post(new Runnable() {
                                     @Override
-                                    public void onMapReady(final GoogleMap googleMap) {
+                                    public void run() {
+                                        mapView.getMapAsync(new OnMapReadyCallback() {
+                                            @Override
+                                            public void onMapReady(final GoogleMap googleMap) {
 
-                                        MapWidget.this.googleMap = googleMap;
+                                                MapWidget.this.googleMap = googleMap;
 
-                                        final Marker storeMarker = googleMap.addMarker(
-                                                new MarkerOptions()
-                                                        .icon(BitmapDescriptorFactory.fromResource(MapMarker.getOfferIcon(getContext(), offer)))
-                                                        .position(new LatLng(store.getLatitude(), store.getLongitude())));
-                                        // Center map
-                                        googleMap.moveCamera(CameraUpdateFactory.newLatLng(storeMarker.getPosition()));
-                                        googleMap.moveCamera(CameraUpdateFactory.zoomTo(14));
-                                        loadingView.setLoading(false);
-                                        loadingView.setVisible(false);
+                                                final Marker storeMarker = googleMap.addMarker(
+                                                        new MarkerOptions()
+                                                                .icon(BitmapDescriptorFactory.fromResource(MapMarker.getOfferIcon(getContext(), offer)))
+                                                                .position(new LatLng(store.getLatitude(), store.getLongitude())));
+                                                // Center map
+                                                googleMap.moveCamera(CameraUpdateFactory.newLatLng(storeMarker.getPosition()));
+                                                googleMap.moveCamera(CameraUpdateFactory.zoomTo(14));
+                                                loadingView.setLoading(false);
+                                                loadingView.setVisible(false);
+                                            }
+                                        });
                                     }
                                 });
+                            } else {
+                                Ln.w("MapWidget disabled: there is no near offers");
+                                disable();
                             }
-                        });
-                    } else {
-                        MapWidget.this.setVisibility(INVISIBLE);
-                        loadingView.setLoading(false);
-                        loadingView.setVisible(false);
-                    }
+                        }
+
+                        @Override
+                        public void onError(Exception exception) {
+                            displayError(getContext().getString(R.string.wk_connection_error_message));
+                        }
+
+                    });
+
+                } else {
+                    displayLocationError();
                 }
-
-                @Override
-                public void onError(Exception exception) {
-                    displayError(getContext().getString(R.string.wk_connection_error_message));
-                }
-
-            });
-
-        } else {
-            displayLocationError();
+            }
+        } catch (Exception ex) {
+            Ln.e(ex, "Error loading MapWidget");
+            disable();
         }
+    }
+
+    private void disable() {
+        MapWidget.this.setVisibility(INVISIBLE);
+        loadingView.setLoading(false);
+        loadingView.setVisible(false);
     }
 
     void onLocationClick() {
