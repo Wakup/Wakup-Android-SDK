@@ -6,6 +6,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 No pending changes
 
+## [2.1.3] - 2017-05-12
+
+### Fixed
+
+- Improved error handling for nearest offer Map Widget
+
+
 ## [2.1.2] - 2017-04-04
 
 ### Fixed
@@ -83,7 +90,8 @@ No pending changes
 ### Added
 - First fully functional public release.
 
-[Unreleased]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.1.2...HEAD
+[Unreleased]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.1.3...HEAD
+[2.1.3]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.1.2...v2.1.3
 [2.1.2]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.1.1...v2.1.2
 [2.1.1]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.0.2...v2.1.1
 [2.0.2]: https://github.com/Wakup/Wakup-Android-SDK/compare/v1.2.2...v2.0.2
