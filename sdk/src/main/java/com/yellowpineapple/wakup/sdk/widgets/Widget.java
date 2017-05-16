@@ -53,8 +53,10 @@ public class Widget extends LinearLayout {
     }
 
     public void setLoading(boolean loading) {
-        loadingView.setVisible(loading);
-        loadingView.setLoading(loading);
+        if (loadingView != null) {
+            loadingView.setVisible(loading);
+            loadingView.setLoading(loading);
+        }
     }
 
     public void displayError(String errorMessage) {

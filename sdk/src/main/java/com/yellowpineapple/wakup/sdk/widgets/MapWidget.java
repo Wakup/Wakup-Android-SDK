@@ -57,27 +57,38 @@ public class MapWidget extends Widget {
     void init() {
         inflate(getContext(), R.layout.wk_widget_map, this);
         mapView = (MapView) findViewById(R.id.mapView);
-        mapView.onCreate(Bundle.EMPTY);
-        mapView.onResume();
-        txtAddress = (TextView) findViewById(R.id.txtAddress);
-        findViewById(R.id.rippleView).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onLocationClick();
+        if (isMapAvailable()) {
+            try {
+                mapView.onCreate(Bundle.EMPTY);
+                mapView.onResume();
+                txtAddress = (TextView) findViewById(R.id.txtAddress);
+                findViewById(R.id.rippleView).setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onLocationClick();
+                    }
+                });
+            } catch (Exception ex) {
+                Ln.e(ex);
+                disable();
+                mapView = null;
             }
-        });
-        afterViews();
+            afterViews();
+        } else {
+            disable();
+        }
+    }
+
+    boolean isMapAvailable() {
+        // Disable mapWidget for Marshmallow version in Xiaomi devices
+        return !(Build.VERSION.SDK_INT == Build.VERSION_CODES.M && "Xiaomi".equalsIgnoreCase(Build.MANUFACTURER));
     }
 
 
     public void loadNearestOffer(final Location location) {
         this.location = location;
         try {
-            // Disable mapWidget for Marshmallow version in Xiaomi devices
-            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M && "Xiaomi".equalsIgnoreCase(Build.MANUFACTURER)) {
-                Ln.w("MapWidget is disabled for Xiaomi devices running Android 6.0");
-                disable();
-            } else {
+            if (isMapAvailable() && mapView != null) {
                 if (location != null) {
                     loadingView.setVisible(true);
                     loadingView.setLoading(true);
@@ -129,6 +140,9 @@ public class MapWidget extends Widget {
                 } else {
                     displayLocationError();
                 }
+            } else {
+                Ln.w("MapWidget is disabled for Xiaomi devices running Android 6.0");
+                disable();
             }
         } catch (Exception ex) {
             Ln.e(ex, "Error loading MapWidget");
@@ -138,8 +152,10 @@ public class MapWidget extends Widget {
 
     private void disable() {
         MapWidget.this.setVisibility(INVISIBLE);
-        loadingView.setLoading(false);
-        loadingView.setVisible(false);
+        if (loadingView != null) {
+            loadingView.setLoading(false);
+            loadingView.setVisible(false);
+        }
     }
 
     void onLocationClick() {
