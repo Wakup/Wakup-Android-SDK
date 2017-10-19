@@ -6,6 +6,20 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 No pending changes
 
+## [2.1.5] - 2017-10-18
+
+### Fixed
+
+* Fixed issue that was causing offer detail view to display at half size while loading related offers
+
+### Changed
+
+Version updates to support Android SDK v26:
+
+* Updated Android build tools and target SDK to latest available version: 26
+* Updated Android Support V4 dependency to latest version: 26.1.0
+
+
 ## [2.1.4] - 2017-05-16
 
 ### Fixed
@@ -90,7 +104,8 @@ No pending changes
 ### Added
 - First fully functional public release.
 
-[Unreleased]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.1.4...HEAD
+[Unreleased]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.1.5...HEAD
+[2.1.5]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.1.4...v2.1.5
 [2.1.4]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.1.2...v2.1.4
 [2.1.2]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.1.1...v2.1.2
 [2.1.1]: https://github.com/Wakup/Wakup-Android-SDK/compare/v2.0.2...v2.1.1

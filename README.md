@@ -15,7 +15,7 @@ Include this dependency in the `build.gradle` file of your application project m
 
 ```groovy
 dependencies {
-    compile 'com.wakup.android:sdk:2.1.4'
+    compile 'com.wakup.android:sdk:2.1.5'
 }
 ```
 
