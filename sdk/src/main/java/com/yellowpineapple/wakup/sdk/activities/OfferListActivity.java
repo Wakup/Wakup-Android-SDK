@@ -12,6 +12,8 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
@@ -68,7 +70,7 @@ public abstract class OfferListActivity extends ParentActivity implements Offers
         setupOffersGrid(null, recyclerView, navigationView, emptyView);
     }
 
-    void setupOffersGrid(View headerView, RecyclerView recyclerView, View navigationView, View emptyView) {
+    void setupOffersGrid(final View headerView, RecyclerView recyclerView, View navigationView, View emptyView) {
         this.recyclerView = recyclerView;
         this.emptyView = emptyView;
         this.navigationView = navigationView;
@@ -90,6 +92,27 @@ public abstract class OfferListActivity extends ParentActivity implements Offers
         offersAdapter.setOffers(offers);
 
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+
+        if (headerView != null) {
+            headerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    final ViewGroup.LayoutParams lp = headerView.getLayoutParams();
+                    if (lp instanceof StaggeredGridLayoutManager.LayoutParams) {
+                        StaggeredGridLayoutManager.LayoutParams sglp =
+                                (StaggeredGridLayoutManager.LayoutParams) lp;
+                        sglp.setFullSpan(true);
+                        headerView.setLayoutParams(sglp);
+                        staggeredGridLayoutManager.invalidateSpanAssignments();
+                    }
+                    headerView.getViewTreeObserver().removeOnPreDrawListener(this);
+                    return true;
+                }
+            });
+
+        }
+
+
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
 
 
@@ -105,6 +128,7 @@ public abstract class OfferListActivity extends ParentActivity implements Offers
                 }
             }
         });
+        offersAdapter.notifyDataSetChanged();
     }
 
     public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
@@ -125,12 +149,10 @@ public abstract class OfferListActivity extends ParentActivity implements Offers
 
             if(hasHeader) {
                 if(position == 0) {
-                    ((StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams()).setFullSpan(true);
                     outRect.top = space * 2;
                     outRect.left = space * 2;
                     outRect.right = space * 2;
                 } else {
-                    ((StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams()).setFullSpan(false);
                     if (spanIndex == 1) {
                         outRect.left = space;
                         outRect.right = space * 2;
