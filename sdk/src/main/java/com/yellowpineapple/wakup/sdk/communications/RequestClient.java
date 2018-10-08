@@ -34,8 +34,11 @@ public class RequestClient {
     private final static String API_TOKEN_HEADER = "API-Token";
     private final static String USER_TOKEN_HEADER = "User-Token";
 
+    public static final Environment ENVIRONMENT = Environment.PRODUCTION;
+
     public enum Environment {
-        PRODUCTION("https://app.wakup.net/", false);
+        PRODUCTION("https://app.wakup.net/", false),
+        PRE("http://pre.wakup.net/", false);
 
         String url;
         boolean dummy;
@@ -62,7 +65,7 @@ public class RequestClient {
 	
 	public static RequestClient getSharedInstance(Context context) {
 		if (sharedInstance == null) {
-			sharedInstance = new RequestClient(context, Environment.PRODUCTION);
+			sharedInstance = new RequestClient(context, ENVIRONMENT);
 		}
 		return sharedInstance;
 	}

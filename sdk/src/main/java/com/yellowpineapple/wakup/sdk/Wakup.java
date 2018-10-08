@@ -22,7 +22,7 @@ public class Wakup {
 
     private PersistenceHandler persistence;
 
-    private static final String HOST = RequestClient.Environment.PRODUCTION.getUrl();
+    private static final String HOST = RequestClient.ENVIRONMENT.getUrl();
 
     private Wakup(Context context) {
         super();

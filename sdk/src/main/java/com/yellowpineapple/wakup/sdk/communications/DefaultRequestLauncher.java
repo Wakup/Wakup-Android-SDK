@@ -108,6 +108,7 @@ public class DefaultRequestLauncher implements RequestLauncher {
 		if (!request.isDummy()) {
 			String requestURL = request.getURL();
 			Ln.d("Launching request: %s %s", request.getHttpMethod(), requestURL);
+			Ln.d("Headers: %s", request.getHeaders());
 			try {
 				switch (request.getHttpMethod()) {
 				case GET:
