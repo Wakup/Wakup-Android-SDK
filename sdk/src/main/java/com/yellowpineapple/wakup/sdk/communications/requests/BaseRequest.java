@@ -10,10 +10,10 @@ import com.yellowpineapple.wakup.sdk.communications.RequestClient;
 public abstract class BaseRequest extends RESTJSONRequest {
 
     public static int FIRST_PAGE = 0;
-    public static int LOCATED_RESULTS_PER_PAGE = 50;
+    protected static int LOCATED_RESULTS_PER_PAGE = 50;
     public static int RESULTS_PER_PAGE = 30;
 
-    RequestClient.Environment environment;
+    private RequestClient.Environment environment;
 
     public BaseRequest() {
         super();
@@ -51,4 +51,5 @@ public abstract class BaseRequest extends RESTJSONRequest {
                 .setDateFormat("yyyy-MM-dd")
                 .create();
     }
+
 }

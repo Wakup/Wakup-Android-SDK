@@ -1,7 +1,5 @@
 package com.yellowpineapple.wakup.sdk.communications;
 
-import com.yellowpineapple.wakup.sdk.communications.asyhttp.AsyncHttpClient;
-
 import java.util.List;
 import java.util.Map;
 
@@ -138,12 +136,6 @@ public interface Request {
     Map<String, String> getHeaders();
 
     /**
-     * Method that will be executed to finish setup of HTTP Client
-     * @param client
-     */
-    void onSetupClient(AsyncHttpClient client);
-    
-    /**
      * Method that define if the request should be executed or if its execution should be only simulated
      * @return
      */
@@ -162,5 +154,11 @@ public interface Request {
      * @param listener
      */
     void addOnRequestFinishListener(OnRequestFinishListener listener);
+
+    /**
+     * Obtains the volley request associated with the TwinRequest
+     * @return Volley request
+     */
+    com.android.volley.Request getRequest();
 	
 }

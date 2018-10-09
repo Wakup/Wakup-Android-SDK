@@ -1,13 +1,9 @@
 package com.yellowpineapple.wakup.sdk.communications;
 
-import com.yellowpineapple.wakup.sdk.communications.asyhttp.AsyncHttpClient;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import cz.msebera.android.httpclient.protocol.HTTP;
 
 public abstract class DefaultRequest implements Request {
 	
@@ -92,7 +88,7 @@ public abstract class DefaultRequest implements Request {
 	
 	@Override
 	public String getEncoding() {
-		return HTTP.UTF_8;
+		return "UTF-8";
 	}
 
 	@Override
@@ -109,10 +105,6 @@ public abstract class DefaultRequest implements Request {
     public Map<String, String> getHeaders() {
         return headers;
     }
-
-    @Override
-	public void onSetupClient(AsyncHttpClient client) {
-	}
 
 	@Override
 	public RequestLauncher getRequestLauncher() {
