@@ -34,7 +34,7 @@ public class RegisterRequest extends BaseRequest {
 	private final static String RESPONSE_DEVICE_TOKEN_KEY = "userToken";
 
 	/* Properties */
-	Listener listener;
+	private Listener listener;
 	
 	public RegisterRequest(RegistrationInfo registrationInfo, Listener listener) {
 		super();

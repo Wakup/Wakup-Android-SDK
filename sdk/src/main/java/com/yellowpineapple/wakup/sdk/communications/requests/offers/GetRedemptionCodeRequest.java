@@ -16,7 +16,7 @@ public class GetRedemptionCodeRequest extends BaseRequest {
     }
 
     /* Properties */
-    Listener listener;
+    private Listener listener;
 
     public GetRedemptionCodeRequest(Offer offer, Listener listener) {
         super();

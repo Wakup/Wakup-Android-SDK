@@ -6,8 +6,8 @@ import android.content.Intent;
 
 public class IntentBuilder<T extends Activity> {
 
-    Context context;
-    Intent intent;
+    private Context context;
+    private Intent intent;
 
     public IntentBuilder(Class<T> tClass, Context context) {
         this.intent = new Intent(context, tClass);

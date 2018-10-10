@@ -17,10 +17,10 @@ public class GetOffersByIdRequest extends BaseRequest {
 
     /* Constants */
 	/* Segments */
-    final static String[] SEGMENTS = new String[] { "offers", "get" };
+    private final static String[] SEGMENTS = new String[] { "offers", "get" };
 
     /* Properties */
-    OfferListRequestListener listener;
+    private OfferListRequestListener listener;
 
     public GetOffersByIdRequest(List<String> offerIds, Location location, int page, OfferListRequestListener listener) {
         super();

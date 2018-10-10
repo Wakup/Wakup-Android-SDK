@@ -16,13 +16,13 @@ public class CompanyOffersRequest extends BaseRequest {
 
     /* Constants */
 	/* Segments */
-    final static String[] SEGMENTS = new String[] { "offers", "company" };
+    private final static String[] SEGMENTS = new String[] { "offers", "company" };
 
     /* Properties */
-    OfferListRequestListener listener;
+    private OfferListRequestListener listener;
 
-    CompanyDetail company;
-    Store store;
+    private CompanyDetail company;
+    private Store store;
 
     public CompanyOffersRequest(CompanyDetail company, Store store, int page, int perPage, OfferListRequestListener listener) {
         super();

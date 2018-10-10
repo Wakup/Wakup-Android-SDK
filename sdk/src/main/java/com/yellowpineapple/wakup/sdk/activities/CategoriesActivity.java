@@ -3,6 +3,7 @@ package com.yellowpineapple.wakup.sdk.activities;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,7 +22,7 @@ import com.yellowpineapple.wakup.sdk.views.PullToRefreshLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OffersActivity extends OfferListActivity {
+public class CategoriesActivity extends OfferListActivity {
 
     private List<Category> categories = null;
     private Category selectedCategory = null;
@@ -50,9 +51,9 @@ public class OffersActivity extends OfferListActivity {
     protected void injectViews() {
         super.injectViews();
         emptyView = findViewById(R.id.emptyView);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
         navigationView = findViewById(R.id.navigationView);
-        ptrLayout = ((PullToRefreshLayout) findViewById(R.id.ptr_layout));
+        ptrLayout = findViewById(R.id.ptr_layout);
         // Set actions for Navigation bar
         View btnBigOffer = findViewById(R.id.btnBigOffer);
         if (btnBigOffer != null) {
@@ -85,7 +86,25 @@ public class OffersActivity extends OfferListActivity {
     }
 
     void afterViews() {
+        loadCategories(new GetCategoriesRequest.Listener() {
+            @Override
+            public void onSuccess(List<Category> offers) {
+                CategoriesActivity.this.categories = categories;
+                setupOffersGrid(recyclerView, navigationView, emptyView);
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                setLoading(false);
+                displayErrorDialog(getString(R.string.wk_connection_error_message));
+                setEmptyViewVisible(true);
+            }
+        });
         setupOffersGrid(recyclerView, navigationView, emptyView);
+    }
+
+    void loadCategories(@Nullable final GetCategoriesRequest.Listener listener) {
+        getRequestClient().getCategories(listener);
     }
 
     @Override
@@ -95,7 +114,7 @@ public class OffersActivity extends OfferListActivity {
                 getRequestClient().getCategories(new GetCategoriesRequest.Listener() {
                     @Override
                     public void onSuccess(List<Category> categories) {
-                        OffersActivity.this.categories = categories;
+                        CategoriesActivity.this.categories = categories;
                         // TODO using default category for filtering
                         onRequestOffers(page, currentLocation);
                     }
@@ -191,9 +210,9 @@ public class OffersActivity extends OfferListActivity {
         return new Builder(context);
     }
 
-    public static class Builder extends IntentBuilder<OffersActivity> {
+    public static class Builder extends IntentBuilder<CategoriesActivity> {
         public Builder(Context context) {
-            super(OffersActivity.class, context);
+            super(CategoriesActivity.class, context);
         }
     }
 }

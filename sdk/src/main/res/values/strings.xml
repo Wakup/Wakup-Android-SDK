@@ -10,9 +10,9 @@
     <string name="wk_activity_big_offer">Ofertón</string>
     <string name="wk_activity_map">Mapa</string>
     <string name="wk_activity_report">Informar de un error</string>
-    <string name="wk_activity_store_offers"/>
-    <string name="wk_activity_search"/>
-    <string name="wk_activity_search_result"/>
+    <string name="wk_activity_store_offers" />
+    <string name="wk_activity_search" />
+    <string name="wk_activity_search_result" />
 
     <!-- Dialogs -->
     <string name="wk_loading_default">Cargando…</string>

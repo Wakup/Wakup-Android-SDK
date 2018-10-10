@@ -12,6 +12,7 @@ import com.yellowpineapple.wakup.sdk.communications.RequestClient;
 import com.yellowpineapple.wakup.sdk.communications.requests.register.RegisterRequest;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.models.RegistrationInfo;
+import com.yellowpineapple.wakup.sdk.utils.IntentBuilder;
 import com.yellowpineapple.wakup.sdk.utils.Ln;
 import com.yellowpineapple.wakup.sdk.utils.PersistenceHandler;
 
@@ -39,7 +40,7 @@ public class Wakup {
 
     public void launch() {
         if (getOptions() != null) {
-            OffersActivity.intent(context).start();
+            getMainActivityBuilder().start();
         } else {
             Ln.e("WAKUP NOT LAUNCHING. OPTIONS NOT PROVIDED. Call 'setup(WakupOptions) first'");
         }
@@ -47,7 +48,11 @@ public class Wakup {
 
     public void launch(WakupOptions options) {
         persistence.setOptions(options);
-        OffersActivity.intent(context).start();
+        getMainActivityBuilder().start();
+    }
+
+    private IntentBuilder getMainActivityBuilder() {
+        return OffersActivity.intent(context);
     }
 
     public void launchWithOffer(Offer offer) {

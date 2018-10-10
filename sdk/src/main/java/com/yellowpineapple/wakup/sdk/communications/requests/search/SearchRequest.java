@@ -12,10 +12,10 @@ import java.lang.reflect.Type;
 public class SearchRequest extends BaseRequest {
 
     /* Segments */
-    final static String[] SEGMENTS = new String[] { "search" };
+    private final static String[] SEGMENTS = new String[] { "search" };
 
     /* Properties */
-    Listener listener;
+    private Listener listener;
 
     public interface Listener extends Request.ErrorListener {
         void onSuccess(SearchResult searchResult);

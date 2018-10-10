@@ -1,85 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.yellowpineapple.wakup.sdk" >
+    package="com.yellowpineapple.wakup.sdk">
 
-    <application
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-        android:largeHeap="true">
-
+    <application android:largeHeap="true">
         <activity
             android:name=".activities.OffersActivity"
             android:label="@string/wk_activity_offers"
-            android:theme="@style/WakupTheme.Root">
-        </activity>
-
+            android:theme="@style/WakupTheme.Root" />
+        <activity
+            android:name=".activities.CategoriesActivity"
+            android:label="@string/wk_activity_offers"
+            android:theme="@style/WakupTheme.Root" />
         <activity
             android:name=".activities.OfferDetailActivity"
             android:label="@string/wk_activity_offer_detail"
-            android:theme="@style/WakupTheme.ActionBarOverlay">
-        </activity>
-
+            android:theme="@style/WakupTheme.ActionBarOverlay"/>
         <activity
             android:name=".activities.SavedOffersActivity"
             android:label="@string/wk_activity_my_offers"
-            android:theme="@style/WakupTheme.ActionBarOverlay">
-        </activity>
-
+            android:theme="@style/WakupTheme.ActionBarOverlay"/>
         <activity
             android:name=".activities.ModalTextActivity"
-            android:theme="@style/WakupTheme.Dialog"
             android:noHistory="true"
-            android:screenOrientation="portrait" >
-        </activity>
-
+            android:screenOrientation="portrait"
+            android:theme="@style/WakupTheme.Dialog"/>
         <activity
             android:name=".activities.OfferCouponsActivity"
-            android:theme="@style/WakupTheme.Dialog"
             android:noHistory="true"
-            android:screenOrientation="portrait" >
-        </activity>
-
+            android:screenOrientation="portrait"
+            android:theme="@style/WakupTheme.Dialog"/>
         <activity
             android:name=".activities.OfferMapActivity"
-            android:theme="@style/WakupTheme"
-            android:label="@string/wk_activity_map">
-        </activity>
-
+            android:label="@string/wk_activity_map"
+            android:theme="@style/WakupTheme"/>
         <activity
             android:name=".activities.StoreOffersActivity"
-            android:theme="@style/WakupTheme.ActionBarOverlay"
-            android:label="@string/wk_activity_store_offers">
-        </activity>
-
+            android:label="@string/wk_activity_store_offers"
+            android:theme="@style/WakupTheme.ActionBarOverlay"/>
         <activity
             android:name=".activities.WebViewActivity"
-            android:theme="@style/WakupTheme"
-            android:label="@string/wk_empty">
-        </activity>
-
+            android:label="@string/wk_empty"
+            android:theme="@style/WakupTheme"/>
         <activity
             android:name=".activities.SearchActivity"
-            android:theme="@style/WakupTheme"
+            android:label="@string/wk_activity_search"
             android:screenOrientation="portrait"
-            android:label="@string/wk_activity_search">
-        </activity>
-
+            android:theme="@style/WakupTheme"/>
         <activity
             android:name=".activities.SearchResultActivity"
+            android:label="@string/wk_activity_search_result"
             android:screenOrientation="portrait"
-            android:theme="@style/WakupTheme.ActionBarOverlay"
-            android:label="@string/wk_activity_search_result">
-        </activity>
+            android:theme="@style/WakupTheme.ActionBarOverlay"/>
 
-        <meta-data android:name="com.google.android.gms.version"
+        <meta-data
+            android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

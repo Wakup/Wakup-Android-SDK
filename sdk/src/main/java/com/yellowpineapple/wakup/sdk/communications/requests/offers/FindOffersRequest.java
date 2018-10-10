@@ -1,12 +1,14 @@
 package com.yellowpineapple.wakup.sdk.communications.requests.offers;
 
 import android.location.Location;
+import android.support.annotation.Nullable;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.yellowpineapple.wakup.sdk.communications.requests.BaseRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.OfferListRequestListener;
+import com.yellowpineapple.wakup.sdk.models.Category;
 import com.yellowpineapple.wakup.sdk.models.Company;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.utils.Strings;
@@ -18,20 +20,30 @@ public class FindOffersRequest extends BaseRequest {
 
     /* Constants */
 	/* Segments */
-    final static String[] SEGMENTS = new String[] { "offers", "find" };
+    private final static String[] SEGMENTS = new String[] { "offers", "find" };
 
     /* Properties */
-    OfferListRequestListener listener;
+    private OfferListRequestListener listener;
 
-    public FindOffersRequest(Location location, Double radiusInKm, OfferListRequestListener listener) {
-        this(location, null, null, false, FIRST_PAGE, LOCATED_RESULTS_PER_PAGE, radiusInKm, listener);
+    public static FindOffersRequest findNearestOffer(Location location, OfferListRequestListener listener) {
+        return new FindOffersRequest(location, null, null, false, BaseRequest.FIRST_PAGE, 1, null, null, listener);
+    }
+
+    public static FindOffersRequest findLocatedOffers(Location location, Double radiusInKm, OfferListRequestListener listener) {
+        return new FindOffersRequest(location, null, null, false, FIRST_PAGE, LOCATED_RESULTS_PER_PAGE, radiusInKm, null, listener);
+    }
+
+    public static FindOffersRequest findCategoryOffers(Location location, Category category, Company company, int page, OfferListRequestListener listener) {
+        return new FindOffersRequest(location, company, null, true, page, RESULTS_PER_PAGE, null, category, listener);
     }
 
     public FindOffersRequest(Location location, Company company, List<String> tags, int page, OfferListRequestListener listener) {
-        this(location, company, tags, true, page, RESULTS_PER_PAGE, null, listener);
+        this(location, company, tags, true, page, RESULTS_PER_PAGE, null, null, listener);
     }
 
-    public FindOffersRequest(Location location, Company company, List<String> tags, boolean includeOnline, int page, int perPage, Double radiusInKm, OfferListRequestListener listener) {
+    private FindOffersRequest(Location location, Company company, List<String> tags,
+                              boolean includeOnline, int page, int perPage, Double radiusInKm,
+                              @Nullable Category category, OfferListRequestListener listener) {
         super();
         this.httpMethod = HttpMethod.GET;
         addSegmentParams(SEGMENTS);
@@ -41,6 +53,7 @@ public class FindOffersRequest extends BaseRequest {
         addParam("longitude", location.getLongitude());
         if (radiusInKm != null) addParam("radiusInKm", radiusInKm);
         if (company != null)    addParam("companyId", company.getId());
+        if (category != null)   addParam("categoryId", category.getId());
         if (tags != null && tags.size() > 0) {
             addParam("tags", Strings.join(",", tags));
         }

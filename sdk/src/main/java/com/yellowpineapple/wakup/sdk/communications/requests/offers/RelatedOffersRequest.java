@@ -15,10 +15,10 @@ public class RelatedOffersRequest extends BaseRequest {
 
     /* Constants */
 	/* Segments */
-    final static String[] SEGMENTS = new String[] { "offers", "related" };
+    private final static String[] SEGMENTS = new String[] { "offers", "related" };
 
     /* Properties */
-    OfferListRequestListener listener;
+    private OfferListRequestListener listener;
 
     public RelatedOffersRequest(Offer offer, int page, int perPage, OfferListRequestListener listener) {
         super();

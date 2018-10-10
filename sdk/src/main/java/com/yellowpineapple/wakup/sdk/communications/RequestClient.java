@@ -10,12 +10,14 @@ import com.yellowpineapple.wakup.sdk.communications.requests.OfferRequestListene
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.CompanyOffersRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.FeaturedOffersRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.FindOffersRequest;
+import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetCategoriesRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetCouponImageRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetOffersByIdRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetRedemptionCodeRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.RelatedOffersRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.register.RegisterRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.search.SearchRequest;
+import com.yellowpineapple.wakup.sdk.models.Category;
 import com.yellowpineapple.wakup.sdk.models.Company;
 import com.yellowpineapple.wakup.sdk.models.CompanyDetail;
 import com.yellowpineapple.wakup.sdk.models.Offer;
@@ -34,7 +36,7 @@ public class RequestClient {
     private final static String API_TOKEN_HEADER = "API-Token";
     private final static String USER_TOKEN_HEADER = "User-Token";
 
-    public static final Environment ENVIRONMENT = Environment.PRODUCTION;
+    public static final Environment ENVIRONMENT = Environment.PRE;
 
     public enum Environment {
         PRODUCTION("https://app.wakup.net/", false),
@@ -99,11 +101,15 @@ public class RequestClient {
     }
 
     public Request findLocatedOffers(Location location, Double radius, OfferListRequestListener listener) {
-        return launch(new FindOffersRequest(location, radius, listener));
+        return launch(FindOffersRequest.findLocatedOffers(location, radius, listener));
+    }
+
+    public Request findCategoryOffers(Location location, Category category, Company company, int page, OfferListRequestListener listener) {
+        return launch(FindOffersRequest.findCategoryOffers(location, category, company, page, listener));
     }
 
     public Request findNearestOffer(Location location, final OfferRequestListener listener) {
-        return launch(new FindOffersRequest(location, null, null, false, BaseRequest.FIRST_PAGE, 1, null, new OfferListRequestListener() {
+        return launch(FindOffersRequest.findNearestOffer(location, new OfferListRequestListener() {
             @Override
             public void onSuccess(List<Offer> offers) {
                 listener.onSuccess(offers.size() > 0 ? offers.get(0) : null);
@@ -146,6 +152,12 @@ public class RequestClient {
 
     public Request search(String query, SearchRequest.Listener listener) {
         return launch(new SearchRequest(query, listener));
+    }
+
+    // Categories
+
+    public Request getCategories(GetCategoriesRequest.Listener listener) {
+        return launch(new GetCategoriesRequest(listener));
     }
 
 	/* Private methods */

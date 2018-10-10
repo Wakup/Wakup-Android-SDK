@@ -1,43 +1,40 @@
 package com.yellowpineapple.wakup.sdk.communications.requests.offers;
 
-import android.location.Location;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import com.yellowpineapple.wakup.sdk.communications.Request;
 import com.yellowpineapple.wakup.sdk.communications.requests.BaseRequest;
-import com.yellowpineapple.wakup.sdk.communications.requests.OfferListRequestListener;
-import com.yellowpineapple.wakup.sdk.models.Offer;
+import com.yellowpineapple.wakup.sdk.models.Category;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class FeaturedOffersRequest extends BaseRequest {
+public class GetCategoriesRequest extends BaseRequest {
+
+    public interface Listener extends Request.ErrorListener {
+        void onSuccess(List<Category> offers);
+    }
 
     /* Constants */
 	/* Segments */
-    private final static String[] SEGMENTS = new String[] { "offers", "recommended" };
+    private final static String[] SEGMENTS = new String[] { "categories" };
 
     /* Properties */
-    private OfferListRequestListener listener;
+    private Listener listener;
 
-    public FeaturedOffersRequest(Location location, int page, int perPage, OfferListRequestListener listener) {
+    public GetCategoriesRequest(Listener listener) {
         super();
         this.httpMethod = HttpMethod.GET;
-        addPagination(page, perPage);
         addSegmentParams(SEGMENTS);
-        if (location != null) {
-            addParam("latitude", location.getLatitude());
-            addParam("longitude", location.getLongitude());
-        }
         this.listener = listener;
     }
 
     @Override
     protected void onSuccess(JsonElement response) {
         try {
-            Type type = new TypeToken<List<Offer>>() {}.getType();
-            List<Offer> offers = getParser().fromJson(response, type);
+            Type type = new TypeToken<List<Category>>() {}.getType();
+            List<Category> offers = getParser().fromJson(response, type);
             listener.onSuccess(offers);
         } catch (JsonSyntaxException e) {
             getListener().onError(e);

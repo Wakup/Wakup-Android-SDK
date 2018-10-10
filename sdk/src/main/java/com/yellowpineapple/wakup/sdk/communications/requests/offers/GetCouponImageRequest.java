@@ -6,13 +6,10 @@ import com.yellowpineapple.wakup.sdk.communications.RequestClient;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.models.RemoteImage;
 
-/**
- * Created by agutierrez on 1/9/16.
- */
 public class GetCouponImageRequest {
 
-    static final String SIZE = "200";
-    String url;
+    private static final String SIZE = "200";
+    private String url;
 
     public GetCouponImageRequest(Offer offer, String format, RequestClient.Environment environment, String userToken) {
 
