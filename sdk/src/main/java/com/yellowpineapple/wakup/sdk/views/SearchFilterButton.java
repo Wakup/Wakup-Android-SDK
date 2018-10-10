@@ -4,14 +4,14 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.yellowpineapple.wakup.sdk.R;
-import com.yellowpineapple.wakup.sdk.models.Category;
+import com.yellowpineapple.wakup.sdk.models.SearchCategory;
 
 /**
  * Created by agutierrez on 7/9/16.
  */
 public class SearchFilterButton extends OfferActionButton {
 
-    Category category;
+    SearchCategory category;
 
     public SearchFilterButton(Context context) {
         super(context);
@@ -32,13 +32,13 @@ public class SearchFilterButton extends OfferActionButton {
         setFontSize((float) getResources().getDimensionPixelSize(R.dimen.wk_category_button_text));
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(SearchCategory category) {
         this.category = category;
         setText(category.getNameResId());
         setIcon(category.getIconResId(), category.getIconColorResId());
     }
 
-    public Category getCategory() {
+    public SearchCategory getCategory() {
         return category;
     }
 }

@@ -4,15 +4,13 @@ import android.location.Location;
 
 import java.io.Serializable;
 
-/**
- * Created by agutierrez on 04/02/15.
- */
 public class Store implements Serializable {
-    int id;
-    String name;
-    String address;
-    double latitude;
-    double longitude;
+
+    private int id;
+    private String name;
+    private String address;
+    private double latitude;
+    private double longitude;
 
     public Location getLocation() {
         Location location = null;

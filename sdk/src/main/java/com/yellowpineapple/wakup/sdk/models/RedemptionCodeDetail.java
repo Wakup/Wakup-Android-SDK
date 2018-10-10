@@ -3,14 +3,11 @@ package com.yellowpineapple.wakup.sdk.models;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by agutierrez on 29/8/16.
- */
 public class RedemptionCodeDetail implements Serializable{
 
-    String code;
-    String displayCode;
-    List<String> formats;
+    private String code;
+    private String displayCode;
+    private List<String> formats;
 
     public String getCode() {
         return code;

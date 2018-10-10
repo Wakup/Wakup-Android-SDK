@@ -71,7 +71,7 @@ public class RegistrationInfo {
         }
     }
 
-    public void printLog() {
+    private void printLog() {
         Ln.d("============================================");
         Ln.d("===        WAKUP Registration info       ===");
         Ln.d("============================================");

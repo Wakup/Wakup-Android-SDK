@@ -2,15 +2,12 @@ package com.yellowpineapple.wakup.sdk.models;
 
 import java.io.Serializable;
 
-/**
- * Created by agutierrez on 29/8/16.
- */
 public class RedemptionCode implements Serializable {
 
-    Integer totalCodes;
-    Integer availableCodes;
-    boolean limited;
-    boolean alreadyAssigned;
+    private Integer totalCodes;
+    private Integer availableCodes;
+    private boolean limited;
+    private boolean alreadyAssigned;
 
     public Integer getTotalCodes() {
         return totalCodes;

@@ -68,7 +68,7 @@
     <color name="wk_search_list_bg">@color/wk_white</color>
     <color name="wk_search_icon">@color/wk_light_text</color>
 
-    <!-- Category colors -->
+    <!-- SearchCategory colors -->
     <color name="wk_search_cat_leisure">@color/wk_action_active</color>
     <color name="wk_search_cat_restaurants">@color/wk_action_active</color>
     <color name="wk_search_cat_services">@color/wk_action_active</color>

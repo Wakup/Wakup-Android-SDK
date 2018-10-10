@@ -6,7 +6,7 @@
     <drawable name="wk_nav_map">@drawable/wk_ic_nav_map</drawable>
     <drawable name="wk_nav_my_offers">@drawable/wk_ic_nav_my_offers</drawable>
 
-    <!-- Category icons -->
+    <!-- SearchCategory icons -->
     <drawable name="wk_cat_leisure">@drawable/wk_ic_btn_leisure</drawable>
     <drawable name="wk_cat_restaurants">@drawable/wk_ic_btn_restaurants</drawable>
     <drawable name="wk_cat_services">@drawable/wk_ic_btn_services</drawable>

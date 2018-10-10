@@ -10,24 +10,21 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by agutierrez on 17/12/15.
- */
 public class SearchResultItem implements Serializable {
 
     public enum Type {
         TAG, COMPANY, LOCATION, NEAR_ME, HEADER;
     }
 
-    static final int MAX_FIELDS = 3;
+    private static final int MAX_FIELDS = 3;
 
-    boolean recent = false;
-    Type type;
-    String name = null;
-    String description = null;
-    double latitude = 0;
-    double longitude = 0;
-    Company company = null;
+    private boolean recent = false;
+    private Type type;
+    private String name = null;
+    private String description = null;
+    private double latitude = 0;
+    private double longitude = 0;
+    private Company company = null;
 
     public SearchResultItem() {
     }

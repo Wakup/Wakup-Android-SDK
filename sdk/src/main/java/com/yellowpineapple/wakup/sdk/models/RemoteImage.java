@@ -2,15 +2,12 @@ package com.yellowpineapple.wakup.sdk.models;
 
 import java.io.Serializable;
 
-/**
- * Created by agutierrez on 02/02/15.
- */
 public class RemoteImage implements Serializable {
 
-    int height;
-    int width;
-    String rgbColor;
-    String url;
+    private int height;
+    private int width;
+    private String rgbColor;
+    private String url;
 
     public int getHeight() {
         return height;

@@ -14,8 +14,8 @@ import java.util.List;
  */
 public class MapMarker {
 
-    String[] tags;
-    int iconResId;
+    private String[] tags;
+    private int iconResId;
 
     /**
      * Constructor for Map Marker associated to given tags.

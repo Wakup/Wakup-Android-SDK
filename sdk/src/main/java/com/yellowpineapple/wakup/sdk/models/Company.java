@@ -2,13 +2,10 @@ package com.yellowpineapple.wakup.sdk.models;
 
 import java.io.Serializable;
 
-/**
- * Created by agutierrez on 15/12/15.
- */
 public class Company implements Serializable {
 
-    int id;
-    String name;
+    private int id;
+    private String name;
 
     public int getId() {
         return id;

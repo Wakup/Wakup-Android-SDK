@@ -5,12 +5,12 @@ import com.yellowpineapple.wakup.sdk.R;
 /**
  * Representation of an offer category used to filter the search results
  */
-public class Category {
+public class SearchCategory {
 
-    String[] tags;
-    int nameResId;
-    int iconResId;
-    int iconColorResId;
+    private String[] tags;
+    private int nameResId;
+    private int iconResId;
+    private int iconColorResId;
 
     /**
      * Creates a representation of an offer category that will be offered to the user to filter
@@ -20,7 +20,7 @@ public class Category {
      * @param iconResId Icon that will be displayed in filter button
      * @param tags Array of tags that will be allowed for results when the filter is applied
      */
-    public Category(int nameResId, int iconResId, String... tags) {
+    public SearchCategory(int nameResId, int iconResId, String... tags) {
         this(nameResId, iconResId, R.color.wk_action_active, tags);
     }
 
@@ -33,7 +33,7 @@ public class Category {
      * @param iconColorResId Color for de icon
      * @param tags Array of tags that will be allowed for results when the filter is applied
      */
-    public Category(int nameResId, int iconResId, int iconColorResId, String... tags) {
+    public SearchCategory(int nameResId, int iconResId, int iconColorResId, String... tags) {
         this.tags = tags;
         this.nameResId = nameResId;
         this.iconResId = iconResId;

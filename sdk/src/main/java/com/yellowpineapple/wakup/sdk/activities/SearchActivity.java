@@ -25,7 +25,7 @@ import com.yellowpineapple.wakup.sdk.WakupOptions;
 import com.yellowpineapple.wakup.sdk.communications.Request;
 import com.yellowpineapple.wakup.sdk.communications.requests.search.SearchRequest;
 import com.yellowpineapple.wakup.sdk.controllers.SearchResultAdapter;
-import com.yellowpineapple.wakup.sdk.models.Category;
+import com.yellowpineapple.wakup.sdk.models.SearchCategory;
 import com.yellowpineapple.wakup.sdk.models.SearchResult;
 import com.yellowpineapple.wakup.sdk.models.SearchResultItem;
 import com.yellowpineapple.wakup.sdk.utils.IntentBuilder;
@@ -97,7 +97,7 @@ public class SearchActivity extends ParentActivity {
             @Override
             public void onItemClick(SearchResultItem item, View view) {
                 List<String> tags = new ArrayList<String>();
-                for (Category category : filtersView.getSelectedCategories()) {
+                for (SearchCategory category : filtersView.getSelectedCategories()) {
                     tags.addAll(Arrays.asList(category.getTags()));
                 }
                 switch (item.getType()) {
@@ -117,7 +117,7 @@ public class SearchActivity extends ParentActivity {
                 slideInTransition();
             }
         });
-        List<Category> categories = getPersistence().getOptions().getCategories();
+        List<SearchCategory> categories = getPersistence().getOptions().getCategories();
 
         if (categories != null && categories.size() > 0) {
             filtersView = new SearchFiltersView(this, categories);

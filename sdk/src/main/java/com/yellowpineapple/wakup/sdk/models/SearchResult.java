@@ -2,13 +2,10 @@ package com.yellowpineapple.wakup.sdk.models;
 
 import java.util.List;
 
-/**
- * Created by agutierrez on 15/12/15.
- */
 public class SearchResult {
 
-    List<Company> companies;
-    List<String> tags;
+    private List<Company> companies;
+    private List<String> tags;
 
     public List<Company> getCompanies() {
         return companies;

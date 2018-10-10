@@ -2,16 +2,13 @@ package com.yellowpineapple.wakup.sdk;
 
 import android.location.Location;
 
-import com.yellowpineapple.wakup.sdk.models.Category;
 import com.yellowpineapple.wakup.sdk.models.MapMarker;
+import com.yellowpineapple.wakup.sdk.models.SearchCategory;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Created by agutierrez on 18/1/16.
- */
 public class WakupOptions {
 
     /** Wakup Client API Key */
@@ -26,15 +23,15 @@ public class WakupOptions {
 
     private boolean showBackInRoot = false;
 
-    final static List<Category> DEFAULT_CATEGORIES = Arrays.asList(
-            new Category(R.string.wk_category_leisure, R.drawable.wk_cat_leisure, R.color.wk_search_cat_leisure,  "leisure"),
-            new Category(R.string.wk_category_restaurants, R.drawable.wk_cat_restaurants, R.color.wk_search_cat_restaurants, "restaurants"),
-            new Category(R.string.wk_category_services, R.drawable.wk_cat_services, R.color.wk_search_cat_services, "services"),
-            new Category(R.string.wk_category_shopping, R.drawable.wk_cat_shopping, R.color.wk_search_cat_shopping, "shopping")
+    private final static List<SearchCategory> DEFAULT_CATEGORIES = Arrays.asList(
+            new SearchCategory(R.string.wk_category_leisure, R.drawable.wk_cat_leisure, R.color.wk_search_cat_leisure,  "leisure"),
+            new SearchCategory(R.string.wk_category_restaurants, R.drawable.wk_cat_restaurants, R.color.wk_search_cat_restaurants, "restaurants"),
+            new SearchCategory(R.string.wk_category_services, R.drawable.wk_cat_services, R.color.wk_search_cat_services, "services"),
+            new SearchCategory(R.string.wk_category_shopping, R.drawable.wk_cat_shopping, R.color.wk_search_cat_shopping, "shopping")
     );
-    List<Category> categories = DEFAULT_CATEGORIES;
+    private List<SearchCategory> categories = DEFAULT_CATEGORIES;
 
-    final static List<MapMarker> DEFAULT_MAP_MARKERS = Arrays.asList(
+    private final static List<MapMarker> DEFAULT_MAP_MARKERS = Arrays.asList(
             new MapMarker(R.drawable.wk_pin_leisure,     "leisure"),
             new MapMarker(R.drawable.wk_pin_restaurants, "restaurants"),
             new MapMarker(R.drawable.wk_pin_services,    "services"),
@@ -42,7 +39,7 @@ public class WakupOptions {
             new MapMarker(R.drawable.wk_pin_unknown)
     );
 
-    List<MapMarker> mapMarkers = DEFAULT_MAP_MARKERS;
+    private List<MapMarker> mapMarkers = DEFAULT_MAP_MARKERS;
 
     /**
      * Creates an Options object to setup the Wakup SDK
@@ -88,7 +85,7 @@ public class WakupOptions {
      * @param categories Desired search filter categories
      * @return options instance to allow in-line setup
      */
-    public WakupOptions categories(List<Category> categories) {
+    public WakupOptions categories(List<SearchCategory> categories) {
         this.categories = categories;
         return this;
     }
@@ -141,7 +138,7 @@ public class WakupOptions {
         return location;
     }
 
-    public List<Category> getCategories() {
+    public List<SearchCategory> getCategories() {
         return categories;
     }
 

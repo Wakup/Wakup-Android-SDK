@@ -6,7 +6,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.yellowpineapple.wakup.sdk.R;
-import com.yellowpineapple.wakup.sdk.models.Category;
+import com.yellowpineapple.wakup.sdk.models.SearchCategory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +14,9 @@ import java.util.List;
 public class SearchFiltersView extends FrameLayout {
 
     List<SearchFilterButton> buttons = new ArrayList<>();
-    List<Category> categories;
+    List<SearchCategory> categories;
 
-    public SearchFiltersView(Context context, List<Category> categories) {
+    public SearchFiltersView(Context context, List<SearchCategory> categories) {
         super(context);
         this.categories = categories;
         injectViews();
@@ -38,7 +38,7 @@ public class SearchFiltersView extends FrameLayout {
                 new LinearLayout.LayoutParams(filtersSize, filtersSize);
         layoutParams.setMargins(0, margin, margin, margin);
         if (categories != null) {
-            for (Category category : categories) {
+            for (SearchCategory category : categories) {
                 SearchFilterButton button = new SearchFilterButton(getContext());
                 button.setCategory(category);
                 button.setOnClickListener(onClickListener);
@@ -48,8 +48,8 @@ public class SearchFiltersView extends FrameLayout {
         }
     }
 
-    public List<Category> getSelectedCategories() {
-        List<Category> categories = new ArrayList<>();
+    public List<SearchCategory> getSelectedCategories() {
+        List<SearchCategory> categories = new ArrayList<>();
         for (SearchFilterButton button : buttons) {
             if (button.isSelected()) categories.add(button.getCategory());
         }

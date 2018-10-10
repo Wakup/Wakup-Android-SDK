@@ -11,25 +11,23 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-/**
- * Created by agutierrez on 02/02/15.
- */
 public class Offer implements Serializable {
 
-    int id;
-    boolean isOnline;
-    CompanyDetail company;
-    String description;
-    String shortDescription;
-    String shortOffer;
-    String link;
-    Date expirationDate;
-    RemoteImage image;
-    RemoteImage thumbnail;
-    Store store;
-    List<String> tags;
-    RedemptionCode redemptionCode;
+    private int id;
+    private boolean isOnline;
+    private CompanyDetail company;
+    private String description;
+    private String shortDescription;
+    private String shortOffer;
+    private String link;
+    private Date expirationDate;
+    private RemoteImage image;
+    private RemoteImage thumbnail;
+    private Store store;
+    private List<String> tags;
+    private RedemptionCode redemptionCode;
 
 
     public boolean hasLocation() {
@@ -87,7 +85,7 @@ public class Offer implements Serializable {
                         } else if (monthDiff <= 12) {
                             expirationText = String.format(context.getText(R.string.wk_offer_expires_in_x_months).toString(), monthDiff);
                         } else {
-                            DateFormat df = new SimpleDateFormat(context.getText(R.string.wk_offer_expiration_date_format).toString());
+                            DateFormat df = new SimpleDateFormat(context.getText(R.string.wk_offer_expiration_date_format).toString(), Locale.getDefault());
                             expirationText = df.format(expirationDate);
                         }
                     }
