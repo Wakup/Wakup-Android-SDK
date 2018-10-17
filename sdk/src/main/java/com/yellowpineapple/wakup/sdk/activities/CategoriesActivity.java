@@ -18,6 +18,7 @@ import com.yellowpineapple.wakup.sdk.controllers.CategoriesAdapter;
 import com.yellowpineapple.wakup.sdk.controllers.CompaniesAdapter;
 import com.yellowpineapple.wakup.sdk.models.Category;
 import com.yellowpineapple.wakup.sdk.models.Company;
+import com.yellowpineapple.wakup.sdk.models.CompanyDetail;
 import com.yellowpineapple.wakup.sdk.utils.IntentBuilder;
 import com.yellowpineapple.wakup.sdk.views.PullToRefreshLayout;
 
@@ -29,9 +30,9 @@ public class CategoriesActivity extends OfferListActivity {
 
     // Models
     private List<Category> categories = null;
-    private List<Company> defaultCompanies = null;
+    private List<CompanyDetail> defaultCompanies = null;
     private Category selectedCategory = null;
-    private Company selectedCompany = null;
+    private CompanyDetail selectedCompany = null;
     private boolean alreadyRegistered = false;
 
     // Controllers
@@ -122,7 +123,7 @@ public class CategoriesActivity extends OfferListActivity {
         companiesAdapter = new CompaniesAdapter(null, this);
         companiesAdapter.setListener(new CompaniesAdapter.Listener() {
             @Override
-            public void onSelectedCompanyChanged(Company company) {
+            public void onSelectedCompanyChanged(CompanyDetail company) {
                 selectedCompany = company;
                 reloadOffers();
             }
@@ -134,14 +135,14 @@ public class CategoriesActivity extends OfferListActivity {
     // Creates a list of companies based on companies assigned to different categories
     void updateDefaultCompanies(List<Category> categories) {
         defaultCompanies = new ArrayList<>();
-        List<LinkedList<Company>> companyMap = new ArrayList<>();
+        List<LinkedList<CompanyDetail>> companyMap = new ArrayList<>();
         for (Category category : categories) {
             companyMap.add(new LinkedList<>(category.getCompanies()));
         }
         while (companyMap.size() > 0) {
             for (int i=0; i < companyMap.size(); i++) {
-                LinkedList<Company> companyList = companyMap.get(i);
-                Company company = companyList.pollFirst();
+                LinkedList<CompanyDetail> companyList = companyMap.get(i);
+                CompanyDetail company = companyList.pollFirst();
                 if (company == null) {
                     companyMap.remove(companyList);
                 } else {

@@ -6,7 +6,7 @@ public class Category {
 
     private int id;
     private String name;
-    private List<Company> companies;
+    private List<CompanyDetail> companies;
     private List<String> tags;
 
     public int getId() {
@@ -17,7 +17,7 @@ public class Category {
         return name;
     }
 
-    public List<Company> getCompanies() {
+    public List<CompanyDetail> getCompanies() {
         return companies;
     }
 

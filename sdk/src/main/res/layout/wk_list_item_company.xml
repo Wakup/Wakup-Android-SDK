@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content" android:layout_height="60dp">
+
+    <com.yellowpineapple.wakup.sdk.views.RemoteImageView
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:layout_centerInParent="true"
+        android:id="@+id/imageView" />
+
+    <View
+        android:id="@+id/clickableView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/imageView"
+        android:layout_alignStart="@+id/imageView"
+        android:layout_alignRight="@+id/imageView"
+        android:layout_alignEnd="@+id/imageView"
+        android:background="@drawable/wk_ripple_effect"
+        android:clickable="true">
+    </View>
+
+    <ImageView
+        android:id="@+id/selectedView"
+        android:contentDescription="@null"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:rotation="180"
+        android:src="@drawable/wk_shape_triangle" />
+
+</RelativeLayout>

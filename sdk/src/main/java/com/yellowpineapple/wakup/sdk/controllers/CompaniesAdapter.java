@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.yellowpineapple.wakup.sdk.models.Company;
+import com.yellowpineapple.wakup.sdk.models.CompanyDetail;
 import com.yellowpineapple.wakup.sdk.views.CompanyListView;
 
 import java.util.List;
@@ -16,8 +16,8 @@ import java.util.List;
 
 public class CompaniesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Company> companies;
-    private Company selectedCompany = null;
+    private List<CompanyDetail> companies;
+    private CompanyDetail selectedCompany = null;
     private Context context;
     private Listener listener;
     private View headerView;
@@ -34,7 +34,7 @@ public class CompaniesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         CompanyListView view = new CompanyListView(context);
         view.setListener(new CompanyListView.Listener() {
             @Override
-            public void onCompanySelected(Company company) {
+            public void onCompanySelected(CompanyDetail company) {
                 setSelectedCompany(company);
                 if (listener != null) listener.onSelectedCompanyChanged(selectedCompany);
             }
@@ -46,12 +46,12 @@ public class CompaniesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         CompanyListView view = (CompanyListView)holder.itemView;
-        Company company = getCompany(position);
+        CompanyDetail company = getCompany(position);
         view.setCompany(company);
         view.setSelected(selectedCompany != null && company.getId() == selectedCompany.getId());
     }
 
-    private Company getCompany(int position) {
+    private CompanyDetail getCompany(int position) {
         return companies.get(isHeaderPresent() ? position - 1 : position);
     }
 
@@ -76,7 +76,7 @@ public class CompaniesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public interface Listener {
-        void onSelectedCompanyChanged(Company company);
+        void onSelectedCompanyChanged(CompanyDetail company);
     }
 
     public Listener getListener() {
@@ -87,7 +87,7 @@ public class CompaniesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.listener = listener;
     }
 
-    public void setCompanies(List<Company> companies) {
+    public void setCompanies(List<CompanyDetail> companies) {
         this.companies = companies;
     }
 
@@ -95,8 +95,10 @@ public class CompaniesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return context;
     }
 
-    public void setSelectedCompany(Company selectedCompany) {
+    public void setSelectedCompany(CompanyDetail selectedCompany) {
+        CompanyDetail prevSelectedCompany = this.selectedCompany;
         this.selectedCompany = selectedCompany;
-        notifyDataSetChanged();
+        if (prevSelectedCompany != null) notifyItemChanged(companies.indexOf(prevSelectedCompany));
+        if (selectedCompany != null) notifyItemChanged(companies.indexOf(selectedCompany));
     }
 }

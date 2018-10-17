@@ -4,26 +4,25 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.yellowpineapple.wakup.sdk.R;
-import com.yellowpineapple.wakup.sdk.models.Company;
+import com.yellowpineapple.wakup.sdk.models.CompanyDetail;
 
 public class CompanyListView extends FrameLayout {
 
     public interface Listener {
 
-        void onCompanySelected(Company company);
+        void onCompanySelected(CompanyDetail company);
 
     }
 
-    private Company company;
+    private CompanyDetail company;
     private Listener listener = null;
     private boolean selected = false;
 
     /* Views */
-    private TextView textView;
-    private View clickableView;
+    private RemoteImageView imageView;
+    private View selectedView;
 
     public CompanyListView(Context context) {
         super(context);
@@ -45,37 +44,39 @@ public class CompanyListView extends FrameLayout {
     }
 
     private void injectViews() {
-        inflate(getContext(), R.layout.wk_list_item_category, this);
-        textView = findViewById(R.id.textView);
-        clickableView = findViewById(R.id.clickableView);
+        inflate(getContext(), R.layout.wk_list_item_company, this);
+        imageView = findViewById(R.id.imageView);
+        selectedView = findViewById(R.id.selectedView);
+        View clickableView = findViewById(R.id.clickableView);
         clickableView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (listener != null) {
                     listener.onCompanySelected(selected ? null : company);
                 }
-                setSelected(!selected);
             }
         });
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
-        if (company != null) {
-            textView.setText(company.getName());
-        } else {
-            textView.setText(null);
+    public void setCompany(CompanyDetail company) {
+        if (company != this.company) {
+            this.company = company;
+            if (company != null) {
+                imageView.setImage(company.getLogo());
+            } else {
+                imageView.setImage(null);
+            }
         }
     }
 
-    public Company getCompany() {
+    public CompanyDetail getCompany() {
         return company;
     }
 
     @Override
     public void setSelected(boolean selected) {
         this.selected = selected;
-        clickableView.setSelected(selected);
+        selectedView.setVisibility(selected ? VISIBLE : GONE);
     }
 
     public void setListener(Listener listener) {

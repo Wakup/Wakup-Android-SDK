@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="New text"
-                android:background="@drawable/wk_ripple_effect"
+                android:background="@drawable/wk_ripple_effect_round_bottom"
                 android:autoLink="web"
                 android:id="@+id/textView"/>
 
