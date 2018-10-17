@@ -29,9 +29,6 @@ import com.yellowpineapple.wakup.sdk.views.PullToRefreshLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by agutierrez on 09/02/15.
- */
 public abstract class OfferListActivity extends ParentActivity implements OffersAdapter.Listener {
 
     OffersAdapter offersAdapter;

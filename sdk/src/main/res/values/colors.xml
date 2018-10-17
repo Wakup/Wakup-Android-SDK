@@ -86,6 +86,11 @@
     <color name="wk_carousel_indicator_active">@color/wk_secondary</color>
     <color name="wk_carousel_indicator_border">@color/wk_light_text</color>
 
+    <!-- Category selection colors -->
+    <color name="wk_cat_text_active">@color/wk_primary_reverse</color>
+    <color name="wk_cat_text_pressed">@color/wk_appbar_text</color>
+    <color name="wk_cat_bg">@color/wk_primary_dark</color>
+
 
 
 </resources>

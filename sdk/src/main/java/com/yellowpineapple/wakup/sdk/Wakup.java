@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.yellowpineapple.wakup.sdk.activities.CategoriesActivity;
 import com.yellowpineapple.wakup.sdk.activities.OfferDetailActivity;
 import com.yellowpineapple.wakup.sdk.activities.OffersActivity;
 import com.yellowpineapple.wakup.sdk.communications.Request;
@@ -52,7 +53,7 @@ public class Wakup {
     }
 
     private IntentBuilder getMainActivityBuilder() {
-        return OffersActivity.intent(context);
+        return CategoriesActivity.intent(context);
     }
 
     public void launchWithOffer(Offer offer) {

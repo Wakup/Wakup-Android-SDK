@@ -1,13 +1,13 @@
 package com.yellowpineapple.wakup.sdk.controllers;
 
 import android.content.Context;
-import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.yellowpineapple.wakup.sdk.models.Offer;
-import com.yellowpineapple.wakup.sdk.views.OfferListView;
+import com.yellowpineapple.wakup.sdk.models.Category;
+import com.yellowpineapple.wakup.sdk.views.CategoryListView;
 
 import java.util.List;
 
@@ -15,17 +15,17 @@ import java.util.List;
  * ADAPTER
  */
 
-public class OffersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements OfferListView.Listener {
+public class CategoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Offer> offers;
+    private List<Category> categories;
+    private Category selectedCategory = null;
     private Context context;
-    private Location currentLocation;
     private Listener listener;
     private View headerView;
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
 
-    public OffersAdapter(View headerView, final Context context) {
+    public CategoriesAdapter(View headerView, final Context context) {
         super();
         this.headerView = headerView;
         this.context = context;
@@ -38,9 +38,16 @@ public class OffersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case TYPE_HEADER:
                 return new HeaderViewHolder(headerView);
             default:
-                OfferListView offerView = new OfferListView(getContext());
-                offerView.setListener(this);
-                return new OfferViewHolder(offerView);
+                CategoryListView view = new CategoryListView(context);
+                view.setListener(new CategoryListView.Listener() {
+                    @Override
+                    public void onCategorySelected(Category category) {
+                        selectedCategory = category;
+                        notifyDataSetChanged();
+                        if (listener != null) listener.onSelectedCategoryChanged(selectedCategory);
+                    }
+                });
+                return new HeaderViewHolder(view);
         }
     }
 
@@ -53,21 +60,23 @@ public class OffersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         if(getItemViewType(position) != TYPE_HEADER) {
-            OfferViewHolder offerViewHolder = (OfferViewHolder) holder;
-            offerViewHolder.offerView.setOffer(getOffer(position), currentLocation);
+            CategoryListView view = (CategoryListView)holder.itemView;
+            Category category = getCategory(position);
+            view.setCategory(category);
+            view.setSelected(selectedCategory != null && category.getId() == selectedCategory.getId());
         }
 
     }
 
-    private Offer getOffer(int position) {
-        return offers.get(isHeaderPresent() ? position - 1 : position);
+    private Category getCategory(int position) {
+        return categories.get(isHeaderPresent() ? position - 1 : position);
     }
 
     @Override
     public int getItemCount() {
         int count = 0;
-        if (offers != null) {
-            count = offers.size();
+        if (categories != null) {
+            count = categories.size();
         }
         if (isHeaderPresent()) {
             count++;
@@ -80,15 +89,6 @@ public class OffersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return headerView != null;
     }
 
-    private static class OfferViewHolder extends RecyclerView.ViewHolder {
-
-        OfferListView offerView;
-        OfferViewHolder(View v) {
-            super(v);
-            offerView = (OfferListView) v;
-        }
-    }
-
     private static class HeaderViewHolder extends RecyclerView.ViewHolder {
 
         HeaderViewHolder(View v) {
@@ -96,19 +96,8 @@ public class OffersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    @Override
-    public void onClick(Offer offer) {
-        if (listener != null) listener.onOfferClick(offer);
-    }
-
-    @Override
-    public void onLongClick(Offer offer) {
-        if (listener != null) listener.onOfferLongClick(offer);
-    }
-
     public interface Listener {
-        void onOfferClick(Offer offer);
-        void onOfferLongClick(Offer offer);
+        void onSelectedCategoryChanged(Category category);
     }
 
     public Listener getListener() {
@@ -119,19 +108,12 @@ public class OffersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.listener = listener;
     }
 
-    public List<Offer> getOffers() {
-        return offers;
-    }
-
-    public void setOffers(List<Offer> offers) {
-        this.offers = offers;
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
     public Context getContext() {
         return context;
     }
 
-    public void setCurrentLocation(Location currentLocation) {
-        this.currentLocation = currentLocation;
-    }
 }

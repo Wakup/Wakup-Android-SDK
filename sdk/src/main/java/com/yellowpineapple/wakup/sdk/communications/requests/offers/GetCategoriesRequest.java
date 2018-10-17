@@ -13,7 +13,7 @@ import java.util.List;
 public class GetCategoriesRequest extends BaseRequest {
 
     public interface Listener extends Request.ErrorListener {
-        void onSuccess(List<Category> offers);
+        void onSuccess(List<Category> categories);
     }
 
     /* Constants */
@@ -34,8 +34,8 @@ public class GetCategoriesRequest extends BaseRequest {
     protected void onSuccess(JsonElement response) {
         try {
             Type type = new TypeToken<List<Category>>() {}.getType();
-            List<Category> offers = getParser().fromJson(response, type);
-            listener.onSuccess(offers);
+            List<Category> categories = getParser().fromJson(response, type);
+            listener.onSuccess(categories);
         } catch (JsonSyntaxException e) {
             getListener().onError(e);
         }

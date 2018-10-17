@@ -4,6 +4,7 @@ import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,28 +14,37 @@ import android.view.View;
 import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.Wakup;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetCategoriesRequest;
+import com.yellowpineapple.wakup.sdk.controllers.CategoriesAdapter;
+import com.yellowpineapple.wakup.sdk.controllers.CompaniesAdapter;
 import com.yellowpineapple.wakup.sdk.models.Category;
 import com.yellowpineapple.wakup.sdk.models.Company;
-import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.utils.IntentBuilder;
 import com.yellowpineapple.wakup.sdk.views.PullToRefreshLayout;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class CategoriesActivity extends OfferListActivity {
 
+    // Models
     private List<Category> categories = null;
+    private List<Company> defaultCompanies = null;
     private Category selectedCategory = null;
     private Company selectedCompany = null;
     private boolean alreadyRegistered = false;
 
+    // Controllers
+    CompaniesAdapter companiesAdapter;
+
 
     // Views
-    View navigationView;
-    PullToRefreshLayout ptrLayout;
-    View emptyView;
-    RecyclerView recyclerView;
+    private View navigationView;
+    private PullToRefreshLayout ptrLayout;
+    private View emptyView;
+    private RecyclerView recyclerView;
+    private RecyclerView categoriesRV;
+    private RecyclerView companiesRV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,42 +64,20 @@ public class CategoriesActivity extends OfferListActivity {
         recyclerView = findViewById(R.id.recycler_view);
         navigationView = findViewById(R.id.navigationView);
         ptrLayout = findViewById(R.id.ptr_layout);
-        // Set actions for Navigation bar
-        View btnBigOffer = findViewById(R.id.btnBigOffer);
-        if (btnBigOffer != null) {
-            btnBigOffer.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    bigOfferPressed();
-                }
-            });
-        }
-        View btnMap = findViewById(R.id.btnMap);
-        if (btnMap != null) {
-            btnMap.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mapButtonPressed();
-                }
-            });
-        }
-        View btnMyOffers = findViewById(R.id.btnMyOffers);
-        if (btnMyOffers != null) {
-            btnMyOffers.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    myOffersPressed();
-                }
-            });
-        }
+        categoriesRV = findViewById(R.id.categoriesRV);
+        companiesRV = findViewById(R.id.companiesRV);
+
         afterViews();
     }
 
     void afterViews() {
         loadCategories(new GetCategoriesRequest.Listener() {
             @Override
-            public void onSuccess(List<Category> offers) {
+            public void onSuccess(List<Category> categories) {
                 CategoriesActivity.this.categories = categories;
+                updateDefaultCompanies(categories);
+                setupCategoriesSelector();
+                setupCompaniesSelector();
                 setupOffersGrid(recyclerView, navigationView, emptyView);
             }
 
@@ -101,6 +89,66 @@ public class CategoriesActivity extends OfferListActivity {
             }
         });
         setupOffersGrid(recyclerView, navigationView, emptyView);
+    }
+
+    void setupCategoriesSelector() {
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        categoriesRV.setLayoutManager(layoutManager);
+        CategoriesAdapter categoriesAdapter = new CategoriesAdapter(null, this);
+        categoriesAdapter.setListener(new CategoriesAdapter.Listener() {
+            @Override
+            public void onSelectedCategoryChanged(Category category) {
+                selectedCategory = category;
+                selectedCompany = null;
+                companiesAdapter.setSelectedCompany(null);
+                if (category == null) {
+                    companiesAdapter.setCompanies(defaultCompanies);
+                } else {
+                    companiesAdapter.setCompanies(category.getCompanies());
+                }
+                companiesAdapter.notifyDataSetChanged();
+                reloadOffers();
+            }
+        });
+        categoriesAdapter.setCategories(categories);
+        categoriesRV.setAdapter(categoriesAdapter);
+    }
+
+    void setupCompaniesSelector() {
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        companiesRV.setLayoutManager(layoutManager);
+        companiesAdapter = new CompaniesAdapter(null, this);
+        companiesAdapter.setListener(new CompaniesAdapter.Listener() {
+            @Override
+            public void onSelectedCompanyChanged(Company company) {
+                selectedCompany = company;
+                reloadOffers();
+            }
+        });
+        companiesAdapter.setCompanies(defaultCompanies);
+        companiesRV.setAdapter(companiesAdapter);
+    }
+
+    // Creates a list of companies based on companies assigned to different categories
+    void updateDefaultCompanies(List<Category> categories) {
+        defaultCompanies = new ArrayList<>();
+        List<LinkedList<Company>> companyMap = new ArrayList<>();
+        for (Category category : categories) {
+            companyMap.add(new LinkedList<>(category.getCompanies()));
+        }
+        while (companyMap.size() > 0) {
+            for (int i=0; i < companyMap.size(); i++) {
+                LinkedList<Company> companyList = companyMap.get(i);
+                Company company = companyList.pollFirst();
+                if (company == null) {
+                    companyMap.remove(companyList);
+                } else {
+                    defaultCompanies.add(company);
+                }
+            }
+        }
     }
 
     void loadCategories(@Nullable final GetCategoriesRequest.Listener listener) {
@@ -150,28 +198,6 @@ public class CategoriesActivity extends OfferListActivity {
     @Override
     public void onBackPressed() {
         finish();
-    }
-
-    void bigOfferPressed() {
-        String bigOfferUrl = getWakup().getBigOffer();
-        WebViewActivity.intent(this).
-                url(bigOfferUrl).
-                title(getString(R.string.wk_activity_big_offer)).
-                linksInBrowser(true).
-                start();
-        slideInTransition();
-    }
-
-    void mapButtonPressed() {
-        int MAX_MAP_OFFERS = 20;
-        List<Offer> mapOffers = new ArrayList<>(offers.subList(0, Math.min(MAX_MAP_OFFERS, offers.size())));
-        OfferMapActivity.intent(this).offers(mapOffers).location(currentLocation).start();
-        slideInTransition();
-    }
-
-    void myOffersPressed() {
-        SavedOffersActivity.intent(this).start();
-        slideInTransition();
     }
 
     @Override

@@ -6,7 +6,7 @@
 
     <include layout="@layout/wk_toolbar_root"/>
 
-    <include layout="@layout/wk_root_navbar"/>
+    <include layout="@layout/wk_category_selector"/>
 
 
 </android.support.design.widget.AppBarLayout>

@@ -112,4 +112,9 @@
         <item name="android:textColor">@color/wk_light_text</item>
     </style>
 
+    <style name="WakupTheme.Text.CategoryFilter">
+        <item name="android:textSize">@dimen/wk_medium_text</item>
+        <item name="android:textColor">@color/wk_category_text_color</item>
+    </style>
+
 </resources>
