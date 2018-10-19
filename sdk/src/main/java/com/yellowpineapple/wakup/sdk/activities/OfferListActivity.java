@@ -194,6 +194,7 @@ public abstract class OfferListActivity extends ParentActivity implements Offers
     }
 
     protected void reloadOffers() {
+        recyclerView.scrollToPosition(0);
         requestLoadPage(FIRST_PAGE);
     }
 

@@ -5,6 +5,7 @@
     <drawable name="wk_nav_big_offer">@drawable/wk_ic_nav_big_offer</drawable>
     <drawable name="wk_nav_map">@drawable/wk_ic_nav_map</drawable>
     <drawable name="wk_nav_my_offers">@drawable/wk_ic_nav_my_offers</drawable>
+    <drawable name="wk_float_btn_map">@drawable/wk_ic_float_map</drawable>
 
     <!-- SearchCategory icons -->
     <drawable name="wk_cat_leisure">@drawable/wk_ic_btn_leisure</drawable>

@@ -91,6 +91,9 @@
     <color name="wk_cat_text_pressed">@color/wk_appbar_text</color>
     <color name="wk_cat_bg">@color/wk_primary_dark</color>
 
+    <!-- Floating button -->
+    <color name="wk_float_map_btn">@color/wk_primary_pressed</color>
+
 
 
 </resources>

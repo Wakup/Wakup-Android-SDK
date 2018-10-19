@@ -4,6 +4,7 @@ import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -17,8 +18,8 @@ import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetCategorie
 import com.yellowpineapple.wakup.sdk.controllers.CategoriesAdapter;
 import com.yellowpineapple.wakup.sdk.controllers.CompaniesAdapter;
 import com.yellowpineapple.wakup.sdk.models.Category;
-import com.yellowpineapple.wakup.sdk.models.Company;
 import com.yellowpineapple.wakup.sdk.models.CompanyDetail;
+import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.utils.IntentBuilder;
 import com.yellowpineapple.wakup.sdk.views.PullToRefreshLayout;
 
@@ -46,12 +47,13 @@ public class CategoriesActivity extends OfferListActivity {
     private RecyclerView recyclerView;
     private RecyclerView categoriesRV;
     private RecyclerView companiesRV;
+    private FloatingActionButton btnMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.wk_activity_offers);
+        setContentView(R.layout.wk_activity_categories);
 
         injectViews();
         if (getSupportActionBar() != null) {
@@ -67,6 +69,25 @@ public class CategoriesActivity extends OfferListActivity {
         ptrLayout = findViewById(R.id.ptr_layout);
         categoriesRV = findViewById(R.id.categoriesRV);
         companiesRV = findViewById(R.id.companiesRV);
+        btnMap = findViewById(R.id.btnMap);
+        btnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mapButtonPressed();
+            }
+        });
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    // scrolling down
+                    btnMap.hide();
+                } else {
+                    // scrolling up
+                    btnMap.show();
+                }
+            }
+        });
 
         afterViews();
     }
@@ -199,6 +220,13 @@ public class CategoriesActivity extends OfferListActivity {
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    void mapButtonPressed() {
+        int MAX_MAP_OFFERS = 20;
+        List<Offer> mapOffers = new ArrayList<>(offers.subList(0, Math.min(MAX_MAP_OFFERS, offers.size())));
+        OfferMapActivity.intent(this).offers(mapOffers).location(currentLocation).start();
+        slideInTransition();
     }
 
     @Override
