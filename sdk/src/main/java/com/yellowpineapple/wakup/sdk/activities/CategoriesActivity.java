@@ -3,9 +3,12 @@ package com.yellowpineapple.wakup.sdk.activities;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -129,7 +132,9 @@ public class CategoriesActivity extends OfferListActivity {
                 } else {
                     companiesAdapter.setCompanies(category.getCompanies());
                 }
+                companiesRV.scrollToPosition(0);
                 companiesAdapter.notifyDataSetChanged();
+                if (selectedCategory != null) scrollToCenterPosition(categoriesRV, categories.indexOf(selectedCategory));
                 reloadOffers();
             }
         });
@@ -138,19 +143,50 @@ public class CategoriesActivity extends OfferListActivity {
     }
 
     void setupCompaniesSelector() {
-        LinearLayoutManager layoutManager
+        final LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         companiesRV.setLayoutManager(layoutManager);
+        companiesRV.setItemAnimator(null);
+
         companiesAdapter = new CompaniesAdapter(null, this);
         companiesAdapter.setListener(new CompaniesAdapter.Listener() {
             @Override
             public void onSelectedCompanyChanged(CompanyDetail company) {
                 selectedCompany = company;
+                if (selectedCompany != null) {
+                    final int index = companiesAdapter.getCompanies().indexOf(selectedCompany);
+                    scrollToCenterPosition(companiesRV, index);
+                }
                 reloadOffers();
             }
         });
         companiesAdapter.setCompanies(defaultCompanies);
         companiesRV.setAdapter(companiesAdapter);
+    }
+
+    final LinearSnapHelper snapHelper = new LinearSnapHelper();
+    void scrollToCenterPosition(@NonNull final RecyclerView recyclerView, final int position) {
+        final RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        layoutManager.scrollToPosition(position);
+        snapHelper.attachToRecyclerView(recyclerView);
+        new Handler().post(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        View view = layoutManager.findViewByPosition(position);
+                        if (view == null) {
+                            return;
+                        }
+
+                        int[] snapDistance = snapHelper.calculateDistanceToFinalSnap(layoutManager, view);
+                        snapHelper.attachToRecyclerView(null);
+                        if (snapDistance != null && snapDistance.length > 1) {
+                            if (snapDistance[0] != 0 || snapDistance[1] != 0) {
+                                recyclerView.smoothScrollBy(snapDistance[0], snapDistance[1]);
+                            }
+                        }
+                    }
+                });
     }
 
     // Creates a list of companies based on companies assigned to different categories

@@ -113,7 +113,7 @@
     </style>
 
     <style name="WakupTheme.Text.CategoryFilter">
-        <item name="android:textSize">@dimen/wk_title_text</item>
+        <item name="android:textSize">@dimen/wk_medium_text</item>
         <item name="android:textColor">@color/wk_category_text_color</item>
         <item name="fontPath">@string/wk_font_bold</item>
     </style>

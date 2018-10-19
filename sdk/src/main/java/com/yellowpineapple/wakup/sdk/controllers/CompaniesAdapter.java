@@ -91,6 +91,10 @@ public class CompaniesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.companies = companies;
     }
 
+    public List<CompanyDetail> getCompanies() {
+        return companies;
+    }
+
     public Context getContext() {
         return context;
     }
