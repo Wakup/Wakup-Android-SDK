@@ -1,9 +1,10 @@
 <resources>
-    <string name="app_name">Wakup</string>
+    <string name="app_name">Banco Nacional</string>
 
     <!-- Customize offers section -->
     <string name="wk_app_name">@string/app_name</string>
 
-    <string name="wakup_api_key">075f9656-6909-4e4e-a286-3ddc562a2513</string>
+    <!--<string name="wakup_api_key">785ddffd-f98f-4522-a9d7-13723d1cec97</string>-->
+    <string name="wakup_api_key">3818fa05-56df-4863-ae7d-c484c5ff1377</string>
 
 </resources>
