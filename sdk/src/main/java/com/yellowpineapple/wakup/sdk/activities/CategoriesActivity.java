@@ -191,6 +191,7 @@ public class CategoriesActivity extends OfferListActivity {
 
     // Creates a list of companies based on companies assigned to different categories
     void updateDefaultCompanies(List<Category> categories) {
+        List<Integer> includedCompanies = new ArrayList<>();
         defaultCompanies = new ArrayList<>();
         List<LinkedList<CompanyDetail>> companyMap = new ArrayList<>();
         for (Category category : categories) {
@@ -202,7 +203,8 @@ public class CategoriesActivity extends OfferListActivity {
                 CompanyDetail company = companyList.pollFirst();
                 if (company == null) {
                     companyMap.remove(companyList);
-                } else {
+                } else if (!includedCompanies.contains(company.getId())) {
+                    includedCompanies.add(company.getId());
                     defaultCompanies.add(company);
                 }
             }
