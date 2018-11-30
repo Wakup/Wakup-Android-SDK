@@ -36,7 +36,7 @@ public class RequestClient {
     private final static String API_TOKEN_HEADER = "API-Token";
     private final static String USER_TOKEN_HEADER = "User-Token";
 
-    public static final Environment ENVIRONMENT = Environment.PRE;
+    public static final Environment ENVIRONMENT = Environment.PRODUCTION;
 
     public enum Environment {
         PRODUCTION("https://app.wakup.net/", false),
