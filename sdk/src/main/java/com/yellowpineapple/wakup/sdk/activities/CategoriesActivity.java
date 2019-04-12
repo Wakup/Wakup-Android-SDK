@@ -120,6 +120,7 @@ public class CategoriesActivity extends OfferListActivity {
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         categoriesRV.setLayoutManager(layoutManager);
+        categoriesRV.setItemAnimator(null);
         CategoriesAdapter categoriesAdapter = new CategoriesAdapter(null, this);
         categoriesAdapter.setListener(new CategoriesAdapter.Listener() {
             @Override
