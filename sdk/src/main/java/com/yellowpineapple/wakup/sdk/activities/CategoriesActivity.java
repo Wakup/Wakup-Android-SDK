@@ -41,7 +41,7 @@ public class CategoriesActivity extends OfferListActivity {
 
     // Controllers
     CompaniesAdapter companiesAdapter;
-
+    CategoriesAdapter categoriesAdapter;
 
     // Views
     private View navigationView;
@@ -91,6 +91,30 @@ public class CategoriesActivity extends OfferListActivity {
                 }
             }
         });
+        View toolbar = findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            toolbar.setClickable(true);
+            toolbar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (selectedCategory == null && selectedCompany == null) {
+                        recyclerView.smoothScrollToPosition(0);
+                    } else {
+                        recyclerView.scrollToPosition(0);
+                        selectedCategory = null;
+                        selectedCompany = null;
+                        categoriesRV.scrollToPosition(0);
+                        categoriesAdapter.setSelectedCategory(null);
+                        categoriesAdapter.notifyDataSetChanged();
+                        companiesRV.scrollToPosition(0);
+                        companiesAdapter.setSelectedCompany(null);
+                        companiesAdapter.setCompanies(defaultCompanies);
+                        companiesAdapter.notifyDataSetChanged();
+                        reloadOffers();
+                    }
+                }
+            });
+        }
 
         afterViews();
     }
@@ -121,7 +145,7 @@ public class CategoriesActivity extends OfferListActivity {
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         categoriesRV.setLayoutManager(layoutManager);
         categoriesRV.setItemAnimator(null);
-        CategoriesAdapter categoriesAdapter = new CategoriesAdapter(null, this);
+        categoriesAdapter = new CategoriesAdapter(null, this);
         categoriesAdapter.setListener(new CategoriesAdapter.Listener() {
             @Override
             public void onSelectedCategoryChanged(Category category) {
@@ -176,6 +200,7 @@ public class CategoriesActivity extends OfferListActivity {
                     public void run() {
                         View view = layoutManager.findViewByPosition(position);
                         if (view == null) {
+                            snapHelper.attachToRecyclerView(null);
                             return;
                         }
 
@@ -219,27 +244,8 @@ public class CategoriesActivity extends OfferListActivity {
     @Override
     void onRequestOffers(final int page, final Location location) {
         if (alreadyRegistered) {
-            if (categories == null) {
-                getRequestClient().getCategories(new GetCategoriesRequest.Listener() {
-                    @Override
-                    public void onSuccess(List<Category> categories) {
-                        CategoriesActivity.this.categories = categories;
-                        // TODO using default category for filtering
-                        onRequestOffers(page, currentLocation);
-                    }
-
-                    @Override
-                    public void onError(Exception exception) {
-                        setLoading(false);
-                        displayErrorDialog(getString(R.string.wk_connection_error_message));
-                        setEmptyViewVisible(true);
-                    }
-                });
-            } else {
-                offersRequest = getRequestClient().findCategoryOffers(currentLocation, selectedCategory,
-                        selectedCompany, page, getOfferListRequestListener());
-            }
-//            offersRequest = getRequestClient().findOffers(location, page, getOfferListRequestListener());
+            offersRequest = getRequestClient().findCategoryOffers(currentLocation, selectedCategory,
+                    selectedCompany, page, getOfferListRequestListener());
         } else {
             getWakup().register(new Wakup.RegisterListener() {
                 @Override
