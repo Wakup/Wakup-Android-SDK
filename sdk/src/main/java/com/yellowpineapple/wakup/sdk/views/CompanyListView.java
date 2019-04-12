@@ -77,6 +77,7 @@ public class CompanyListView extends FrameLayout {
     public void setSelected(boolean selected) {
         this.selected = selected;
         selectedView.setVisibility(selected ? VISIBLE : GONE);
+        imageView.setAlpha(selected ? 1f : 0.3f);
     }
 
     public void setListener(Listener listener) {
