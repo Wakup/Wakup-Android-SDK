@@ -1,6 +1,8 @@
 import java.text.SimpleDateFormat
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
@@ -56,6 +58,7 @@ dependencies {
     implementation 'com.wefika:horizontal-picker:1.1.1'
     // Libraries used in client application
     api 'uk.co.chrisjenx:calligraphy:2.2.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 install {
@@ -113,4 +116,7 @@ bintray {
             vcsTag = 'v' + libraryVersion
         }
     }
+}
+repositories {
+    mavenCentral()
 }
