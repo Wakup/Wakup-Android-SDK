@@ -144,7 +144,7 @@ public class CategoriesActivity extends OfferListActivity {
                 setEmptyViewVisible(true);
             }
         });
-//        setupOffersGrid(null, recyclerView, offerCategories, navigationView, emptyView);
+        setupOffersGrid(null, recyclerView, offerCategories, navigationView, emptyView);
     }
 
     void setupCategoriesSelector() {

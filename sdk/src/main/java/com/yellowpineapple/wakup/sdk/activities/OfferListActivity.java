@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class OfferListActivity extends ParentActivity implements MultipleOffersAdapter.Listener {
 
@@ -282,8 +283,10 @@ public abstract class OfferListActivity extends ParentActivity implements Multip
     void setOffers(int page, List<Offer> newOffers) {
         List<Offer> categoryOffers = offers.get(currentCategory);
         int previousSize = getOffersAdapter().getItemCount();
-        if (page == FIRST_PAGE) {
-            categoryOffers.clear();
+        if (shouldReloadDataset) {
+            for (List<Offer> list : offers.values()) {
+                list.clear();
+            }
         }
         categoryOffers.addAll(newOffers);
 
