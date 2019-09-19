@@ -251,8 +251,29 @@ public class CategoriesActivity extends OfferListActivity {
     @Override
     void onRequestOffers(final OfferCategory category, final int page, final Location location) {
         if (alreadyRegistered) {
-            offersRequest = getRequestClient().findCategoryOffers(currentLocation, selectedCategory,
-                    selectedCompany, page, getOfferListRequestListener());
+            if (category.equals(MAIN_CATEGORY)) {
+                offersRequest = getRequestClient().findCategoryOffers(currentLocation, selectedCategory,
+                        selectedCompany, page, getOfferListRequestListener());
+
+            } else {
+                Category offerCategory = selectedCategory;
+                if (selectedCompany != null && selectedCategory == null) {
+                    // Find category related to selected company
+                    for (Category mCategory : categories) {
+                        if (mCategory.getCompanies().contains(selectedCompany)) {
+                            offerCategory = mCategory;
+                            break;
+                        }
+                    }
+                }
+                // If category is not present, there will be no related offers
+                if (selectedCompany == null || offerCategory == null) {
+                    getOfferListRequestListener().onSuccess(new ArrayList<Offer>());
+                } else {
+                    offersRequest = getRequestClient().findCategoryRelatedOffers(currentLocation, offerCategory,
+                            selectedCompany, page, getOfferListRequestListener());
+                }
+            }
         } else {
             getWakup().register(new Wakup.RegisterListener() {
                 @Override

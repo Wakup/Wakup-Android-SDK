@@ -10,6 +10,7 @@ import com.yellowpineapple.wakup.sdk.communications.requests.OfferRequestListene
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.CompanyOffersRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.FeaturedOffersRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.FindOffersRequest;
+import com.yellowpineapple.wakup.sdk.communications.requests.offers.FindRelatedOffersRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetCategoriesRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetCouponImageRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetOffersByIdRequest;
@@ -124,6 +125,10 @@ public class RequestClient {
 
     public Request relatedOffers(Offer offer, int page, int perPage, OfferListRequestListener listener) {
         return launch(new RelatedOffersRequest(offer, page, perPage, listener));
+    }
+
+    public Request findCategoryRelatedOffers(Location location, Category category, Company company, int page, OfferListRequestListener listener) {
+        return launch(new FindRelatedOffersRequest(location, category, company, page, BaseRequest.RESULTS_PER_PAGE, listener));
     }
 
     public Request findOffersById(List<String> offerIds, Location location, int page, OfferListRequestListener listener) {
