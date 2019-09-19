@@ -41,10 +41,12 @@ public abstract class OfferListActivity extends ParentActivity implements Multip
     boolean mHasMoreResults = false;
     Request offersRequest = null;
     int offersPage = FIRST_PAGE;
+    RecyclerView.ItemDecoration itemDecoration = null;
 
     Location currentLocation = null;
 
     boolean offersLoaded = false;
+    boolean shouldReloadDataset = true;
     LinkedHashMap<OfferCategory, List<Offer>> offers = new LinkedHashMap<>();
     List<OfferCategory> offerCategories;
     Offer selectedOffer = null;
@@ -104,39 +106,19 @@ public abstract class OfferListActivity extends ParentActivity implements Multip
         offersAdapter.setListener(this);
 
 
-
         // do we have saved data?
         if (shouldReloadOffers()) reloadOffers();
 
         offersAdapter.setOfferCategories(offers);
 
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-
-        if (headerView != null) {
-            headerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                @Override
-                public boolean onPreDraw() {
-                    final ViewGroup.LayoutParams lp = headerView.getLayoutParams();
-                    if (lp instanceof StaggeredGridLayoutManager.LayoutParams) {
-                        StaggeredGridLayoutManager.LayoutParams sglp =
-                                (StaggeredGridLayoutManager.LayoutParams) lp;
-                        sglp.setFullSpan(true);
-                        headerView.setLayoutParams(sglp);
-                        staggeredGridLayoutManager.invalidateSpanAssignments();
-                    }
-                    headerView.getViewTreeObserver().removeOnPreDrawListener(this);
-                    return true;
-                }
-            });
-
-        }
-
-
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
 
+        // Set spacing
+        if (itemDecoration == null) recyclerView.removeItemDecoration(itemDecoration);
+        itemDecoration = new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.wk_card_gap));
+        recyclerView.addItemDecoration(itemDecoration);
 
-        recyclerView.addItemDecoration(new SpaceItemDecoration(headerView != null ,
-                getResources().getDimensionPixelSize(R.dimen.wk_card_gap)));
         recyclerView.setAdapter(offersAdapter);
 
         recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
@@ -165,38 +147,55 @@ public abstract class OfferListActivity extends ParentActivity implements Multip
 
             StaggeredGridLayoutManager.LayoutParams lp = (StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams();
             int spanIndex = lp.getSpanIndex();
-
-            if(hasHeader) {
-                if(position == 0) {
+            int positionWithoutHeaders = offersAdapter.positionWithoutHeaders(position);
+            switch (offersAdapter.getItemViewType(position)) {
+                case MultipleOffersAdapter.TYPE_TITLE:
+                case MultipleOffersAdapter.TYPE_HEADER: {
                     outRect.top = space * 2;
                     outRect.left = space * 2;
                     outRect.right = space * 2;
-                } else {
-                    if (spanIndex == 1) {
+                    break;
+                }
+                default:
+                    if(positionWithoutHeaders == 0 || positionWithoutHeaders == 1) {
+                        outRect.top = space * 2;
+                    }
+                    if (positionWithoutHeaders % 2 == 0) {
                         outRect.left = space;
                         outRect.right = space * 2;
                     } else {
                         outRect.left = space * 2;
                         outRect.right = space;
                     }
-                }
-                outRect.bottom = space * 2;
-            } else {
-                if(position == 0 || position == 1) {
-                    outRect.top = space * 2;
-                }
-                if (position >= 0) {
-                    if (spanIndex == 1) {
-                        outRect.left = space;
-                        outRect.right = space * 2;
-                    } else {
-                        outRect.left = space * 2;
-                        outRect.right = space;
-                    }
-
-                    outRect.bottom = space * 2;
-                }
             }
+            outRect.bottom = space * 2;
+//            outRect.top = space * 2;
+//            outRect.left = space * 2;
+//            outRect.right = space * 2;
+//            outRect.bottom = space * 2;
+        }
+    }
+
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+
+        private int halfSpace;
+
+        public SpacesItemDecoration(int space) {
+            this.halfSpace = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+
+            if (parent.getPaddingLeft() != halfSpace) {
+                parent.setPadding(halfSpace, halfSpace, halfSpace, halfSpace);
+                parent.setClipToPadding(false);
+            }
+
+            outRect.top = halfSpace;
+            outRect.bottom = halfSpace;
+            outRect.left = halfSpace;
+            outRect.right = halfSpace;
         }
     }
 
@@ -216,6 +215,7 @@ public abstract class OfferListActivity extends ParentActivity implements Multip
     }
 
     protected void reloadOffers() {
+        shouldReloadDataset = true;
         currentCategory = offerCategories.get(0);
         recyclerView.scrollToPosition(0);
         requestLoadPage(FIRST_PAGE);
@@ -282,6 +282,7 @@ public abstract class OfferListActivity extends ParentActivity implements Multip
 
     void setOffers(int page, List<Offer> newOffers) {
         List<Offer> categoryOffers = offers.get(currentCategory);
+        int previousSize = getOffersAdapter().getItemCount();
         if (page == FIRST_PAGE) {
             categoryOffers.clear();
         }
@@ -290,7 +291,8 @@ public abstract class OfferListActivity extends ParentActivity implements Multip
         boolean loadNextCategoryNow = false;
 
         // Check if it should load more results
-        boolean endOfCategory = newOffers.size() >= PER_PAGE;
+        boolean endOfCategory = newOffers.size() < PER_PAGE;
+        mHasMoreResults = !endOfCategory;
         if (endOfCategory) {
             // End of page for current category
             List<OfferCategory> categoryList = new ArrayList<>(offers.keySet());
@@ -305,13 +307,22 @@ public abstract class OfferListActivity extends ParentActivity implements Multip
 
         getOffersAdapter().setCurrentLocation(currentLocation);
         getOffersAdapter().setOfferCategories(this.offers);
-        getOffersAdapter().notifyDataSetChanged();
+        if (shouldReloadDataset) {
+            // Reload full dataset when loading first page of first category
+            getOffersAdapter().notifyDataSetChanged();
+            shouldReloadDataset = false;
+        } else {
+            // Animate only inserted items
+            int newSize = offersAdapter.getItemCount();
+            int insertedItems = newSize - previousSize;
+            getOffersAdapter().notifyItemRangeInserted(previousSize, insertedItems);
+        }
         mHasRequestedMore = false;
         setLoading(false);
         offersRequest = null;
         // Wearable offers are disabled for production
         //if (page == FIRST_PAGE) {
-            //showWearableOffers(offers);
+        //showWearableOffers(offers);
         //}
         setEmptyViewVisible(offers.size() == 0);
         if (loadNextCategoryNow) requestLoadPage(FIRST_PAGE);

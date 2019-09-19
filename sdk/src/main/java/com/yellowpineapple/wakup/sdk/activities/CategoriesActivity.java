@@ -28,6 +28,7 @@ import com.yellowpineapple.wakup.sdk.utils.IntentBuilder;
 import com.yellowpineapple.wakup.sdk.views.PullToRefreshLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -52,6 +53,10 @@ public class CategoriesActivity extends OfferListActivity {
     private RecyclerView categoriesRV;
     private RecyclerView companiesRV;
     private FloatingActionButton btnMap;
+
+    // Offer categories
+    final static OfferCategory MAIN_CATEGORY = new OfferCategory(0, null);
+    final static OfferCategory RELATED_CATEGORY = new OfferCategory(1, "Ofertas relacionadas");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +126,7 @@ public class CategoriesActivity extends OfferListActivity {
     }
 
     void afterViews() {
+        final List<OfferCategory> offerCategories = Arrays.asList(MAIN_CATEGORY, RELATED_CATEGORY);
         loadCategories(new GetCategoriesRequest.Listener() {
             @Override
             public void onSuccess(List<Category> categories) {
@@ -128,7 +134,7 @@ public class CategoriesActivity extends OfferListActivity {
                 updateDefaultCompanies(categories);
                 setupCategoriesSelector();
                 setupCompaniesSelector();
-                setupOffersGrid(recyclerView, navigationView, emptyView);
+                setupOffersGrid(null, recyclerView, offerCategories, navigationView, emptyView);
             }
 
             @Override
@@ -138,7 +144,7 @@ public class CategoriesActivity extends OfferListActivity {
                 setEmptyViewVisible(true);
             }
         });
-        setupOffersGrid(recyclerView, navigationView, emptyView);
+//        setupOffersGrid(null, recyclerView, offerCategories, navigationView, emptyView);
     }
 
     void setupCategoriesSelector() {

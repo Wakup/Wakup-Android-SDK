@@ -55,7 +55,7 @@ public class OfferDetailActivity extends OfferListActivity implements OfferDetai
         setSubtitle(offer.getCompany().getName());
         offerDetailView.setOffer(offer, location);
         setupOffersGrid(offerDetailView, recyclerView,
-                Collections.singletonList(new OfferCategory(DEFAULT_CATEGORY, null)),
+                Collections.singletonList(new OfferCategory(DEFAULT_CATEGORY, getString(R.string.wk_related_offers))),
                 null, null);
     }
 
@@ -82,8 +82,8 @@ public class OfferDetailActivity extends OfferListActivity implements OfferDetai
     protected void injectViews() {
         super.injectViews();
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        recyclerView = (RecyclerView) findViewById(R.id.grid_view);
-        ptrLayout = (PullToRefreshLayout) findViewById(R.id.ptr_layout);
+        recyclerView = findViewById(R.id.grid_view);
+        ptrLayout = findViewById(R.id.ptr_layout);
     }
 
     @Override
