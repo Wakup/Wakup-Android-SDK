@@ -1,7 +1,7 @@
 package com.yellowpineapple.wakup.sdk.communications.requests.offers;
 
 import android.location.Location;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;

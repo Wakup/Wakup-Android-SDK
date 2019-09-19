@@ -2,11 +2,12 @@ package com.yellowpineapple.wakup.sdk.controllers
 
 import android.content.Context
 import android.location.Location
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import com.yellowpineapple.wakup.sdk.R
 
 import com.yellowpineapple.wakup.sdk.models.Offer
 import com.yellowpineapple.wakup.sdk.views.OfferListView
@@ -18,7 +19,7 @@ import com.yellowpineapple.wakup.sdk.views.RelatedOffersHeader
  */
 
 class MultipleOffersAdapter(private val headerView: View?, val context: Context) :
-        RecyclerView.Adapter<RecyclerView.ViewHolder>(), OfferSmallView.Listener {
+        androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>(), OfferSmallView.Listener {
 
     var offerCategories: LinkedHashMap<OfferCategory, List<Offer>> = LinkedHashMap();
     private var currentLocation: Location? = null
@@ -27,7 +28,7 @@ class MultipleOffersAdapter(private val headerView: View?, val context: Context)
     private val isHeaderPresent: Boolean
         get() = headerView != null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
 
         when (viewType) {
             TYPE_HEADER -> {
@@ -51,7 +52,7 @@ class MultipleOffersAdapter(private val headerView: View?, val context: Context)
         view?.viewTreeObserver?.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
             override fun onPreDraw(): Boolean {
                 val lp = view.layoutParams
-                if (lp is StaggeredGridLayoutManager.LayoutParams) {
+                if (lp is androidx.recyclerview.widget.StaggeredGridLayoutManager.LayoutParams) {
                     lp.isFullSpan = true
                     view.layoutParams = lp
                 }
@@ -102,19 +103,19 @@ class MultipleOffersAdapter(private val headerView: View?, val context: Context)
         return position
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
 
         when (getItemViewType(position)) {
             TYPE_HEADER -> {
                 // Set full span
-                val layoutParams = holder.itemView.layoutParams as? StaggeredGridLayoutManager.LayoutParams
+                val layoutParams = holder.itemView.layoutParams as? androidx.recyclerview.widget.StaggeredGridLayoutManager.LayoutParams
                 layoutParams?.isFullSpan = true
             }
             TYPE_TITLE -> {
                 val relatedOffersHeader = holder.itemView as RelatedOffersHeader
                 relatedOffersHeader.setTitle(getTitle(position))
                 // Set full span
-                val layoutParams = holder.itemView.layoutParams as? StaggeredGridLayoutManager.LayoutParams
+                val layoutParams = holder.itemView.layoutParams as? androidx.recyclerview.widget.StaggeredGridLayoutManager.LayoutParams
                 layoutParams?.isFullSpan = true
             }
             else -> {
@@ -125,7 +126,15 @@ class MultipleOffersAdapter(private val headerView: View?, val context: Context)
     }
 
     private fun getTitle(position: Int): String? {
-        return "Ofertas relacionadas"
+        var currentIndex = position
+        if (isHeaderPresent) --currentIndex
+        for ((category, offers) in offerCategories) {
+            if (category.title != null) {
+                if (currentIndex == 0) return category.title else currentIndex--
+            }
+            currentIndex -= offers.size
+        }
+        return context.getString(R.string.wk_related_offers)
     }
 
     private fun getOffer(position: Int): Offer? {
@@ -154,13 +163,13 @@ class MultipleOffersAdapter(private val headerView: View?, val context: Context)
         return count
     }
 
-    private class OfferViewHolder internal constructor(v: View) : RecyclerView.ViewHolder(v) {
+    private class OfferViewHolder internal constructor(v: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(v) {
 
         internal var offerView: OfferListView = v as OfferListView
 
     }
 
-    private class HeaderViewHolder internal constructor(v: View?) : RecyclerView.ViewHolder(v)
+    private class HeaderViewHolder internal constructor(v: View?) : androidx.recyclerview.widget.RecyclerView.ViewHolder(v!!)
 
     override fun onClick(offer: Offer) {
         listener?.onOfferClick(offer)

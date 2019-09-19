@@ -3,7 +3,7 @@ package com.yellowpineapple.wakup.sdk.activities;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.controllers.OfferCategory;
