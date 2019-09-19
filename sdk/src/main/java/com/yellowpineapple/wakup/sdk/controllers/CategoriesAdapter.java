@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.yellowpineapple.wakup.sdk.models.Category;
 import com.yellowpineapple.wakup.sdk.views.CategoryListView;

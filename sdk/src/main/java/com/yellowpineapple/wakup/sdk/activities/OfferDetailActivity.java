@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetRedemptionCodeRequest;
+import com.yellowpineapple.wakup.sdk.controllers.OfferCategory;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.models.RedemptionCodeDetail;
 import com.yellowpineapple.wakup.sdk.models.SearchResultItem;
@@ -53,7 +54,9 @@ public class OfferDetailActivity extends OfferListActivity implements OfferDetai
         }
         setSubtitle(offer.getCompany().getName());
         offerDetailView.setOffer(offer, location);
-        setupOffersGrid(offerDetailView, recyclerView, null, null);
+        setupOffersGrid(offerDetailView, recyclerView,
+                Collections.singletonList(new OfferCategory(DEFAULT_CATEGORY, null)),
+                null, null);
     }
 
     void setupToolbar() {
@@ -84,7 +87,7 @@ public class OfferDetailActivity extends OfferListActivity implements OfferDetai
     }
 
     @Override
-    void onRequestOffers(final int page, final Location location) {
+    void onRequestOffers(OfferCategory category, final int page, final Location location) {
         offersRequest = getRequestClient().relatedOffers(offer, page, PER_PAGE, getOfferListRequestListener());
     }
 

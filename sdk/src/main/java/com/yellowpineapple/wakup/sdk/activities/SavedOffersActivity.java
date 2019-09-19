@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.yellowpineapple.wakup.sdk.R;
+import com.yellowpineapple.wakup.sdk.controllers.OfferCategory;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.utils.IntentBuilder;
 import com.yellowpineapple.wakup.sdk.views.PullToRefreshLayout;
@@ -44,7 +45,7 @@ public class SavedOffersActivity extends OfferListActivity {
     }
 
     @Override
-    void onRequestOffers(final int page, final Location location) {
+    void onRequestOffers(OfferCategory category, final int page, final Location location) {
         if (page == FIRST_PAGE) lastUpdate = new Date();
         List<String> userOffers = getPersistence().getUserOffers();
         if (userOffers.size() > 0) {

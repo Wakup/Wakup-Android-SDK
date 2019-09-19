@@ -21,7 +21,6 @@
     <string name="wk_error_message_button">Aceptar</string>
     <string name="wk_location_permission_request">Para poder mostrar las ofertas cercanas más relevantes, necesitamos permiso para acceder a la ubicación</string>
 
-
     <!-- Offers Activity -->
     <string name="wk_big_offer">ofertón</string>
     <string name="wk_my_offers">mis ofertas</string>
@@ -31,6 +30,7 @@
     <string name="wk_no_search_results">La búsqueda no ha obtenido ninguna oferta. Comprueba los criterios de búsqueda y vuelve a intentarlo</string>
     <string name="wk_disabled_location">La ubicación se encuentra desactivada. Se mostrarán resultados de una ubicación por defecto</string>
     <string name="wk_search_action">Buscar</string>
+    <string name="wk_list_related_offers">Ofertas relacionadas</string>
 
     <!-- Context Menu -->
     <string name="wk_menu_map">Ver en mapa</string>

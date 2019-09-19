@@ -20,6 +20,7 @@ import com.yellowpineapple.wakup.sdk.Wakup;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetCategoriesRequest;
 import com.yellowpineapple.wakup.sdk.controllers.CategoriesAdapter;
 import com.yellowpineapple.wakup.sdk.controllers.CompaniesAdapter;
+import com.yellowpineapple.wakup.sdk.controllers.OfferCategory;
 import com.yellowpineapple.wakup.sdk.models.Category;
 import com.yellowpineapple.wakup.sdk.models.CompanyDetail;
 import com.yellowpineapple.wakup.sdk.models.Offer;
@@ -215,7 +216,7 @@ public class CategoriesActivity extends OfferListActivity {
                 });
     }
 
-    // Creates a list of companies based on companies assigned to different categories
+    // Creates a list of companies based on companies assigned to different offerCategories
     void updateDefaultCompanies(List<Category> categories) {
         List<Integer> includedCompanies = new ArrayList<>();
         defaultCompanies = new ArrayList<>();
@@ -242,7 +243,7 @@ public class CategoriesActivity extends OfferListActivity {
     }
 
     @Override
-    void onRequestOffers(final int page, final Location location) {
+    void onRequestOffers(final OfferCategory category, final int page, final Location location) {
         if (alreadyRegistered) {
             offersRequest = getRequestClient().findCategoryOffers(currentLocation, selectedCategory,
                     selectedCompany, page, getOfferListRequestListener());
@@ -251,7 +252,7 @@ public class CategoriesActivity extends OfferListActivity {
                 @Override
                 public void onSuccess() {
                     alreadyRegistered = true;
-                    onRequestOffers(page, location);
+                    onRequestOffers(category, page, location);
                 }
 
                 @Override
@@ -269,7 +270,9 @@ public class CategoriesActivity extends OfferListActivity {
 
     void mapButtonPressed() {
         int MAX_MAP_OFFERS = 20;
-        List<Offer> mapOffers = new ArrayList<>(offers.subList(0, Math.min(MAX_MAP_OFFERS, offers.size())));
+        List<Offer> offersSet = offers.get(offerCategories.get(0));
+        List<Offer> mapOffers = new ArrayList<>(offersSet.subList(0, Math.min(MAX_MAP_OFFERS,
+                offersSet.size())));
         OfferMapActivity.intent(this).offers(mapOffers).location(currentLocation).start();
         slideInTransition();
     }

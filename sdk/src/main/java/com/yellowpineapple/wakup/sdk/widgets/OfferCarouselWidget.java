@@ -2,10 +2,8 @@ package com.yellowpineapple.wakup.sdk.widgets;
 
 import android.content.Context;
 import android.location.Location;
-import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;

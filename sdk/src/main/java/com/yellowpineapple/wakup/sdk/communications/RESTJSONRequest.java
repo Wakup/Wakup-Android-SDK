@@ -8,7 +8,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import com.yellowpineapple.wakup.sdk.communications.requests.BaseRequest;
 import com.yellowpineapple.wakup.sdk.utils.Ln;
 
 import java.io.UnsupportedEncodingException;

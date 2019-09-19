@@ -1,7 +1,6 @@
 package com.yellowpineapple.wakup.sdk.widgets;
 
 import android.content.Context;
-import android.location.Location;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;

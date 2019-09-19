@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.yellowpineapple.wakup.sdk.R;
+import com.yellowpineapple.wakup.sdk.controllers.OfferCategory;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.models.SearchResultItem;
 import com.yellowpineapple.wakup.sdk.utils.IntentBuilder;
@@ -63,7 +64,7 @@ public class SearchResultActivity extends OfferListActivity {
     }
 
     @Override
-    void onRequestOffers(final int page, final Location location) {
+    void onRequestOffers(OfferCategory category, final int page, final Location location) {
         switch (searchItem.getType()) {
             case COMPANY: {
                 offersRequest = getRequestClient().findOffers(location, searchItem.getCompany(), tags, page, getOfferListRequestListener());

@@ -4,6 +4,7 @@ import android.graphics.Rect;
 import android.location.Location;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,16 +23,20 @@ import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.communications.Request;
 import com.yellowpineapple.wakup.sdk.communications.requests.BaseRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.OfferListRequestListener;
-import com.yellowpineapple.wakup.sdk.controllers.OffersAdapter;
+import com.yellowpineapple.wakup.sdk.controllers.MultipleOffersAdapter;
+import com.yellowpineapple.wakup.sdk.controllers.OfferCategory;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.views.PullToRefreshLayout;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 
-public abstract class OfferListActivity extends ParentActivity implements OffersAdapter.Listener {
+public abstract class OfferListActivity extends ParentActivity implements MultipleOffersAdapter.Listener {
 
-    OffersAdapter offersAdapter;
+    MultipleOffersAdapter offersAdapter;
+    OfferCategory currentCategory;
     boolean mHasRequestedMore;
     boolean mHasMoreResults = false;
     Request offersRequest = null;
@@ -40,7 +45,8 @@ public abstract class OfferListActivity extends ParentActivity implements Offers
     Location currentLocation = null;
 
     boolean offersLoaded = false;
-    List<Offer> offers = new ArrayList<>();
+    LinkedHashMap<OfferCategory, List<Offer>> offers = new LinkedHashMap<>();
+    List<OfferCategory> offerCategories;
     Offer selectedOffer = null;
 
     static int FIRST_PAGE = BaseRequest.FIRST_PAGE;
@@ -55,6 +61,8 @@ public abstract class OfferListActivity extends ParentActivity implements Offers
         void onAnimationCompleted();
     }
 
+    final static int DEFAULT_CATEGORY = 1000;
+
     protected boolean shouldReloadOffers() {
         return !offersLoaded;
     }
@@ -64,10 +72,14 @@ public abstract class OfferListActivity extends ParentActivity implements Offers
     }
 
     void setupOffersGrid(RecyclerView recyclerView, View navigationView, View emptyView) {
-        setupOffersGrid(null, recyclerView, navigationView, emptyView);
+        setupOffersGrid(null, recyclerView,
+                Collections.singletonList(new OfferCategory(DEFAULT_CATEGORY, null)),
+                navigationView, emptyView);
     }
 
-    void setupOffersGrid(final View headerView, RecyclerView recyclerView, View navigationView, View emptyView) {
+    void setupOffersGrid(final View headerView, RecyclerView recyclerView,
+                         List<OfferCategory> offerCategories,
+                         View navigationView, View emptyView) {
         this.recyclerView = recyclerView;
         this.emptyView = emptyView;
         this.navigationView = navigationView;
@@ -78,15 +90,25 @@ public abstract class OfferListActivity extends ParentActivity implements Offers
             setupPullToRefresh(getPullToRefreshLayout());
         }
 
+        //TODO Init offer offerCategories
+        offers.clear();
+        for (OfferCategory category : offerCategories) {
+            offers.put(category, new ArrayList<Offer>());
+        }
+        this.offerCategories = offerCategories;
+        this.currentCategory = offerCategories.get(0);
+
         if (emptyView != null) emptyView.setVisibility(View.GONE);
 
-        offersAdapter = new OffersAdapter(headerView, this);
+        offersAdapter = new MultipleOffersAdapter(headerView, this);
         offersAdapter.setListener(this);
+
+
 
         // do we have saved data?
         if (shouldReloadOffers()) reloadOffers();
 
-        offersAdapter.setOffers(offers);
+        offersAdapter.setOfferCategories(offers);
 
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 
@@ -194,6 +216,7 @@ public abstract class OfferListActivity extends ParentActivity implements Offers
     }
 
     protected void reloadOffers() {
+        currentCategory = offerCategories.get(0);
         recyclerView.scrollToPosition(0);
         requestLoadPage(FIRST_PAGE);
     }
@@ -209,13 +232,13 @@ public abstract class OfferListActivity extends ParentActivity implements Offers
             @Override
             public void onLocationSuccess(final Location location) {
                 currentLocation = location;
-                onRequestOffers(page, location);
+                onRequestOffers(currentCategory, page, location);
             }
 
             @Override
             public void onLocationError(Exception exception) {
                 currentLocation = getWakup().getOptions().getDefaultLocation();
-                onRequestOffers(page, currentLocation);
+                onRequestOffers(currentCategory, page, currentLocation);
                 if (!getPersistence().isLocationAsked()) {
                     Toast.makeText(OfferListActivity.this, R.string.wk_disabled_location, Toast.LENGTH_LONG).show();
                     getPersistence().setLocationAsked(true);
@@ -258,24 +281,40 @@ public abstract class OfferListActivity extends ParentActivity implements Offers
     }
 
     void setOffers(int page, List<Offer> newOffers) {
-        mHasMoreResults = newOffers.size() >= PER_PAGE;
+        List<Offer> categoryOffers = offers.get(currentCategory);
         if (page == FIRST_PAGE) {
-            this.offers = newOffers;
-        } else {
-            this.offers.addAll(newOffers);
+            categoryOffers.clear();
+        }
+        categoryOffers.addAll(newOffers);
+
+        boolean loadNextCategoryNow = false;
+
+        // Check if it should load more results
+        boolean endOfCategory = newOffers.size() >= PER_PAGE;
+        if (endOfCategory) {
+            // End of page for current category
+            List<OfferCategory> categoryList = new ArrayList<>(offers.keySet());
+            int categoryIndex = categoryList.indexOf(currentCategory);
+            if (categoryIndex + 1 < categoryList.size()) {
+                // There is more offerCategories to fetch
+                currentCategory = categoryList.get(categoryIndex + 1);
+                mHasMoreResults = true;
+                loadNextCategoryNow = true;
+            }
         }
 
         getOffersAdapter().setCurrentLocation(currentLocation);
-        getOffersAdapter().setOffers(this.offers);
+        getOffersAdapter().setOfferCategories(this.offers);
         getOffersAdapter().notifyDataSetChanged();
         mHasRequestedMore = false;
         setLoading(false);
         offersRequest = null;
         // Wearable offers are disabled for production
-        if (page == FIRST_PAGE) {
+        //if (page == FIRST_PAGE) {
             //showWearableOffers(offers);
-        }
+        //}
         setEmptyViewVisible(offers.size() == 0);
+        if (loadNextCategoryNow) requestLoadPage(FIRST_PAGE);
     }
 
     void showWearableOffers(List<Offer> offers) {
@@ -342,17 +381,17 @@ public abstract class OfferListActivity extends ParentActivity implements Offers
     }
 
     @Override
-    public void onOfferClick(Offer offer) {
+    public void onOfferClick(@NonNull Offer offer) {
         showOfferDetail(offer, currentLocation);
     }
 
     @Override
-    public void onOfferLongClick(Offer offer) {
+    public void onOfferLongClick(@NonNull Offer offer) {
         this.selectedOffer = offer;
         //openContextMenu(recyclerView);
     }
 
-    abstract void onRequestOffers(final int page, final Location currentLocation);
+    abstract void onRequestOffers(OfferCategory category, final int page, final Location currentLocation);
 
     // Context menu
 
@@ -428,11 +467,11 @@ public abstract class OfferListActivity extends ParentActivity implements Offers
 
     }
 
-    public OffersAdapter getOffersAdapter() {
+    public MultipleOffersAdapter getOffersAdapter() {
         return offersAdapter;
     }
 
-    public List<Offer> getOffers() {
+    public LinkedHashMap<OfferCategory, List<Offer>> getOffers() {
         return offers;
     }
 

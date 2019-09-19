@@ -3,28 +3,12 @@ package com.yellowpineapple.wakup.sdk.widgets;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
-import android.location.Location;
-import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.synnapps.carouselview.CarouselView;
-import com.synnapps.carouselview.ViewListener;
 import com.yellowpineapple.wakup.sdk.R;
-import com.yellowpineapple.wakup.sdk.Wakup;
-import com.yellowpineapple.wakup.sdk.communications.RequestClient;
-import com.yellowpineapple.wakup.sdk.communications.requests.OfferListRequestListener;
-import com.yellowpineapple.wakup.sdk.models.Offer;
-import com.yellowpineapple.wakup.sdk.utils.ImageOptions;
-import com.yellowpineapple.wakup.sdk.views.OfferCarouselItemView;
-import com.yellowpineapple.wakup.sdk.views.OfferSmallView;
-
-import java.util.List;
 
 /**
  * Created by agutierrez on 3/11/16.

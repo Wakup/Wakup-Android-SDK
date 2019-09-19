@@ -7,7 +7,6 @@ import android.os.Looper;
 
 import com.yellowpineapple.wakup.sdk.activities.CategoriesActivity;
 import com.yellowpineapple.wakup.sdk.activities.OfferDetailActivity;
-import com.yellowpineapple.wakup.sdk.activities.OffersActivity;
 import com.yellowpineapple.wakup.sdk.communications.Request;
 import com.yellowpineapple.wakup.sdk.communications.RequestClient;
 import com.yellowpineapple.wakup.sdk.communications.requests.register.RegisterRequest;

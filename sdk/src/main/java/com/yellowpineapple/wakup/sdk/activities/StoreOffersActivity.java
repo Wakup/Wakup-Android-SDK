@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
 import com.yellowpineapple.wakup.sdk.R;
+import com.yellowpineapple.wakup.sdk.controllers.OfferCategory;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.utils.IntentBuilder;
 import com.yellowpineapple.wakup.sdk.views.PullToRefreshLayout;
@@ -32,8 +33,8 @@ public class StoreOffersActivity extends OfferListActivity {
     protected void injectViews() {
         super.injectViews();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        gridView = ((RecyclerView) findViewById(R.id.grid_view));
-        ptrLayout = ((PullToRefreshLayout) findViewById(R.id.ptr_layout));
+        gridView = findViewById(R.id.grid_view);
+        ptrLayout = findViewById(R.id.ptr_layout);
         afterViews();
     }
 
@@ -55,7 +56,7 @@ public class StoreOffersActivity extends OfferListActivity {
     }
 
     @Override
-    void onRequestOffers(final int page, final Location location) {
+    void onRequestOffers(OfferCategory category, final int page, final Location location) {
         offersRequest = getRequestClient().getCompanyOffers(offer.getCompany(), offer.getStore(), page, getOfferListRequestListener());
     }
 

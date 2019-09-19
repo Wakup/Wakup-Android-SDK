@@ -8,7 +8,6 @@ import com.yellowpineapple.wakup.sdk.communications.requests.OfferListRequestLis
 import com.yellowpineapple.wakup.sdk.models.Offer;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 public class RelatedOffersRequest extends BaseRequest {
