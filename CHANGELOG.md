@@ -6,6 +6,19 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 No pending changes
 
+## [3.0.0] - 2019-09-20
+
+### Changed
+
+* Implemented new offer filtering system on main page that allows selecting categories and brands
+* Link and map buttons are now always visible on offer details and will be enabled/disabled depending on the information available in the offer
+* Migrated project to Android X
+* Updated build tools and target SDK to latest available version: 29
+
+### Fixed
+
+* Fixed offer image sharing
+
 ## [2.1.5] - 2017-10-18
 
 ### Fixed
