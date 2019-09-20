@@ -4,13 +4,14 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.ViewTreeObserver;
-import android.widget.TextView;
+
+import androidx.appcompat.widget.AppCompatTextView;
 
 /**
  * Created by agutierrez on 8/11/16.
  */
 
-public class DynamicLinesTextView extends TextView {
+public class DynamicLinesTextView extends AppCompatTextView {
 
     public DynamicLinesTextView(Context context) {
         super(context);
