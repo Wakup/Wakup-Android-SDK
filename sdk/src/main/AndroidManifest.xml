@@ -29,7 +29,6 @@
         <activity
             android:name=".activities.ModalTextActivity"
             android:noHistory="true"
-            android:screenOrientation="portrait"
             android:theme="@style/WakupTheme.Dialog"/>
         <activity
             android:name=".activities.OfferCouponsActivity"
