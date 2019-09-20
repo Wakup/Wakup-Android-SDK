@@ -114,7 +114,7 @@ public abstract class OfferListActivity extends ParentActivity implements Multip
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
 
         // Set spacing
-        if (itemDecoration == null) recyclerView.removeItemDecoration(itemDecoration);
+        if (itemDecoration != null) recyclerView.removeItemDecoration(itemDecoration);
         itemDecoration = new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.wk_card_gap));
         recyclerView.addItemDecoration(itemDecoration);
 
@@ -132,60 +132,16 @@ public abstract class OfferListActivity extends ParentActivity implements Multip
         offersAdapter.notifyDataSetChanged();
     }
 
-    public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
-        boolean hasHeader;
-
-        public SpaceItemDecoration(boolean hasHeader, int space) {
-            this.space = space;
-            this.hasHeader = hasHeader;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            int position = parent.getChildAdapterPosition(view);
-
-            StaggeredGridLayoutManager.LayoutParams lp = (StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams();
-            int spanIndex = lp.getSpanIndex();
-            int positionWithoutHeaders = offersAdapter.positionWithoutHeaders(position);
-            switch (offersAdapter.getItemViewType(position)) {
-                case MultipleOffersAdapter.TYPE_TITLE:
-                case MultipleOffersAdapter.TYPE_HEADER: {
-                    outRect.top = space * 2;
-                    outRect.left = space * 2;
-                    outRect.right = space * 2;
-                    break;
-                }
-                default:
-                    if(positionWithoutHeaders == 0 || positionWithoutHeaders == 1) {
-                        outRect.top = space * 2;
-                    }
-                    if (positionWithoutHeaders % 2 == 0) {
-                        outRect.left = space;
-                        outRect.right = space * 2;
-                    } else {
-                        outRect.left = space * 2;
-                        outRect.right = space;
-                    }
-            }
-            outRect.bottom = space * 2;
-//            outRect.top = space * 2;
-//            outRect.left = space * 2;
-//            outRect.right = space * 2;
-//            outRect.bottom = space * 2;
-        }
-    }
-
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
 
         private int halfSpace;
 
-        public SpacesItemDecoration(int space) {
+        SpacesItemDecoration(int space) {
             this.halfSpace = space;
         }
 
         @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+        public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, RecyclerView parent, @NonNull RecyclerView.State state) {
 
             if (parent.getPaddingLeft() != halfSpace) {
                 parent.setPadding(halfSpace, halfSpace, halfSpace, halfSpace);
