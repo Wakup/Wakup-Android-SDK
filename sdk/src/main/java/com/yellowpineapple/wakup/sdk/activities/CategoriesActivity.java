@@ -55,14 +55,17 @@ public class CategoriesActivity extends OfferListActivity {
     private FloatingActionButton btnMap;
 
     // Offer categories
-    final static OfferCategory MAIN_CATEGORY = new OfferCategory(0, null);
-    final static OfferCategory RELATED_CATEGORY = new OfferCategory(1, "Ofertas relacionadas");
+    private OfferCategory MAIN_CATEGORY;
+    private OfferCategory RELATED_CATEGORY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.wk_activity_categories);
+
+        MAIN_CATEGORY = new OfferCategory(0, null);
+        RELATED_CATEGORY = new OfferCategory(1, getString(R.string.wk_related_offers));
 
         injectViews();
         if (getSupportActionBar() != null) {
@@ -87,7 +90,7 @@ public class CategoriesActivity extends OfferListActivity {
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0) {
                     // scrolling down
                     btnMap.hide();
