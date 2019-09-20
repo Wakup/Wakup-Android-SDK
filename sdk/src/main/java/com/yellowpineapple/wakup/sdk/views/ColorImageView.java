@@ -4,7 +4,8 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
 import android.util.AttributeSet;
-import android.widget.ImageView;
+
+import androidx.appcompat.widget.AppCompatImageView;
 
 import com.yellowpineapple.wakup.sdk.R;
 
@@ -13,7 +14,7 @@ import com.yellowpineapple.wakup.sdk.R;
  */
 
 
-public class ColorImageView extends ImageView {
+public class ColorImageView extends AppCompatImageView {
 
 
     /* Constructors */
