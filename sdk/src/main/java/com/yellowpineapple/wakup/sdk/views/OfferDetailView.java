@@ -113,10 +113,7 @@ public class OfferDetailView
             imgDisclosureAddress.setVisibility(hasLocation ? VISIBLE : GONE);
             storeView.setClickable(hasLocation);
             btnMap.setEnabled(hasLocation);
-            btnMap.setVisibility(offer.isOnline() ? GONE : VISIBLE);
-            btnWebsite.setVisibility(offer.isOnline() ? VISIBLE : GONE);
-            // Disable Website Button until online offers have URL
-            btnWebsite.setEnabled(offer.isOnline() && Strings.notEmpty(offer.getLink()));
+            btnWebsite.setEnabled(Strings.notEmpty(offer.getLink()));
             refreshSavedState();
         }
     }

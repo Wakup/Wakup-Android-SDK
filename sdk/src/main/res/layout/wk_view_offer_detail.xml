@@ -275,7 +275,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:visibility="gone"
             android:layout_margin="5dp"
             app:buttonText="@string/wk_action_offer_website"
             app:buttonIcon="@drawable/wk_action_web"/>
@@ -295,6 +294,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_margin="5dp"
+            android:visibility="gone"
             app:buttonText="@string/wk_action_offer_save"
             app:buttonIcon="@drawable/wk_action_save"/>
 
