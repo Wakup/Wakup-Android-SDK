@@ -1,7 +1,6 @@
 package com.yellowpineapple.wakup.sdk.activities;
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -14,16 +13,18 @@ import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -110,8 +111,7 @@ public abstract class ParentActivity extends LocationActivity {
 
     @Override
     public void setTitle(final CharSequence title) {
-        Activity activity = ParentActivity.this;
-        ActionBar ab = activity.getActionBar();
+        ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setTitle(title);
             ab.setDisplayShowTitleEnabled(true);
@@ -121,15 +121,14 @@ public abstract class ParentActivity extends LocationActivity {
     }
 
     public void setSubtitle(final CharSequence subtitle) {
-        Activity activity = ParentActivity.this;
-        ActionBar ab = activity.getActionBar();
-        if (ab != null) {
-            ab.setSubtitle(subtitle);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setSubtitle(subtitle);
         }
     }
 
     void setupToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
