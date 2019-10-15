@@ -97,8 +97,10 @@ public class SearchActivity extends ParentActivity {
             @Override
             public void onItemClick(SearchResultItem item, View view) {
                 List<String> tags = new ArrayList<String>();
-                for (SearchCategory category : filtersView.getSelectedCategories()) {
-                    tags.addAll(Arrays.asList(category.getTags()));
+                if (filtersView != null) {
+                    for (SearchCategory category : filtersView.getSelectedCategories()) {
+                        tags.addAll(Arrays.asList(category.getTags()));
+                    }
                 }
                 switch (item.getType()) {
                     case TAG: tags.add(item.getDescription());

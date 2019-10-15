@@ -147,7 +147,7 @@ public class LocationActivity extends AppCompatActivity {
                         try {
                             // Check if it has been already asked
                             if (isLocationAsked()) {
-                                locationListener.onLocationError(new LocationException("Location disabled"));
+                                if (locationListener != null) locationListener.onLocationError(new LocationException("Location disabled"));
                             } else {
                                 // Show the dialog by calling startResolutionForResult(),
                                 // and check the result in onActivityResult().
@@ -156,13 +156,13 @@ public class LocationActivity extends AppCompatActivity {
                         } catch (IntentSender.SendIntentException e) {
                             // Ignore the error.
                             Ln.e(e);
-                            locationListener.onLocationError(e);
+                            if (locationListener != null) locationListener.onLocationError(e);
                         }
                         break;
                     case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
                         // Location settings are not satisfied. However, we have no way to fix the
                         // settings so we won't show the dialog.
-                        locationListener.onLocationError(new LocationException("Location disabled"));
+                        if (locationListener != null) locationListener.onLocationError(new LocationException("Location disabled"));
                         break;
                 }
             }
@@ -177,7 +177,7 @@ public class LocationActivity extends AppCompatActivity {
 
             // Check if it has been already asked
             if (isLocationPermissionAsked()) {
-                locationListener.onLocationError(new LocationException("Location permission denied"));
+                if (locationListener != null) locationListener.onLocationError(new LocationException("Location permission denied"));
             } else {
 
                 this.locationListener = locationListener;
@@ -219,7 +219,7 @@ public class LocationActivity extends AppCompatActivity {
                     // Permission is granted
                     loadLocation(googleApiClient, locationListener);
                 } else {
-                    locationListener.onLocationError(new Exception("Permission denied"));
+                    if (locationListener != null) locationListener.onLocationError(new Exception("Permission denied"));
                 }
             }
         }
@@ -236,7 +236,7 @@ public class LocationActivity extends AppCompatActivity {
                         loadLocation(googleApiClient, locationListener);
                         break;
                     case Activity.RESULT_CANCELED:
-                        locationListener.onLocationError(new LocationException("Location disabled"));
+                        if (locationListener != null) locationListener.onLocationError(new LocationException("Location disabled"));
                         break;
                 }
                 locationListener = null;
@@ -254,14 +254,14 @@ public class LocationActivity extends AppCompatActivity {
         }
         Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         if (lastLocation != null) {
-            listener.onLocationSuccess(lastLocation);
+            if (listener != null) listener.onLocationSuccess(lastLocation);
         } else {
             // If we don't have a last location yet, request location updates
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, LocationRequest.create(), new com.google.android.gms.location.LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
                     LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
-                    listener.onLocationSuccess(location);
+                    if (listener != null) listener.onLocationSuccess(location);
                 }
             });
         }
