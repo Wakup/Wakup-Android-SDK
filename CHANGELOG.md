@@ -6,6 +6,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 No pending changes
 
+## [3.0.6] - 2019-10-16
+
+### Changed
+
+* Included sanity checks to avoid null reference errors
+* Links will now correctly open for offers with link and geolocation
+* Pressing back button on home categories view will reset selection
+
 ## [3.0.4] - 2019-09-20
 
 ### Changed
