@@ -4,6 +4,7 @@ import android.content.Context;
 import android.location.Location;
 
 import com.yellowpineapple.wakup.sdk.R;
+import com.yellowpineapple.wakup.sdk.utils.Strings;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -156,6 +157,10 @@ public class Offer implements Serializable {
 
     public String getLink() {
         return link;
+    }
+
+    public boolean hasLink() {
+        return Strings.notEmpty(getLink());
     }
 
     public List<String> getTags() {

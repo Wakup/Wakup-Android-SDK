@@ -113,7 +113,7 @@ public class OfferDetailView
             imgDisclosureAddress.setVisibility(hasLocation ? VISIBLE : GONE);
             storeView.setClickable(hasLocation);
             btnMap.setEnabled(hasLocation);
-            btnWebsite.setEnabled(Strings.notEmpty(offer.getLink()));
+            btnWebsite.setEnabled(offer.hasLink());
             refreshSavedState();
         }
     }

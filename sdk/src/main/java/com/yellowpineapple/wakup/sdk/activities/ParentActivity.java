@@ -279,7 +279,7 @@ public abstract class ParentActivity extends LocationActivity {
     }
 
     protected void openOfferLink(Offer offer) {
-        if (offer.isOnline()) {
+        if (offer.hasLink()) {
             Uri url = Uri.parse(offer.getLink());
             Intent intent = new Intent(Intent.ACTION_VIEW, url);
             if (intent.resolveActivity(getPackageManager()) != null) {
