@@ -4,17 +4,18 @@ import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.Wakup;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetCategoriesRequest;
@@ -109,23 +110,27 @@ public class CategoriesActivity extends OfferListActivity {
                     if (selectedCategory == null && selectedCompany == null) {
                         recyclerView.smoothScrollToPosition(0);
                     } else {
-                        recyclerView.scrollToPosition(0);
-                        selectedCategory = null;
-                        selectedCompany = null;
-                        categoriesRV.scrollToPosition(0);
-                        categoriesAdapter.setSelectedCategory(null);
-                        categoriesAdapter.notifyDataSetChanged();
-                        companiesRV.scrollToPosition(0);
-                        companiesAdapter.setSelectedCompany(null);
-                        companiesAdapter.setCompanies(defaultCompanies);
-                        companiesAdapter.notifyDataSetChanged();
-                        reloadOffers();
+                        resetSelection();
                     }
                 }
             });
         }
 
         afterViews();
+    }
+
+    void resetSelection() {
+        recyclerView.scrollToPosition(0);
+        selectedCategory = null;
+        selectedCompany = null;
+        categoriesRV.scrollToPosition(0);
+        categoriesAdapter.setSelectedCategory(null);
+        categoriesAdapter.notifyDataSetChanged();
+        companiesRV.scrollToPosition(0);
+        companiesAdapter.setSelectedCompany(null);
+        companiesAdapter.setCompanies(defaultCompanies);
+        companiesAdapter.notifyDataSetChanged();
+        reloadOffers();
     }
 
     void afterViews() {
@@ -295,7 +300,11 @@ public class CategoriesActivity extends OfferListActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        if (selectedCompany != null || selectedCategory != null) {
+            resetSelection();
+        } else {
+            finish();
+        }
     }
 
     void mapButtonPressed() {
