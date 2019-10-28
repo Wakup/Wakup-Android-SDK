@@ -6,8 +6,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-def libraryVersion = '3.0.6'
-def libraryVersionCode = 30006
+def libraryVersion = '3.0.7'
+def libraryVersionCode = 30007
 
 // Maven group and version
 version = libraryVersion
