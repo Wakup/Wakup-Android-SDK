@@ -19,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.Wakup;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetCategoriesRequest;
+import com.yellowpineapple.wakup.sdk.communications.requests.offers.HighlightedCompaniesRequest;
 import com.yellowpineapple.wakup.sdk.controllers.CategoriesAdapter;
 import com.yellowpineapple.wakup.sdk.controllers.CompaniesAdapter;
 import com.yellowpineapple.wakup.sdk.controllers.OfferCategory;
@@ -139,10 +140,22 @@ public class CategoriesActivity extends OfferListActivity {
             @Override
             public void onSuccess(List<Category> categories) {
                 CategoriesActivity.this.categories = categories;
-                updateDefaultCompanies(categories);
-                setupCategoriesSelector();
-                setupCompaniesSelector();
-                setupOffersGrid(null, recyclerView, offerCategories, navigationView, emptyView);
+                getRequestClient().getHighlightedCompanies(new HighlightedCompaniesRequest.Listener() {
+                    @Override
+                    public void onSuccess(List<CompanyDetail> companies) {
+                        defaultCompanies = companies;
+                        setupCategoriesSelector();
+                        setupCompaniesSelector();
+                        setupOffersGrid(null, recyclerView, offerCategories, navigationView, emptyView);
+                    }
+
+                    @Override
+                    public void onError(Exception exception) {
+                        setLoading(false);
+                        displayErrorDialog(getString(R.string.wk_connection_error_message));
+                        setEmptyViewVisible(true);
+                    }
+                });
             }
 
             @Override
@@ -228,28 +241,6 @@ public class CategoriesActivity extends OfferListActivity {
                         }
                     }
                 });
-    }
-
-    // Creates a list of companies based on companies assigned to different offerCategories
-    void updateDefaultCompanies(List<Category> categories) {
-        List<Integer> includedCompanies = new ArrayList<>();
-        defaultCompanies = new ArrayList<>();
-        List<LinkedList<CompanyDetail>> companyMap = new ArrayList<>();
-        for (Category category : categories) {
-            companyMap.add(new LinkedList<>(category.getCompanies()));
-        }
-        while (companyMap.size() > 0) {
-            for (int i=0; i < companyMap.size(); i++) {
-                LinkedList<CompanyDetail> companyList = companyMap.get(i);
-                CompanyDetail company = companyList.pollFirst();
-                if (company == null) {
-                    companyMap.remove(companyList);
-                } else if (!includedCompanies.contains(company.getId())) {
-                    includedCompanies.add(company.getId());
-                    defaultCompanies.add(company);
-                }
-            }
-        }
     }
 
     void loadCategories(@Nullable final GetCategoriesRequest.Listener listener) {

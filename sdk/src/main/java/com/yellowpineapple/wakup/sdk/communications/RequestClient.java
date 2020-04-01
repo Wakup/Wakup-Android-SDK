@@ -15,6 +15,7 @@ import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetCategorie
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetCouponImageRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetOffersByIdRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.GetRedemptionCodeRequest;
+import com.yellowpineapple.wakup.sdk.communications.requests.offers.HighlightedCompaniesRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.offers.RelatedOffersRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.register.RegisterRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.search.SearchRequest;
@@ -163,6 +164,12 @@ public class RequestClient {
 
     public Request getCategories(GetCategoriesRequest.Listener listener) {
         return launch(new GetCategoriesRequest(listener));
+    }
+
+    // Companies
+
+    public Request getHighlightedCompanies(HighlightedCompaniesRequest.Listener listener) {
+        return launch(new HighlightedCompaniesRequest(listener));
     }
 
 	/* Private methods */
