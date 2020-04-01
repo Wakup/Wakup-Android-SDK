@@ -55,17 +55,25 @@ public abstract class RESTJSONRequest extends RESTRequest {
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String response) {
-						Ln.i("OUTPUT: %s", response);
-						onResponseProcess(response);
-						notifyFinishListeners();
+						if (!isCanceled()) {
+							Ln.i("OUTPUT: %s", response);
+							onResponseProcess(response);
+							notifyFinishListeners();
+						} else {
+							Ln.i("Request cancelled, ignoring response");
+						}
 					}
 				},
 				new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
-						Ln.i(error, "ERROR %s", error.getMessage());
-						onRequestError(error);
-						notifyFinishListeners();
+						if (!isCanceled()) {
+							Ln.i(error, "ERROR %s", error.getMessage());
+							onRequestError(error);
+							notifyFinishListeners();
+						} else {
+							Ln.i("Request cancelled, ignoring response");
+						}
 					}
 				}) {
 

@@ -271,6 +271,10 @@ public class CategoriesActivity extends OfferListActivity {
     @Override
     void onRequestOffers(final OfferCategory category, final int page, final Location location) {
         if (alreadyRegistered) {
+            if (offersRequest != null) {
+                offersRequest.cancel();
+                offersRequest = null;
+            }
             if (category.equals(MAIN_CATEGORY)) {
                 offersRequest = getRequestClient().findCategoryOffers(currentLocation, selectedCategory,
                         selectedCompany, page, getOfferListRequestListener());
