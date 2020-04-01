@@ -15,7 +15,7 @@ Include this dependency in the `build.gradle` file of your application project m
 
 ```groovy
 dependencies {
-    implementation 'com.wakup.android:sdk:3.0.7'
+    implementation 'com.wakup.android:sdk:3.1.0'
 }
 ```
 
