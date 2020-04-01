@@ -139,10 +139,22 @@ public class CategoriesActivity extends OfferListActivity {
             @Override
             public void onSuccess(List<Category> categories) {
                 CategoriesActivity.this.categories = categories;
+
                 updateDefaultCompanies(categories);
                 setupCategoriesSelector();
                 setupCompaniesSelector();
                 setupOffersGrid(null, recyclerView, offerCategories, navigationView, emptyView);
+                // Select first category by default
+                {
+                    Category category = categories.get(0);
+                    selectedCategory = category;
+                    selectedCompany = null;
+                    categoriesAdapter.setSelectedCategory(selectedCategory);
+                    categoriesAdapter.notifyDataSetChanged();
+                    companiesAdapter.setCompanies(category.getCompanies());
+                    companiesAdapter.notifyDataSetChanged();
+                    reloadOffers();
+                }
             }
 
             @Override
