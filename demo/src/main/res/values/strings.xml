@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Bankia Connect</string>
+    <string name="app_name">Wakup</string>
 
     <!-- Customize offers section -->
     <string name="wk_app_name">@string/app_name</string>
 
-    <string name="wakup_api_key">e44514be-c520-4769-b5c9-1f269f208d09</string>
+    <string name="wakup_api_key">075f9656-6909-4e4e-a286-3ddc562a2513</string>
 
 </resources>

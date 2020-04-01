@@ -3,14 +3,11 @@
 
     <!-- Customize Offers section -->
     <!-- Pressed navigation buttons -->
-    <!-- Main customization colors -->
-    <color name="wk_primary">#B9C800</color>
-    <color name="wk_primary_pressed">#858F01</color>
-    <color name="wk_primary_reverse">@color/wk_white</color>
-    <color name="wk_primary_dark">#B9C800</color>
-    <color name="wk_secondary">#FF9F00</color>
-    <color name="wk_secondary_pressed">#C57B01</color>
-    <color name="wk_secondary_reverse">#423125</color>
+    <color name="wk_navbar_pressed">@color/wk_light_pressed_layer</color>
+    <!-- Action buttons color -->
+    <color name="wk_action_active">@color/wk_primary_pressed</color>
+    <!-- ActionBar Logo -->
+    <drawable name="wk_actionbar_logo">@drawable/wk_ic_btn_leisure</drawable>
     <!-- No titles -->
     <string name="wk_activity_offers">@null</string>
 
@@ -19,42 +16,5 @@
     <color name="wk_tag_pressed_bg">@color/wk_primary</color>
     <color name="wk_tag_active_border">@color/wk_primary</color>
     <color name="wk_tag_pressed_border">@color/wk_primary</color>
-
-
-    <string name="wk_action_offer_website">Alta</string>
-    <string name="wk_action_offer_map">Baja</string>
-    <string name="wk_action_offer_share">Editar</string>
-
-    <drawable name="wk_action_save">@drawable/wk_ic_btn_save</drawable>
-    <drawable name="wk_action_share">@drawable/wk_ic_btn_website</drawable>
-    <drawable name="wk_action_web">@drawable/wk_ic_btn_website</drawable>
-    <drawable name="wk_action_locate">@drawable/wk_ic_btn_website</drawable>
-    <drawable name="wk_action_background">@drawable/wk_action_button</drawable>
-
-
-    <!-- Customize Offers section -->
-    <!-- Pressed navigation buttons -->
-    <!-- Main customization colors -->
-<!--    <color name="wk_primary">#423125</color>-->
-<!--    <color name="wk_primary_pressed">#674D3B</color>-->
-<!--    <color name="wk_primary_reverse">@color/wk_white</color>-->
-<!--    <color name="wk_primary_dark">#423125</color>-->
-<!--    <color name="wk_secondary">#B9C800</color>-->
-<!--    <color name="wk_secondary_pressed">#9AA700</color>-->
-<!--    <color name="wk_secondary_reverse">@color/wk_white</color>-->
-<!--    &lt;!&ndash; No titles &ndash;&gt;-->
-<!--    <string name="wk_activity_offers">@null</string>-->
-
-<!--    &lt;!&ndash; Tag buttons &ndash;&gt;-->
-<!--    <color name="wk_tag_active_bg">#FF9F00</color>-->
-<!--    <color name="wk_tag_pressed_bg">#E99100</color>-->
-<!--    <color name="wk_tag_active_border">#E99100</color>-->
-<!--    <color name="wk_tag_pressed_border">#E99100</color>-->
-<!--    <color name="wk_tag_text">@color/wk_primary</color>-->
-
-
-<!--    <string name="wk_action_offer_website">Alta</string>-->
-<!--    <string name="wk_action_offer_map">Baja</string>-->
-<!--    <string name="wk_action_offer_share">Editar</string>-->
 
 </resources>
