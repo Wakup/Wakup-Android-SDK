@@ -13,7 +13,7 @@ import com.yellowpineapple.wakup.sdk.widgets.MapWidget;
 import com.yellowpineapple.wakup.sdk.widgets.OfferCarouselWidget;
 import com.yellowpineapple.wakup.sdk.widgets.Widget;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public class DemoActivity extends LocationActivity implements Widget.OnRetryListener {
 
@@ -67,7 +67,7 @@ public class DemoActivity extends LocationActivity implements Widget.OnRetryList
     /* Include custom Wakup fonts */
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
     @Override

@@ -41,7 +41,7 @@ import com.yellowpineapple.wakup.sdk.utils.ShareManager;
 import java.io.IOException;
 import java.util.Locale;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public abstract class ParentActivity extends LocationActivity {
 
@@ -94,7 +94,7 @@ public abstract class ParentActivity extends LocationActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
     public PersistenceHandler getPersistence() {
