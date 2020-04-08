@@ -7,8 +7,9 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import androidx.core.app.ActivityCompat;
 import android.view.View;
+
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,14 +22,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.communications.requests.OfferListRequestListener;
 import com.yellowpineapple.wakup.sdk.models.MapMarker;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.models.Store;
-import com.yellowpineapple.wakup.sdk.utils.ImageOptions;
 import com.yellowpineapple.wakup.sdk.utils.IntentBuilder;
 import com.yellowpineapple.wakup.sdk.views.OfferMapInfoView;
 
@@ -61,7 +59,6 @@ public class OfferMapActivity
     Map<Marker, Offer> markersHash;
 
     List<Integer> displayedStores = new ArrayList<>();
-    List<String> preloadedCompanies = new ArrayList<>();
 
     Location lastRequestLocation = null;
     private final static int NEW_REQUEST_DISTANCE_METERS = 500;
@@ -87,21 +84,9 @@ public class OfferMapActivity
             offers.add(offer);
             singleOffer = true;
         }
-        preloadCompanyLogos(offers);
         mapFragment.getMapAsync(this);
     }
 
-
-    void preloadCompanyLogos(List<Offer> offers) {
-        ImageLoader imageLoader = ImageLoader.getInstance();
-        for (Offer offer : offers) {
-            String logoURL = offer.getCompany().getLogo().getUrl();
-            if (!preloadedCompanies.contains(logoURL)) {
-                imageLoader.loadImage(offer.getCompany().getLogo().getUrl(), ImageOptions.get(), new SimpleImageLoadingListener());
-                preloadedCompanies.add(logoURL);
-            }
-        }
-    }
 
     /* OnMapReadyCallback */
     @Override
@@ -244,7 +229,6 @@ public class OfferMapActivity
                 getRequestClient().findLocatedOffers(location, null, new OfferListRequestListener() {
                     @Override
                     public void onSuccess(List<Offer> offers) {
-                        preloadCompanyLogos(offers);
                         displayInMap(offers);
                         setLoading(false);
                     }

@@ -2,30 +2,38 @@ package com.yellowpineapple.wakup.sdk.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import androidx.annotation.Nullable;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestFutureTarget;
+import com.bumptech.glide.request.target.Target;
 import com.yellowpineapple.wakup.sdk.models.RemoteImage;
-import com.yellowpineapple.wakup.sdk.utils.ImageOptions;
+import com.yellowpineapple.wakup.sdk.utils.Ln;
+
+import java.net.URL;
 
 public class RemoteImageView extends AspectKeepFrameLayout {
 
     RemoteImage image;
     ImageView backImageView;
     ImageView imageView;
-    ImageLoader imageLoader;
+    RequestManager glide;
 
     interface ImageLoadListener {
-        void onImageLoad(Bitmap loadedImage);
+        void onImageLoad(Drawable loadedImage);
     }
 
     public RemoteImageView(Context context) {
@@ -44,13 +52,13 @@ public class RemoteImageView extends AspectKeepFrameLayout {
     }
 
     void init(AttributeSet attrs, int defStyle) {
+        glide = Glide.with(getContext());
         backImageView = new ImageView(getContext());
         imageView = new ImageView(getContext());
         if (!isInEditMode()) {
             addView(backImageView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             addView(imageView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         }
-        imageLoader = ImageLoader.getInstance();
     }
 
     public void setImageSync(RemoteImage image) {
@@ -59,12 +67,8 @@ public class RemoteImageView extends AspectKeepFrameLayout {
                 this.setVirtualSize(image.getHeight(), image.getWidth());
                 int color = Color.parseColor(String.format("#%s", image.getRgbColor()));
                 Drawable placeholder = new ColorDrawable(color);
-                Bitmap bitmap = ImageLoader.getInstance().loadImageSync(image.getUrl(), ImageOptions.get());
-                if (bitmap != null) {
-                    imageView.setImageBitmap(bitmap);
-                } else {
-                    imageView.setImageDrawable(placeholder);
-                }
+                imageView.setImageDrawable(placeholder);
+                loadImageSync(image, placeholder);
             }
         }
     }
@@ -84,8 +88,15 @@ public class RemoteImageView extends AspectKeepFrameLayout {
                 if (thumbnail != null) {
                     loadImage(thumbnail, placeholder, new ImageLoadListener() {
                         @Override
-                        public void onImageLoad(Bitmap loadedImage) {
-                            loadImage(image, new BitmapDrawable(getResources(), loadedImage));
+                        public void onImageLoad(final Drawable loadedImage) {
+                            imageView.setImageDrawable(loadedImage);
+                            // Run in main handler
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    loadImage(image, loadedImage);
+                                }
+                            });
                         }
                     });
                 } else {
@@ -100,20 +111,34 @@ public class RemoteImageView extends AspectKeepFrameLayout {
     }
 
     void loadImage(RemoteImage image, Drawable placeholder, final ImageLoadListener listener) {
-        SimpleImageLoadingListener imageLoadingListener = new SimpleImageLoadingListener() {
+        RequestFutureTarget<Drawable> glideListener = new RequestFutureTarget<Drawable>(image.getWidth(), image.getWidth()) {
             @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+            public synchronized boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                return super.onLoadFailed(e, model, target, isFirstResource);
+            }
+
+            @Override
+            public synchronized boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                 if (listener != null) {
-                    listener.onImageLoad(loadedImage);
+                    listener.onImageLoad(resource);
+                    return true;
+                } else {
+                    return super.onResourceReady(resource, model, target, dataSource, isFirstResource);
                 }
             }
         };
-        backImageView.setImageDrawable(placeholder);
-        imageLoader.displayImage(image.getUrl(), imageView,
-                ImageOptions.builder()
-                .showImageOnLoading(placeholder)
-                .showImageOnFail(placeholder)
-                .displayer(new FadeInBitmapDisplayer(300, true, true, false))
-                .build(), imageLoadingListener);
+        glide.load(image.getUrl()).placeholder(placeholder).listener(glideListener).into(this.imageView);
+
+    }
+
+    void loadImageSync(RemoteImage image, Drawable placeholder) {
+        try {
+            imageView.setImageDrawable(placeholder);
+            URL url = new URL(image.getUrl());
+            Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            imageView.setImageBitmap(bmp);
+        } catch (Exception ex) {
+            Ln.e(ex);
+        }
     }
 }

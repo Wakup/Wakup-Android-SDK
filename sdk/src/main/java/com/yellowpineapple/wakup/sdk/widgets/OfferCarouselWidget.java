@@ -5,8 +5,6 @@ import android.location.Location;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ViewListener;
 import com.yellowpineapple.wakup.sdk.R;
@@ -14,7 +12,6 @@ import com.yellowpineapple.wakup.sdk.Wakup;
 import com.yellowpineapple.wakup.sdk.communications.RequestClient;
 import com.yellowpineapple.wakup.sdk.communications.requests.OfferListRequestListener;
 import com.yellowpineapple.wakup.sdk.models.Offer;
-import com.yellowpineapple.wakup.sdk.utils.ImageOptions;
 import com.yellowpineapple.wakup.sdk.views.OfferCarouselItemView;
 import com.yellowpineapple.wakup.sdk.views.OfferSmallView;
 
@@ -45,14 +42,8 @@ public class OfferCarouselWidget extends Widget implements OfferSmallView.Listen
     }
 
     void init() {
-        // Initialize image loader due it is going to be used outside WakupActivity
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getContext()).
-                defaultDisplayImageOptions(ImageOptions.get()).
-                build();
-        ImageLoader.getInstance().init(config);
-
         inflate(getContext(), R.layout.wk_widget_offers_carousel, this);
-        carouselView = (CarouselView) findViewById(R.id.carouselView);
+        carouselView = findViewById(R.id.carouselView);
         afterViews();
     }
 
@@ -95,7 +86,7 @@ public class OfferCarouselWidget extends Widget implements OfferSmallView.Listen
 
         List<Offer> offers;
 
-        public CarouselViewListener(List<Offer> offers) {
+        CarouselViewListener(List<Offer> offers) {
             this.offers = offers;
         }
 

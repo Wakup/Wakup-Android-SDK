@@ -1,7 +1,6 @@
 package com.yellowpineapple.wakup.sdk.activities;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -26,15 +25,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.bumptech.glide.Glide;
 import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.Wakup;
 import com.yellowpineapple.wakup.sdk.communications.RequestClient;
 import com.yellowpineapple.wakup.sdk.models.Offer;
-import com.yellowpineapple.wakup.sdk.utils.ImageOptions;
 import com.yellowpineapple.wakup.sdk.utils.PersistenceHandler;
 import com.yellowpineapple.wakup.sdk.utils.ShareManager;
 
@@ -60,13 +55,6 @@ public abstract class ParentActivity extends LocationActivity {
         requestClient = RequestClient.getSharedInstance(this);
         persistence = PersistenceHandler.getSharedInstance(this);
         wakup = Wakup.instance(this);
-
-
-        // Create global configuration and initialize ImageLoader with this config
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).
-                defaultDisplayImageOptions(ImageOptions.get()).
-                build();
-        ImageLoader.getInstance().init(config);
 
         // Fix portrait orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -321,21 +309,15 @@ public abstract class ParentActivity extends LocationActivity {
             requestStoragePermission();
             return;
         }
-        ImageLoader.getInstance().loadImage(offer.getImage().getUrl(), ImageOptions.get(),
-                new SimpleImageLoadingListener() {
-                    @Override
-                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                        displayErrorDialog(getString(R.string.wk_share_offer_error));
-                    }
-
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        String shareTitle = getString(R.string.wk_share_offer_title);
-                        String text = String.format(getString(R.string.wk_share_offer_subject), offer.getCompany().getName(), offer.getShortDescription());
-                        String fileName = String.format(Locale.ENGLISH, "wakup_offer_%d.png", offer.getId());
-                        ShareManager.shareImage(ParentActivity.this, loadedImage, fileName, shareTitle, text);
-                    }
-                });
+        try {
+            Bitmap bitmap = Glide.with(this).asBitmap().load(offer.getImage().getUrl()).submit().get();
+            String shareTitle = getString(R.string.wk_share_offer_title);
+            String text = String.format(getString(R.string.wk_share_offer_subject), offer.getCompany().getName(), offer.getShortDescription());
+            String fileName = String.format(Locale.ENGLISH, "wakup_offer_%d.png", offer.getId());
+            ShareManager.shareImage(ParentActivity.this, bitmap, fileName, shareTitle, text);
+        } catch (Exception ex) {
+            displayErrorDialog(getString(R.string.wk_share_offer_error));
+        }
     }
 
     protected final static int PERMISSION_REQUEST_STORAGE = 0x90;
