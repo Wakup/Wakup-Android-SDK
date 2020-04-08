@@ -6,6 +6,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 No pending changes
 
+## [3.1.1] - 2020-04-08
+
+### Changed
+
+* Updated deprecated dependencies for custom fonts and image loading
+
 ## [3.1.0] - 2020-04-01
 
 ### Changed
