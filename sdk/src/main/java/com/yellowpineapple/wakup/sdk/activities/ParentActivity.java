@@ -11,7 +11,9 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,11 +32,15 @@ import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.Wakup;
 import com.yellowpineapple.wakup.sdk.communications.RequestClient;
 import com.yellowpineapple.wakup.sdk.models.Offer;
+import com.yellowpineapple.wakup.sdk.utils.Ln;
 import com.yellowpineapple.wakup.sdk.utils.PersistenceHandler;
 import com.yellowpineapple.wakup.sdk.utils.ShareManager;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
@@ -309,16 +315,27 @@ public abstract class ParentActivity extends LocationActivity {
             requestStoragePermission();
             return;
         }
-        try {
-            Bitmap bitmap = Glide.with(this).asBitmap().load(offer.getImage().getUrl()).submit().get();
-            String shareTitle = getString(R.string.wk_share_offer_title);
-            String text = String.format(getString(R.string.wk_share_offer_subject), offer.getCompany().getName(), offer.getShortDescription());
-            String fileName = String.format(Locale.ENGLISH, "wakup_offer_%d.png", offer.getId());
-            ShareManager.shareImage(ParentActivity.this, bitmap, fileName, shareTitle, text);
-        } catch (Exception ex) {
-            displayErrorDialog(getString(R.string.wk_share_offer_error));
-        }
-    }
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
+                    Bitmap bitmap = Glide.with(getBaseContext()).asBitmap().load(offer.getImage().getUrl()).submit().get();
+                    String shareTitle = getString(R.string.wk_share_offer_title);
+                    String text = getString(R.string.wk_share_offer_subject);
+                    text = text.replace("{id}", Integer.toString(offer.getId()));
+                    text = text.replace("{company}", offer.getCompany().getName());
+                    text = text.replace("{description}", offer.getShortDescription());
+                    text = text.replace("{fullDescription}", offer.getDescription());
+                    text = text.replace("{shortOffer}", offer.getShortOffer());
+                    String fileName = String.format(Locale.ENGLISH, "wakup_offer_%d.png", offer.getId());
+                    ShareManager.shareImage(ParentActivity.this, bitmap, fileName, shareTitle, text);
+                } catch (Exception ex) {
+                    Ln.e(ex);
+                    displayErrorDialog(getString(R.string.wk_share_offer_error));
+                }
+            }
+        });}
 
     protected final static int PERMISSION_REQUEST_STORAGE = 0x90;
     void requestStoragePermission() {

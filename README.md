@@ -445,14 +445,30 @@ Each Map Marker will contain the associated icon and an array of offer tags that
 <color name="wk_light_text">#8F8F8F</color>
 ```
 
+### Offer sharing
+
+It is also possible to customize the message that is attacked the the offer image when a user shares it.
+
+To do so, it is required to change the `wk_share_offer_subject` string resource:
+
+    <string name="wk_share_offer_subject" formatted="false">¡Mira esta oferta de {company} en Wakup!\n\n{description}</string>
+    
+Between simple curly braces (`{` and `}`) you can set the following keys that will be replaced by the matching offer info:
+
+- **id:** Offer ID. Useful if you want to create an unique URL for this offer (for example, `https://web.wakup.net/detail.php?id={id}`)
+- **company:** Name of the company linked to the offer (for example, will match with "McDonald's", "Nike", "Apple", etc)
+- **description:** Offer short description, as displayed on the cell of each offers list
+- **fullDescription:** Offer full description, as displayed on the offer details view
+- **shortOffer:** Short offer detail, usually a percent discount "-15%" or a single word like "Offer" or "Sale"
+
 # Dependencies
 
 The following dependencies are used in the project:
 
-* [Async Http](http://loopj.com/android-async-http/): Library for asynchronous requests
+* [Volley](https://github.com/google/volley): Library for asynchronous requests
 * [Gson](http://code.google.com/p/google-gson/): Parse and serialize JSON
 * [Calligraphy](https://github.com/InflationX/Calligraphy): Allows setting custom typeface to Text Views
-* [Universal-Image-Loader](https://github.com/nostra13/Android-Universal-Image-Loader): Library to load and cache images by URL
+* [Glide](https://github.com/bumptech/glide): Library to load and cache images by URL
 * [Autofit TextView](https://github.com/grantland/android-autofittextview): Auto shrink large texts to adapt to available space
 * [Carousel View](https://github.com/sayyam/carouselview): Horizontal view pager with page indicator
 * [Flow layout](https://github.com/ApmeM/android-flowlayout): Linear layout, that wrap its content to the next line if there is no space in the current line.

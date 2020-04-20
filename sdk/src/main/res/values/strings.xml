@@ -51,7 +51,7 @@
     <string name="wk_related_offers">Ofertas relacionadas:</string>
     <string name="wk_share_offer_title">Compartir oferta</string>
     <string name="wk_share_offer_error">Ocurrió un error al tratar de compartir la oferta</string>
-    <string name="wk_share_offer_subject" formatted="false">¡Mira esta oferta en Wakup! - %s: %s</string>
+    <string name="wk_share_offer_subject" formatted="false">¡Mira esta oferta de {company} en Wakup!\n\n{description}</string>
     <string name="wk_store_offers">ofertas en este comercio</string>
 
     <!-- Coupon codes -->
