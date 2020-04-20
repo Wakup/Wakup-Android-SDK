@@ -6,6 +6,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 No pending changes
 
+## [3.2.0] - 2020-04-20
+
+### Changed
+
+* Improved customization options for sharing offer text
+
 ## [3.1.2] - 2020-04-08
 
 ### Changed
