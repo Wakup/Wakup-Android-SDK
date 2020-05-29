@@ -3,6 +3,9 @@ package com.yellowpineapple.wakup.sdk.communications;
 import android.content.Context;
 import android.location.Location;
 
+import androidx.annotation.NonNull;
+
+import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.Wakup;
 import com.yellowpineapple.wakup.sdk.communications.requests.BaseRequest;
 import com.yellowpineapple.wakup.sdk.communications.requests.OfferListRequestListener;
@@ -38,47 +41,24 @@ public class RequestClient {
     private final static String API_TOKEN_HEADER = "API-Token";
     private final static String USER_TOKEN_HEADER = "User-Token";
 
-    public static final Environment ENVIRONMENT = Environment.PRODUCTION;
-
-    public enum Environment {
-        PRODUCTION("https://app.wakup.net/", false),
-        PRE("http://pre.wakup.net/", false);
-
-        String url;
-        boolean dummy;
-
-        Environment(String url, boolean dummy) {
-            this.url = url;
-            this.dummy = dummy;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public boolean isDummy() {
-            return dummy;
-        }
-    }
-	
 	/* Properties */
 	private RequestLauncher requestLauncher;
     private PersistenceHandler persistence;
-    private Environment environment;
     private String apiKey = null;
+    private String serverPath = null;
 	
-	public static RequestClient getSharedInstance(Context context) {
+	public static RequestClient getSharedInstance(@NonNull Context context) {
 		if (sharedInstance == null) {
-			sharedInstance = new RequestClient(context, ENVIRONMENT);
+			sharedInstance = new RequestClient(context);
 		}
 		return sharedInstance;
 	}
 	
-	private RequestClient(Context context, Environment environment) {
+	private RequestClient(@NonNull Context context) {
 		requestLauncher = new DefaultRequestLauncher(context);
         persistence = PersistenceHandler.getSharedInstance(context);
-        this.environment = environment;
         apiKey = Wakup.instance(context).getOptions().getApiKey();
+        serverPath = context.getString(R.string.wk_server_path);
 	}
 
     /* Public methods */
@@ -149,7 +129,7 @@ public class RequestClient {
     }
 
     public RemoteImage getCouponImage(Offer offer, String format) {
-        GetCouponImageRequest request = new GetCouponImageRequest(offer, format, environment, persistence.getDeviceToken());
+        GetCouponImageRequest request = new GetCouponImageRequest(offer, format, this.serverPath, persistence.getDeviceToken());
         return request.getRemoteImage();
     }
 
@@ -179,7 +159,7 @@ public class RequestClient {
             request.addHeader(USER_TOKEN_HEADER, persistence.getDeviceToken());
         }
         request.setRequestLauncher(requestLauncher);
-        request.setEnvironment(environment);
+        request.setBaseUrl(this.serverPath);
         request.launch();
         return request;
 	}

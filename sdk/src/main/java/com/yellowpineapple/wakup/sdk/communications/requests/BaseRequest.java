@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.yellowpineapple.wakup.sdk.communications.RESTJSONRequest;
-import com.yellowpineapple.wakup.sdk.communications.RequestClient;
 
 public abstract class BaseRequest extends RESTJSONRequest {
 
@@ -13,7 +12,7 @@ public abstract class BaseRequest extends RESTJSONRequest {
     protected static int LOCATED_RESULTS_PER_PAGE = 50;
     public static int RESULTS_PER_PAGE = 30;
 
-    private RequestClient.Environment environment;
+    private String baseUrl;
 
     public BaseRequest() {
         super();
@@ -21,8 +20,12 @@ public abstract class BaseRequest extends RESTJSONRequest {
 
     @Override
 	public String getBaseURL() {
-		return environment.getUrl();
+		return baseUrl;
 	}
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
 
     @Override
 	protected void onResponseProcess(JsonElement response) {
@@ -30,11 +33,6 @@ public abstract class BaseRequest extends RESTJSONRequest {
     }
 
     protected abstract void onSuccess(JsonElement response);
-
-	public void setEnvironment(RequestClient.Environment environment) {
-		this.environment = environment;
-        this.dummy = environment.isDummy();
-	}
 
     public boolean isHttpResponseStatusValid(int httpResponseStatusCode) {
         return httpResponseStatusCode >= 200 && httpResponseStatusCode < 400;

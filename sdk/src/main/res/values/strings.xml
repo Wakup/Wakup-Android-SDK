@@ -103,4 +103,7 @@
     <string name="wk_widget_map_call_to_action">Cómo llegar</string>
     <string name="wk_map_link_format" formatted="false">https://www.google.com/maps/place/%s,%s</string>
 
+    <!-- Communications -->
+    <string name="wk_server_path">https://app.wakup.net/</string>
+
 </resources>

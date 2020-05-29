@@ -11,9 +11,9 @@ public class GetCouponImageRequest {
     private static final String SIZE = "200";
     private String url;
 
-    public GetCouponImageRequest(Offer offer, String format, RequestClient.Environment environment, String userToken) {
+    public GetCouponImageRequest(Offer offer, String format, String serverPath, String userToken) {
 
-        Uri.Builder b = Uri.parse(environment.getUrl()).buildUpon();
+        Uri.Builder b = Uri.parse(serverPath).buildUpon();
         b.appendPath("offers");
         b.appendPath(Integer.toString(offer.getId()));
         b.appendPath("code");
