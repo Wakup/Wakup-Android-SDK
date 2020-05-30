@@ -15,7 +15,7 @@ Include this dependency in the `build.gradle` file of your application project m
 
 ```groovy
 dependencies {
-    implementation 'com.wakup.android:sdk:3.2.0'
+    implementation 'com.wakup.android:sdk:3.3.0'
 }
 ```
 
@@ -51,6 +51,8 @@ Trough the `WakupOptions` object it is possible to setup the following parameter
 | **showBackInRoot** | Defines if the back navigation button should be displayed in Wakup Main activity. Default is `false`.
 | **categories** | List of categories to be used as filter in search results. If null of empty, no filters will be displayed.
 | **mapMarkers** | Customized markers to represent offers in Map View.
+| **locationEnabled** | Defines if the application should use user location and display nearest offers. Default is `true`.
+| **companiesVisible** | Defines if the offer companies will be visible on list, detail and search views.
 
 ## Customization
 

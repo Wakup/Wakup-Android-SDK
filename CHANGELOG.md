@@ -6,6 +6,19 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 No pending changes
 
+## [3.3.0] - 2020-05-30
+
+### Changed
+
+* Server path is now customizable as a string resource
+* Included parameter to hide companies info from offer lists and details view
+* User location will not be requested and search button will not be displayed when location is disabled on Wakup Options
+
+### Fixed
+
+* Fixed race condition to avoid loading offers twice while loading categories
+
+
 ## [3.2.0] - 2020-04-20
 
 ### Changed
