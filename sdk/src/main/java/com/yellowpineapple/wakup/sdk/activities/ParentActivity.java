@@ -13,7 +13,6 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,10 +36,7 @@ import com.yellowpineapple.wakup.sdk.utils.PersistenceHandler;
 import com.yellowpineapple.wakup.sdk.utils.ShareManager;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
@@ -374,5 +370,9 @@ public abstract class ParentActivity extends LocationActivity {
 
     protected boolean isCompaniesVisible() {
         return getWakup().getOptions().isCompaniesVisible();
+    }
+
+    protected boolean isLocationEnabled() {
+        return getWakup().getOptions().isLocationEnabled();
     }
 }

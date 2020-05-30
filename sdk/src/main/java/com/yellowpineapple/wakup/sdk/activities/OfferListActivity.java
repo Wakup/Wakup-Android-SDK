@@ -185,23 +185,30 @@ public abstract class OfferListActivity extends ParentActivity implements Multip
         if (offersRequest != null) {
             offersRequest.cancel();
         }
-        getLastKnownLocation(new LocationListener() {
-            @Override
-            public void onLocationSuccess(final Location location) {
-                currentLocation = location;
-                onRequestOffers(currentCategory, page, location);
-            }
-
-            @Override
-            public void onLocationError(Exception exception) {
-                currentLocation = getWakup().getOptions().getDefaultLocation();
-                onRequestOffers(currentCategory, page, currentLocation);
-                if (!getPersistence().isLocationAsked()) {
-                    Toast.makeText(OfferListActivity.this, R.string.wk_disabled_location, Toast.LENGTH_LONG).show();
-                    getPersistence().setLocationAsked(true);
+        if (isLocationEnabled()) {
+            getLastKnownLocation(new LocationListener() {
+                @Override
+                public void onLocationSuccess(final Location location) {
+                    currentLocation = location;
+                    onRequestOffers(currentCategory, page, location);
                 }
-            }
-        });
+
+                @Override
+                public void onLocationError(Exception exception) {
+                    currentLocation = getWakup().getOptions().getDefaultLocation();
+                    onRequestOffers(currentCategory, page, currentLocation);
+                    if (!getPersistence().isLocationAsked()) {
+                        Toast.makeText(OfferListActivity.this, R.string.wk_disabled_location, Toast.LENGTH_LONG).show();
+                        getPersistence().setLocationAsked(true);
+                    }
+                }
+            });
+        } else {
+            currentLocation = new Location("Empty Location");
+            currentLocation.setLatitude(0);
+            currentLocation.setLongitude(0);
+            onRequestOffers(currentCategory, page, currentLocation);
+        }
     }
 
     private boolean loading = false;

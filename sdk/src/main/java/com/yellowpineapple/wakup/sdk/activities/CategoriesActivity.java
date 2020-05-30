@@ -91,24 +91,28 @@ public class CategoriesActivity extends OfferListActivity {
             companiesRV.setVisibility(View.GONE);
         }
         btnMap = findViewById(R.id.btnMap);
-        btnMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mapButtonPressed();
-            }
-        });
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                if (dy > 0) {
-                    // scrolling down
-                    btnMap.hide();
-                } else {
-                    // scrolling up
-                    btnMap.show();
+        if (isLocationEnabled()) {
+            btnMap.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mapButtonPressed();
                 }
-            }
-        });
+            });
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                    if (dy > 0) {
+                        // scrolling down
+                        btnMap.hide();
+                    } else {
+                        // scrolling up
+                        btnMap.show();
+                    }
+                }
+            });
+        } else {
+            btnMap.setVisibility(View.GONE);
+        }
         View toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
             toolbar.setClickable(true);
@@ -339,8 +343,10 @@ public class CategoriesActivity extends OfferListActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.wk_main_menu, menu);
+        if (isLocationEnabled()) {
+            MenuInflater menuInflater = getMenuInflater();
+            menuInflater.inflate(R.menu.wk_main_menu, menu);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 

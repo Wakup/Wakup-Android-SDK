@@ -9,7 +9,7 @@
     <!-- ActionBar Logo -->
     <drawable name="wk_actionbar_logo">@drawable/wk_ic_btn_leisure</drawable>
     <!-- No titles -->
-    <string name="wk_activity_offers">@null</string>
+    <string name="wk_activity_offers"></string>
 
     <!-- Tag buttons -->
     <color name="wk_tag_active_bg">@color/wk_primary_pressed</color>
