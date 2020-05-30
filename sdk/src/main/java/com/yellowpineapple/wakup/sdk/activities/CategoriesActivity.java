@@ -139,9 +139,11 @@ public class CategoriesActivity extends OfferListActivity {
         categoriesAdapter.setSelectedCategory(null);
         categoriesAdapter.notifyDataSetChanged();
         companiesRV.scrollToPosition(0);
-        companiesAdapter.setSelectedCompany(null);
-        companiesAdapter.setCompanies(defaultCompanies);
-        companiesAdapter.notifyDataSetChanged();
+        if (isCompaniesVisible()) {
+            companiesAdapter.setSelectedCompany(null);
+            companiesAdapter.setCompanies(defaultCompanies);
+            companiesAdapter.notifyDataSetChanged();
+        }
         reloadOffers();
     }
 
@@ -192,16 +194,19 @@ public class CategoriesActivity extends OfferListActivity {
             @Override
             public void onSelectedCategoryChanged(Category category) {
                 selectedCategory = category;
-                selectedCompany = null;
-                companiesAdapter.setSelectedCompany(null);
-                if (category == null) {
-                    companiesAdapter.setCompanies(defaultCompanies);
-                } else {
-                    companiesAdapter.setCompanies(category.getCompanies());
+                if (isCompaniesVisible()) {
+                    selectedCompany = null;
+                    companiesAdapter.setSelectedCompany(null);
+                    if (category == null) {
+                        companiesAdapter.setCompanies(defaultCompanies);
+                    } else {
+                        companiesAdapter.setCompanies(category.getCompanies());
+                    }
+                    companiesRV.scrollToPosition(0);
+                    companiesAdapter.notifyDataSetChanged();
+                    if (selectedCategory != null)
+                        scrollToCenterPosition(categoriesRV, categories.indexOf(selectedCategory));
                 }
-                companiesRV.scrollToPosition(0);
-                companiesAdapter.notifyDataSetChanged();
-                if (selectedCategory != null) scrollToCenterPosition(categoriesRV, categories.indexOf(selectedCategory));
                 reloadOffers();
             }
         });
