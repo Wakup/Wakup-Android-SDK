@@ -59,6 +59,7 @@ public class CategoriesActivity extends OfferListActivity {
     private OfferCategory MAIN_CATEGORY;
     private OfferCategory RELATED_CATEGORY;
 
+    private boolean configLoaded = false;
     private boolean companiesVisible;
 
     @Override
@@ -152,6 +153,7 @@ public class CategoriesActivity extends OfferListActivity {
                         defaultCompanies = companies;
                         setupCategoriesSelector();
                         setupCompaniesSelector();
+                        configLoaded = true;
                         setupOffersGrid(null, recyclerView, offerCategories, navigationView, emptyView);
                     }
 
@@ -159,6 +161,7 @@ public class CategoriesActivity extends OfferListActivity {
                     public void onError(Exception exception) {
                         setLoading(false);
                         displayErrorDialog(getString(R.string.wk_connection_error_message));
+                        configLoaded = true;
                         setEmptyViewVisible(true);
                     }
                 });
@@ -168,6 +171,7 @@ public class CategoriesActivity extends OfferListActivity {
             public void onError(Exception exception) {
                 setLoading(false);
                 displayErrorDialog(getString(R.string.wk_connection_error_message));
+                configLoaded = true;
                 setEmptyViewVisible(true);
             }
         });
@@ -259,47 +263,49 @@ public class CategoriesActivity extends OfferListActivity {
 
     @Override
     void onRequestOffers(final OfferCategory category, final int page, final Location location) {
-        if (alreadyRegistered) {
-            if (offersRequest != null) {
-                offersRequest.cancel();
-                offersRequest = null;
-            }
-            if (category.equals(MAIN_CATEGORY)) {
-                offersRequest = getRequestClient().findCategoryOffers(currentLocation, selectedCategory,
-                        selectedCompany, page, getOfferListRequestListener());
+        if (configLoaded) {
+            if (alreadyRegistered) {
+                if (offersRequest != null) {
+                    offersRequest.cancel();
+                    offersRequest = null;
+                }
+                if (category.equals(MAIN_CATEGORY)) {
+                    offersRequest = getRequestClient().findCategoryOffers(currentLocation, selectedCategory,
+                            selectedCompany, page, getOfferListRequestListener());
 
-            } else {
-                Category offerCategory = selectedCategory;
-                if (selectedCompany != null && selectedCategory == null) {
-                    // Find category related to selected company
-                    for (Category mCategory : categories) {
-                        if (mCategory.getCompanies().contains(selectedCompany)) {
-                            offerCategory = mCategory;
-                            break;
+                } else {
+                    Category offerCategory = selectedCategory;
+                    if (selectedCompany != null && selectedCategory == null) {
+                        // Find category related to selected company
+                        for (Category mCategory : categories) {
+                            if (mCategory.getCompanies().contains(selectedCompany)) {
+                                offerCategory = mCategory;
+                                break;
+                            }
                         }
                     }
+                    // If category is not present, there will be no related offers
+                    if (selectedCompany == null || offerCategory == null) {
+                        getOfferListRequestListener().onSuccess(new ArrayList<Offer>());
+                    } else {
+                        offersRequest = getRequestClient().findCategoryRelatedOffers(currentLocation, offerCategory,
+                                selectedCompany, page, getOfferListRequestListener());
+                    }
                 }
-                // If category is not present, there will be no related offers
-                if (selectedCompany == null || offerCategory == null) {
-                    getOfferListRequestListener().onSuccess(new ArrayList<Offer>());
-                } else {
-                    offersRequest = getRequestClient().findCategoryRelatedOffers(currentLocation, offerCategory,
-                            selectedCompany, page, getOfferListRequestListener());
-                }
-            }
-        } else {
-            getWakup().register(new Wakup.RegisterListener() {
-                @Override
-                public void onSuccess() {
-                    alreadyRegistered = true;
-                    onRequestOffers(category, page, location);
-                }
+            } else {
+                getWakup().register(new Wakup.RegisterListener() {
+                    @Override
+                    public void onSuccess() {
+                        alreadyRegistered = true;
+                        onRequestOffers(category, page, location);
+                    }
 
-                @Override
-                public void onError(Exception exception) {
-                    getOfferListRequestListener().onError(exception);
-                }
-            });
+                    @Override
+                    public void onError(Exception exception) {
+                        getOfferListRequestListener().onError(exception);
+                    }
+                });
+            }
         }
     }
 
