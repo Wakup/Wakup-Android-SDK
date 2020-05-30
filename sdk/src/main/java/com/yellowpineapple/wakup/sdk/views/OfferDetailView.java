@@ -215,9 +215,12 @@ public class OfferDetailView
     }
 
     public void setCompanyVisible(boolean companyVisible) {
-        if (!companyVisible) {
-            View companyInfoView = findViewById(R.id.companyInfoView);
-            companyInfoView.setVisibility(GONE);
-        }
+        View companyInfoView = findViewById(R.id.companyInfoView);
+        companyInfoView.setVisibility(companyVisible ? VISIBLE : GONE);
+    }
+
+    public void setLocationEnabled(boolean locationEnabled) {
+        View mapBtn = findViewById(R.id.btnMap);
+        mapBtn.setVisibility(locationEnabled ? VISIBLE : GONE);
     }
 }

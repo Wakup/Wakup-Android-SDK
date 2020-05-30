@@ -56,6 +56,7 @@ public class OfferDetailActivity extends OfferListActivity implements OfferDetai
             setSubtitle(offer.getCompany().getName());
         }
         offerDetailView.setCompanyVisible(isCompaniesVisible());
+        offerDetailView.setLocationEnabled(isLocationEnabled());
         offerDetailView.setOffer(offer, location);
         setupOffersGrid(offerDetailView, recyclerView,
                 Collections.singletonList(new OfferCategory(DEFAULT_CATEGORY, getString(R.string.wk_related_offers))),
