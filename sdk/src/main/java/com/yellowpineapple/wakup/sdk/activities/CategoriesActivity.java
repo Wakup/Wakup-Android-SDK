@@ -67,7 +67,7 @@ public class CategoriesActivity extends OfferListActivity {
 
         setContentView(R.layout.wk_activity_categories);
 
-        this.companiesVisible = getWakup().getOptions().isCompaniesVisible();
+        this.companiesVisible = isCompaniesVisible();
 
         MAIN_CATEGORY = new OfferCategory(0, null);
         RELATED_CATEGORY = new OfferCategory(1, getString(R.string.wk_related_offers));

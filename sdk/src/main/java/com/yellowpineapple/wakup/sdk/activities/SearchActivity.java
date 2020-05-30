@@ -92,7 +92,8 @@ public class SearchActivity extends ParentActivity {
     }
 
     void afterViews() {
-        listAdapter = new SearchResultAdapter(this, location, getPersistence().getRecentSearches());
+        listAdapter = new SearchResultAdapter(this, location,
+                getPersistence().getRecentSearches(), isCompaniesVisible());
         listAdapter.setListener(new SearchResultAdapter.Listener() {
             @Override
             public void onItemClick(SearchResultItem item, View view) {
@@ -135,10 +136,10 @@ public class SearchActivity extends ParentActivity {
                 ViewGroup vg = (ViewGroup) v;
                 for (int i = 0; i < vg.getChildCount(); i++) {
                     View child = vg.getChildAt(i);
-                    View editText = getEditText(context, child);
+                    EditText editText = getEditText(context, child);
 
                     if (editText != null) {
-                        return (EditText) editText;
+                        return editText;
                     }
                 }
             } else if (v instanceof EditText) {

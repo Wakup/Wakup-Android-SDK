@@ -24,25 +24,29 @@ import java.util.List;
 
 public class SearchResultAdapter extends BaseAdapter implements View.OnClickListener {
 
-    List<Company> companies = null;
-    List<Address> addresses = null;
-    List<String> tags = null;
-    Context context;
-    Location currentLocation;
+    private List<Company> companies = null;
+    private List<Address> addresses = null;
+    private List<String> tags = null;
+    private Context context;
+    private Location currentLocation;
 
-    Listener listener;
-    List<SearchResultItem> recentSearches = new ArrayList<>();
-    List<SearchResultItem> resultItems = new ArrayList<>();
+    private Listener listener;
+    private List<SearchResultItem> recentSearches;
+    private List<SearchResultItem> resultItems = new ArrayList<>();
+
+    private boolean companiesVisible = true;
 
     public interface Listener {
         void onItemClick(SearchResultItem item, View view);
     }
 
-    public SearchResultAdapter(final Context context, Location currentLocation, List<SearchResultItem> recentSearches) {
+    public SearchResultAdapter(final Context context, Location currentLocation,
+                               List<SearchResultItem> recentSearches, boolean companiesVisible) {
         super();
         this.context = context;
         this.currentLocation = currentLocation;
         this.recentSearches = recentSearches;
+        this.companiesVisible = companiesVisible;
         refreshResultItems();
     }
 
@@ -64,7 +68,7 @@ public class SearchResultAdapter extends BaseAdapter implements View.OnClickList
 
     private void refreshResultItems() {
         List<SearchResultItem> items = new ArrayList<>();
-        if (companies != null && !companies.isEmpty()) {
+        if (companiesVisible && companies != null && !companies.isEmpty()) {
             items.add(SearchResultItem.header(context.getString(R.string.wk_search_brands)));
             for (Company company : companies) {
                 items.add(SearchResultItem.company(false, company));
@@ -118,7 +122,7 @@ public class SearchResultAdapter extends BaseAdapter implements View.OnClickList
 
         if (searchItem.getType() == SearchResultItem.Type.HEADER) {
             final SearchHeaderView headerView;
-            if (convertView != null && convertView instanceof SearchHeaderView) {
+            if (convertView instanceof SearchHeaderView) {
                 headerView = (SearchHeaderView) convertView;
             } else {
                 headerView = new SearchHeaderView(context);
@@ -127,7 +131,7 @@ public class SearchResultAdapter extends BaseAdapter implements View.OnClickList
             view = headerView;
         } else {
             final SearchItemView itemView;
-            if (convertView != null && convertView instanceof SearchItemView) {
+            if (convertView instanceof SearchItemView) {
                 itemView = (SearchItemView) convertView;
             } else {
                 itemView = new SearchItemView(context);
@@ -158,7 +162,7 @@ public class SearchResultAdapter extends BaseAdapter implements View.OnClickList
         return listener;
     }
 
-    public List<SearchResultItem> getResultItems() {
+    private List<SearchResultItem> getResultItems() {
         return resultItems;
     }
 

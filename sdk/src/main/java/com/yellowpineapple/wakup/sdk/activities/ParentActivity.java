@@ -371,4 +371,8 @@ public abstract class ParentActivity extends LocationActivity {
             Log.d("NOTPRESENT", "Progress bar not present");
         }
     }
+
+    protected boolean isCompaniesVisible() {
+        return getWakup().getOptions().isCompaniesVisible();
+    }
 }
