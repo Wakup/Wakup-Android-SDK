@@ -31,7 +31,6 @@ import com.yellowpineapple.wakup.sdk.views.PullToRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class CategoriesActivity extends OfferListActivity {
@@ -60,11 +59,15 @@ public class CategoriesActivity extends OfferListActivity {
     private OfferCategory MAIN_CATEGORY;
     private OfferCategory RELATED_CATEGORY;
 
+    private boolean companiesVisible;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.wk_activity_categories);
+
+        this.companiesVisible = getWakup().getOptions().isCompaniesVisible();
 
         MAIN_CATEGORY = new OfferCategory(0, null);
         RELATED_CATEGORY = new OfferCategory(1, getString(R.string.wk_related_offers));
@@ -83,6 +86,9 @@ public class CategoriesActivity extends OfferListActivity {
         ptrLayout = findViewById(R.id.ptr_layout);
         categoriesRV = findViewById(R.id.categoriesRV);
         companiesRV = findViewById(R.id.companiesRV);
+        if (!companiesVisible) {
+            companiesRV.setVisibility(View.GONE);
+        }
         btnMap = findViewById(R.id.btnMap);
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,25 +202,29 @@ public class CategoriesActivity extends OfferListActivity {
     }
 
     void setupCompaniesSelector() {
-        final LinearLayoutManager layoutManager
-                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        companiesRV.setLayoutManager(layoutManager);
-        companiesRV.setItemAnimator(null);
+        if (this.companiesVisible) {
+            final LinearLayoutManager layoutManager
+                    = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            companiesRV.setLayoutManager(layoutManager);
+            companiesRV.setItemAnimator(null);
 
-        companiesAdapter = new CompaniesAdapter(null, this);
-        companiesAdapter.setListener(new CompaniesAdapter.Listener() {
-            @Override
-            public void onSelectedCompanyChanged(CompanyDetail company) {
-                selectedCompany = company;
-                if (selectedCompany != null) {
-                    final int index = companiesAdapter.getCompanies().indexOf(selectedCompany);
-                    scrollToCenterPosition(companiesRV, index);
+            companiesAdapter = new CompaniesAdapter(null, this);
+            companiesAdapter.setListener(new CompaniesAdapter.Listener() {
+                @Override
+                public void onSelectedCompanyChanged(CompanyDetail company) {
+                    selectedCompany = company;
+                    if (selectedCompany != null) {
+                        final int index = companiesAdapter.getCompanies().indexOf(selectedCompany);
+                        scrollToCenterPosition(companiesRV, index);
+                    }
+                    reloadOffers();
                 }
-                reloadOffers();
-            }
-        });
-        companiesAdapter.setCompanies(defaultCompanies);
-        companiesRV.setAdapter(companiesAdapter);
+            });
+            companiesAdapter.setCompanies(defaultCompanies);
+            companiesRV.setAdapter(companiesAdapter);
+        } else {
+            companiesRV.setVisibility(View.GONE);
+        }
     }
 
     final LinearSnapHelper snapHelper = new LinearSnapHelper();

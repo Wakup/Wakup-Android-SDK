@@ -75,7 +75,6 @@ public class OfferDetailView
 
     private void init() {
         injectViews();
-
     }
 
     public void setOffer(Offer offer, Location location) {
@@ -130,29 +129,29 @@ public class OfferDetailView
 
     private void injectViews() {
         inflate(getContext(), R.layout.wk_view_offer_detail, this);
-        btnShare = ((OfferActionButton) findViewById(R.id.btnShare));
-        imgOffer = ((RemoteImageView) findViewById(R.id.imgOffer));
-        txtExpiration = ((TextView) findViewById(R.id.txtExpiration));
-        txtDescription = ((TextView) findViewById(R.id.txtDescription));
-        imgCompany = ((RemoteImageView) findViewById(R.id.imgCompany));
-        btnWebsite = ((OfferActionButton) findViewById(R.id.btnWebsite));
-        txtShortOffer = ((TextView) findViewById(R.id.txtShortOffer));
-        txtStoreOffers = ((TextView) findViewById(R.id.txtStoreOffers));
-        txtShortDescription = ((TextView) findViewById(R.id.txtShortDescription));
-        imgDisclosureAddress = ((ImageView) findViewById(R.id.imgDisclosureAddress));
+        btnShare = findViewById(R.id.btnShare);
+        imgOffer = findViewById(R.id.imgOffer);
+        txtExpiration = findViewById(R.id.txtExpiration);
+        txtDescription = findViewById(R.id.txtDescription);
+        imgCompany = findViewById(R.id.imgCompany);
+        btnWebsite = findViewById(R.id.btnWebsite);
+        txtShortOffer = findViewById(R.id.txtShortOffer);
+        txtStoreOffers = findViewById(R.id.txtStoreOffers);
+        txtShortDescription = findViewById(R.id.txtShortDescription);
+        imgDisclosureAddress = findViewById(R.id.imgDisclosureAddress);
         storeOffersView = findViewById(R.id.storeOffersView);
         viewDescription = findViewById(R.id.viewDescription);
-        btnMap = ((OfferActionButton) findViewById(R.id.btnMap));
+        btnMap = findViewById(R.id.btnMap);
         storeView = findViewById(R.id.storeView);
-        txtCompany = ((TextView) findViewById(R.id.txtCompany));
-        txtAddress = ((TextView) findViewById(R.id.txtAddress));
-        txtDistance = ((TextView) findViewById(R.id.txtDistance));
-        btnSave = ((OfferActionButton) findViewById(R.id.btnSave));
+        txtCompany = findViewById(R.id.txtCompany);
+        txtAddress = findViewById(R.id.txtAddress);
+        txtDistance = findViewById(R.id.txtDistance);
+        btnSave = findViewById(R.id.btnSave);
         tagsViewHolder = findViewById(R.id.tagsViewHolder);
-        tagsView = (OfferTagsView) findViewById(R.id.tagsView);
+        tagsView = findViewById(R.id.tagsView);
         tagsView.setOnTagSelectedListener(this);
         couponViewHolder = findViewById(R.id.couponViewHolder);
-        couponView = (OfferCouponSummaryView) findViewById(R.id.couponView);
+        couponView = findViewById(R.id.couponView);
         couponView.setListener(this);
 
         OnClickListener clickListener = new OnClickListener() {
@@ -213,5 +212,12 @@ public class OfferDetailView
     @Override
     public void onCouponSelected(Offer offer) {
         if (listener != null) listener.onCouponSelected(offer);
+    }
+
+    public void setCompanyVisible(boolean companyVisible) {
+        if (!companyVisible) {
+            View companyInfoView = findViewById(R.id.companyInfoView);
+            companyInfoView.setVisibility(GONE);
+        }
     }
 }

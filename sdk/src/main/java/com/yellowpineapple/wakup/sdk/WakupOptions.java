@@ -23,6 +23,9 @@ public class WakupOptions {
 
     private boolean showBackInRoot = false;
 
+    private boolean companiesVisible = true;
+    private boolean locationEnabled = true;
+
     private final static List<SearchCategory> DEFAULT_CATEGORIES = Arrays.asList(
             new SearchCategory(R.string.wk_category_leisure, R.drawable.wk_cat_leisure, R.color.wk_search_cat_leisure,  "leisure"),
             new SearchCategory(R.string.wk_category_restaurants, R.drawable.wk_cat_restaurants, R.color.wk_search_cat_restaurants, "restaurants"),
@@ -116,6 +119,31 @@ public class WakupOptions {
         return this;
     }
 
+    /**
+     * Defines if the offer companies will be visible or if it has be hidden. If false, the
+     * companies selector on home view, companies results on search and company details on offers
+     * will be hidden. Default is true.
+     *
+     * @param companiesVisible true to display companies info. False to hide it
+     * @return  options instance to allow in-line setup
+     */
+    public WakupOptions companiesVisible(boolean companiesVisible) {
+        this.companiesVisible = companiesVisible;
+        return this;
+    }
+
+    /**
+     * Defines if the application should use user location and display nearest offers. If false,
+     * it will only show online offers and will hide directions from results, and map activity link
+     * from main view
+     * @param locationEnabled true to use located offers. False to only display online offers.
+     * @return options instance to allow in-line setup
+     */
+    public WakupOptions locationEnabled(boolean locationEnabled) {
+        this.locationEnabled = locationEnabled;
+        return this;
+    }
+
     /* Getters */
 
     public String getApiKey() {
@@ -148,5 +176,13 @@ public class WakupOptions {
 
     public boolean showBackInRoot() {
         return showBackInRoot;
+    }
+
+    public boolean isCompaniesVisible() {
+        return companiesVisible;
+    }
+
+    public boolean isLocationEnabled() {
+        return locationEnabled;
     }
 }

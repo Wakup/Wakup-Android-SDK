@@ -33,6 +33,8 @@ public abstract class OfferSmallView extends FrameLayout {
     TextView txtExpiration;
     View rippleView;
 
+    boolean companyVisible = true;
+
     Listener listener;
 
     public void setListener(Listener listener) {
@@ -67,13 +69,13 @@ public abstract class OfferSmallView extends FrameLayout {
 
     private void injectViews() {
         inflate(getContext(), getLayoutResource(), this);
-        txtDistance = ((TextView) findViewById(R.id.txtDistance));
-        viewShortOffer = ((ViewGroup) findViewById(R.id.viewShortOffer));
-        txtExpiration = ((TextView) findViewById(R.id.txtExpiration));
-        txtShortDescription = ((TextView) findViewById(R.id.txtShortDescription));
-        txtDescription = ((TextView) findViewById(R.id.txtDescription));
-        txtCompany = ((TextView) findViewById(R.id.txtCompany));
-        offerImageView = ((RemoteImageView) findViewById(R.id.offerImageView));
+        txtDistance = findViewById(R.id.txtDistance);
+        viewShortOffer = findViewById(R.id.viewShortOffer);
+        txtExpiration = findViewById(R.id.txtExpiration);
+        txtShortDescription = findViewById(R.id.txtShortDescription);
+        txtDescription = findViewById(R.id.txtDescription);
+        txtCompany = findViewById(R.id.txtCompany);
+        offerImageView = findViewById(R.id.offerImageView);
         rippleView = findViewById(R.id.rippleView);
 
         rippleView.setOnClickListener(new OnClickListener() {
@@ -124,4 +126,10 @@ public abstract class OfferSmallView extends FrameLayout {
         return offer;
     }
 
+    public void setCompanyVisible(boolean companyVisible) {
+        this.companyVisible = companyVisible;
+        if (txtCompany != null) {
+            txtCompany.setVisibility(companyVisible ? VISIBLE : GONE);
+        }
+    }
 }

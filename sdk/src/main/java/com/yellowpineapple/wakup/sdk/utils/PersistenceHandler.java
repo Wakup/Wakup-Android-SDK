@@ -37,12 +37,9 @@ public class PersistenceHandler {
     private boolean locationPermissionAsked = false;
     private String deviceToken = null;
 
-    Date savedOffersUpdatedAt = new Date();
-
-    Context context;
+    private Date savedOffersUpdatedAt = new Date();
 
     private PersistenceHandler(Context context) {
-        this.context = context;
         this.preferences = context.getSharedPreferences(PREFS_NAME, 0);
     }
 
@@ -89,9 +86,8 @@ public class PersistenceHandler {
     }
 
     private void storeUserOffers() {
-        Set<String> offerKeys = new HashSet<>();
-        offerKeys.addAll(getUserOffers());
-        getPreferences().edit().putStringSet(KEY_USER_OFFERS, offerKeys).commit();
+        Set<String> offerKeys = new HashSet<>(getUserOffers());
+        getPreferences().edit().putStringSet(KEY_USER_OFFERS, offerKeys).apply();
         savedOffersUpdatedAt = new Date();
     }
 
@@ -136,14 +132,14 @@ public class PersistenceHandler {
         return recentSearches;
     }
 
-    public void storeRecentSearches() {
+    private void storeRecentSearches() {
         String json;
         if (recentSearches != null) {
             json = new Gson().toJson(recentSearches);
         } else {
             json = new Gson().toJson(new ArrayList<SearchResultItem>());
         }
-        getPreferences().edit().putString(KEY_RECENT_SEARCHES, json).commit();
+        getPreferences().edit().putString(KEY_RECENT_SEARCHES, json).apply();
     }
 
     public boolean isLocationAsked() {
@@ -167,9 +163,9 @@ public class PersistenceHandler {
         this.options = options;
         if (options != null) {
             String json = new Gson().toJson(options);
-            getPreferences().edit().putString(KEY_SDK_OPTIONS, json).commit();
+            getPreferences().edit().putString(KEY_SDK_OPTIONS, json).apply();
         } else {
-            getPreferences().edit().remove(KEY_SDK_OPTIONS).commit();
+            getPreferences().edit().remove(KEY_SDK_OPTIONS).apply();
         }
     }
 
@@ -194,9 +190,9 @@ public class PersistenceHandler {
     public void setRegistrationInfo(RegistrationInfo info) {
         if (info != null) {
             String serialized = info.toJson();
-            getPreferences().edit().putString(KEY_REGISTRATION_INFO, serialized).commit();
+            getPreferences().edit().putString(KEY_REGISTRATION_INFO, serialized).apply();
         } else {
-            getPreferences().edit().remove(KEY_REGISTRATION_INFO).commit();
+            getPreferences().edit().remove(KEY_REGISTRATION_INFO).apply();
         }
     }
 
@@ -210,7 +206,7 @@ public class PersistenceHandler {
 
     public void setDeviceToken(String deviceToken) {
         this.deviceToken = deviceToken;
-        getPreferences().edit().putString(KEY_DEVICE_TOKEN, deviceToken).commit();
+        getPreferences().edit().putString(KEY_DEVICE_TOKEN, deviceToken).apply();
     }
 
     public String getDeviceToken() {

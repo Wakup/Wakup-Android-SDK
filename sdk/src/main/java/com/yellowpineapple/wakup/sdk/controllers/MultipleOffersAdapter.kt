@@ -18,8 +18,9 @@ import com.yellowpineapple.wakup.sdk.views.RelatedOffersHeader
  * ADAPTER
  */
 
-class MultipleOffersAdapter(private val headerView: View?, val context: Context) :
-        androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>(), OfferSmallView.Listener {
+class MultipleOffersAdapter(private val headerView: View?, val context: Context,
+                            private val companiesVisible: Boolean) :
+        RecyclerView.Adapter<RecyclerView.ViewHolder>(), OfferSmallView.Listener {
 
     var offerCategories: LinkedHashMap<OfferCategory, List<Offer>> = LinkedHashMap();
     private var currentLocation: Location? = null
@@ -28,7 +29,7 @@ class MultipleOffersAdapter(private val headerView: View?, val context: Context)
     private val isHeaderPresent: Boolean
         get() = headerView != null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         when (viewType) {
             TYPE_HEADER -> {
@@ -43,6 +44,7 @@ class MultipleOffersAdapter(private val headerView: View?, val context: Context)
             else -> {
                 val offerView = OfferListView(context)
                 offerView.setListener(this)
+                offerView.setCompanyVisible(companiesVisible)
                 return OfferViewHolder(offerView)
             }
         }
@@ -52,7 +54,7 @@ class MultipleOffersAdapter(private val headerView: View?, val context: Context)
         view?.viewTreeObserver?.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
             override fun onPreDraw(): Boolean {
                 val lp = view.layoutParams
-                if (lp is androidx.recyclerview.widget.StaggeredGridLayoutManager.LayoutParams) {
+                if (lp is StaggeredGridLayoutManager.LayoutParams) {
                     lp.isFullSpan = true
                     view.layoutParams = lp
                 }

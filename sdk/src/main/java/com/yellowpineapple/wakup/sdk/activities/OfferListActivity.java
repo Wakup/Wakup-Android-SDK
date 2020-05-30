@@ -101,7 +101,8 @@ public abstract class OfferListActivity extends ParentActivity implements Multip
 
         if (emptyView != null) emptyView.setVisibility(View.GONE);
 
-        offersAdapter = new MultipleOffersAdapter(headerView, this);
+        offersAdapter = new MultipleOffersAdapter(headerView, this,
+                getWakup().getOptions().isCompaniesVisible());
         offersAdapter.setListener(this);
 
 

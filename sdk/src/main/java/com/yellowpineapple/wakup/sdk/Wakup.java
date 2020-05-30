@@ -18,24 +18,20 @@ import com.yellowpineapple.wakup.sdk.utils.PersistenceHandler;
 
 public class Wakup {
 
-    private static Wakup sharedInstance = null;
     private Context context;
+    private String baseUrl;
 
     private PersistenceHandler persistence;
 
-    private static final String HOST = RequestClient.ENVIRONMENT.getUrl();
-
     private Wakup(Context context) {
         super();
+        this.baseUrl = context.getString(R.string.wk_server_path);
         this.context = context;
         this.persistence = PersistenceHandler.getSharedInstance(context);
     }
 
     public static Wakup instance(Context context) {
-        if (sharedInstance == null) {
-            sharedInstance = new Wakup(context);
-        }
-        return sharedInstance;
+        return new Wakup(context);
     }
 
     public void launch() {
@@ -102,14 +98,14 @@ public class Wakup {
     }
 
     public String getBigOffer() {
-        Uri.Builder b = Uri.parse(HOST).buildUpon();
+        Uri.Builder b = Uri.parse(baseUrl).buildUpon();
         b.path("offers/highlighted");
         b.appendPath(getOptions().getApiKey());
         return b.build().toString();
     }
 
     public String getOfferReportURL(Offer offer) {
-        Uri.Builder b = Uri.parse(HOST).buildUpon();
+        Uri.Builder b = Uri.parse(baseUrl).buildUpon();
         b.appendPath("offers");
         b.appendPath(Integer.toString(offer.getId()));
         b.appendPath("report");
