@@ -274,7 +274,9 @@ public class SearchActivity extends ParentActivity {
                         Toast.makeText(SearchActivity.this, R.string.wk_search_error, Toast.LENGTH_LONG).show();
                     }
                 });
-                geoSearch(query.trim());
+                if (getOptions().isLocationEnabled()) {
+                    geoSearch(query.trim());
+                }
             } else {
                 listAdapter.setSearchResult(null);
                 listAdapter.setAddresses(null);
