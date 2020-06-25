@@ -6,7 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 No pending changes
 
-## [3.4.0] - 2020-06-25
+## [3.4.1] - 2020-06-25
 
 ### Changed
 
@@ -171,7 +171,8 @@ Version updates to support Android SDK v26:
 ### Added
 - First fully functional public release.
 
-[Unreleased]: https://github.com/Wakup/Wakup-Android-SDK/compare/v3.3.1...HEAD
+[Unreleased]: https://github.com/Wakup/Wakup-Android-SDK/compare/v3.4.1...HEAD
+[3.4.1]: https://github.com/Wakup/Wakup-Android-SDK/compare/v3.3.1...v3.4.1
 [3.3.1]: https://github.com/Wakup/Wakup-Android-SDK/compare/v3.2.0...v3.3.1
 [3.2.0]: https://github.com/Wakup/Wakup-Android-SDK/compare/v3.1.2...v3.2.0
 [3.1.2]: https://github.com/Wakup/Wakup-Android-SDK/compare/v3.1.0...v3.1.2
