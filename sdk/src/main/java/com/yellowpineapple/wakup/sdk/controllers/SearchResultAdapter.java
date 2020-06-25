@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.yellowpineapple.wakup.sdk.R;
+import com.yellowpineapple.wakup.sdk.WakupOptions;
 import com.yellowpineapple.wakup.sdk.models.Company;
 import com.yellowpineapple.wakup.sdk.models.SearchResult;
 import com.yellowpineapple.wakup.sdk.models.SearchResultItem;
@@ -34,19 +35,19 @@ public class SearchResultAdapter extends BaseAdapter implements View.OnClickList
     private List<SearchResultItem> recentSearches;
     private List<SearchResultItem> resultItems = new ArrayList<>();
 
-    private boolean companiesVisible = true;
+    private WakupOptions options;
 
     public interface Listener {
         void onItemClick(SearchResultItem item, View view);
     }
 
     public SearchResultAdapter(final Context context, Location currentLocation,
-                               List<SearchResultItem> recentSearches, boolean companiesVisible) {
+                               List<SearchResultItem> recentSearches, WakupOptions options) {
         super();
         this.context = context;
         this.currentLocation = currentLocation;
         this.recentSearches = recentSearches;
-        this.companiesVisible = companiesVisible;
+        this.options = options;
         refreshResultItems();
     }
 
@@ -68,7 +69,7 @@ public class SearchResultAdapter extends BaseAdapter implements View.OnClickList
 
     private void refreshResultItems() {
         List<SearchResultItem> items = new ArrayList<>();
-        if (companiesVisible && companies != null && !companies.isEmpty()) {
+        if (options.isCompaniesVisible() && companies != null && !companies.isEmpty()) {
             items.add(SearchResultItem.header(context.getString(R.string.wk_search_brands)));
             for (Company company : companies) {
                 items.add(SearchResultItem.company(false, company));
@@ -80,14 +81,16 @@ public class SearchResultAdapter extends BaseAdapter implements View.OnClickList
                 items.add(SearchResultItem.tag(false, tag));
             }
         }
-        if (addresses != null && !addresses.isEmpty()) {
-            items.add(SearchResultItem.header(context.getString(R.string.wk_search_locations)));
-            for (Address address : addresses) {
-                items.add(new SearchResultItem(false, address));
+        if (options.isLocationEnabled()) {
+            if (addresses != null && !addresses.isEmpty()) {
+                items.add(SearchResultItem.header(context.getString(R.string.wk_search_locations)));
+                for (Address address : addresses) {
+                    items.add(new SearchResultItem(false, address));
+                }
             }
-        }
-        if (items.isEmpty() && currentLocation != null) {
-            items.add(SearchResultItem.location(context.getString(R.string.wk_near_me), currentLocation));
+            if (items.isEmpty() && currentLocation != null) {
+                items.add(SearchResultItem.location(context.getString(R.string.wk_near_me), currentLocation));
+            }
         }
         if (!recentSearches.isEmpty()) {
             items.add(SearchResultItem.header(context.getString(R.string.wk_search_recent)));

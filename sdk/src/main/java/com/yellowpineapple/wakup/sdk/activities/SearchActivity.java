@@ -93,7 +93,7 @@ public class SearchActivity extends ParentActivity {
 
     void afterViews() {
         listAdapter = new SearchResultAdapter(this, location,
-                getPersistence().getRecentSearches(), isCompaniesVisible());
+                getPersistence().getRecentSearches(), getOptions());
         listAdapter.setListener(new SearchResultAdapter.Listener() {
             @Override
             public void onItemClick(SearchResultItem item, View view) {

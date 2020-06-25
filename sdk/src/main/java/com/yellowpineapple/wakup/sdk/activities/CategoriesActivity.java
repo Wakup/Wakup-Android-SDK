@@ -345,10 +345,8 @@ public class CategoriesActivity extends OfferListActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (isLocationEnabled()) {
-            MenuInflater menuInflater = getMenuInflater();
-            menuInflater.inflate(R.menu.wk_main_menu, menu);
-        }
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.wk_main_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
