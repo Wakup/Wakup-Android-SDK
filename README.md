@@ -15,7 +15,7 @@ Include this dependency in the `build.gradle` file of your application project m
 
 ```groovy
 dependencies {
-    implementation 'com.wakup.android:sdk:3.3.1'
+    implementation 'com.wakup.android:sdk:3.4.0'
 }
 ```
 
@@ -53,6 +53,7 @@ Trough the `WakupOptions` object it is possible to setup the following parameter
 | **mapMarkers** | Customized markers to represent offers in Map View.
 | **locationEnabled** | Defines if the application should use user location and display nearest offers. Default is `true`.
 | **companiesVisible** | Defines if the offer companies will be visible on list, detail and search views.
+| **expirationVisible** | Defines if the offer expiration date will be visible on list and detail views.
 
 ## Customization
 

@@ -6,6 +6,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 No pending changes
 
+## [3.4.0] - 2020-06-25
+
+### Changed
+
+* Search menu item will be visible when location is disabled and brands are not visible, but it will only show tag results
+* Included SDK option to hide offers expiration date
+* Distance label and icon will not be displayed when location is disabled on SDK options
+
+
 ## [3.3.1] - 2020-05-30
 
 ### Changed
