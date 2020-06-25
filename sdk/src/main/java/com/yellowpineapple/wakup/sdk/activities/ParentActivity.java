@@ -29,6 +29,7 @@ import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.Wakup;
+import com.yellowpineapple.wakup.sdk.WakupOptions;
 import com.yellowpineapple.wakup.sdk.communications.RequestClient;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.utils.Ln;
@@ -368,11 +369,15 @@ public abstract class ParentActivity extends LocationActivity {
         }
     }
 
+    protected WakupOptions getOptions() {
+        return getWakup().getOptions();
+    }
+
     protected boolean isCompaniesVisible() {
-        return getWakup().getOptions().isCompaniesVisible();
+        return getOptions().isCompaniesVisible();
     }
 
     protected boolean isLocationEnabled() {
-        return getWakup().getOptions().isLocationEnabled();
+        return getOptions().isLocationEnabled();
     }
 }

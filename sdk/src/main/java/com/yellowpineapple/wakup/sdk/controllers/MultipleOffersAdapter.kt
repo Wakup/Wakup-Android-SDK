@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import com.yellowpineapple.wakup.sdk.R
+import com.yellowpineapple.wakup.sdk.WakupOptions
 
 import com.yellowpineapple.wakup.sdk.models.Offer
 import com.yellowpineapple.wakup.sdk.views.OfferListView
@@ -19,7 +20,7 @@ import com.yellowpineapple.wakup.sdk.views.RelatedOffersHeader
  */
 
 class MultipleOffersAdapter(private val headerView: View?, val context: Context,
-                            private val companiesVisible: Boolean) :
+                            private val options: WakupOptions) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>(), OfferSmallView.Listener {
 
     var offerCategories: LinkedHashMap<OfferCategory, List<Offer>> = LinkedHashMap();
@@ -44,7 +45,7 @@ class MultipleOffersAdapter(private val headerView: View?, val context: Context,
             else -> {
                 val offerView = OfferListView(context)
                 offerView.setListener(this)
-                offerView.setCompanyVisible(companiesVisible)
+                offerView.setWakupOptions(options)
                 return OfferViewHolder(offerView)
             }
         }

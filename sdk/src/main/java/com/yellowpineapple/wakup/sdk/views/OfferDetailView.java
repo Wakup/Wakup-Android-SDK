@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yellowpineapple.wakup.sdk.R;
+import com.yellowpineapple.wakup.sdk.WakupOptions;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 import com.yellowpineapple.wakup.sdk.utils.PersistenceHandler;
 import com.yellowpineapple.wakup.sdk.utils.Strings;
@@ -214,13 +215,12 @@ public class OfferDetailView
         if (listener != null) listener.onCouponSelected(offer);
     }
 
-    public void setCompanyVisible(boolean companyVisible) {
-        View companyInfoView = findViewById(R.id.companyInfoView);
-        companyInfoView.setVisibility(companyVisible ? VISIBLE : GONE);
-    }
-
-    public void setLocationEnabled(boolean locationEnabled) {
-        View mapBtn = findViewById(R.id.btnMap);
-        mapBtn.setVisibility(locationEnabled ? VISIBLE : GONE);
+    public void setOptions(WakupOptions options) {
+        if (options != null) {
+            View companyInfoView = findViewById(R.id.companyInfoView);
+            companyInfoView.setVisibility(options.isCompaniesVisible() ? VISIBLE : GONE);
+            View mapBtn = findViewById(R.id.btnMap);
+            mapBtn.setVisibility(options.isLocationEnabled() ? VISIBLE : GONE);
+        }
     }
 }

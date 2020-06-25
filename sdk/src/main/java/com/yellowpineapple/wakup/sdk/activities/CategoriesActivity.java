@@ -60,15 +60,12 @@ public class CategoriesActivity extends OfferListActivity {
     private OfferCategory RELATED_CATEGORY;
 
     private boolean configLoaded = false;
-    private boolean companiesVisible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.wk_activity_categories);
-
-        this.companiesVisible = isCompaniesVisible();
 
         MAIN_CATEGORY = new OfferCategory(0, null);
         RELATED_CATEGORY = new OfferCategory(1, getString(R.string.wk_related_offers));
@@ -87,7 +84,7 @@ public class CategoriesActivity extends OfferListActivity {
         ptrLayout = findViewById(R.id.ptr_layout);
         categoriesRV = findViewById(R.id.categoriesRV);
         companiesRV = findViewById(R.id.companiesRV);
-        if (!companiesVisible) {
+        if (!isCompaniesVisible()) {
             companiesRV.setVisibility(View.GONE);
         }
         btnMap = findViewById(R.id.btnMap);
@@ -215,7 +212,7 @@ public class CategoriesActivity extends OfferListActivity {
     }
 
     void setupCompaniesSelector() {
-        if (this.companiesVisible) {
+        if (isCompaniesVisible()) {
             final LinearLayoutManager layoutManager
                     = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
             companiesRV.setLayoutManager(layoutManager);

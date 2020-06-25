@@ -4,11 +4,6 @@ import android.graphics.Rect;
 import android.location.Location;
 import android.os.Handler;
 import android.os.Looper;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +11,12 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.yellowpineapple.wakup.sdk.R;
 import com.yellowpineapple.wakup.sdk.communications.Request;
@@ -30,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public abstract class OfferListActivity extends ParentActivity implements MultipleOffersAdapter.Listener {
 
@@ -101,8 +101,7 @@ public abstract class OfferListActivity extends ParentActivity implements Multip
 
         if (emptyView != null) emptyView.setVisibility(View.GONE);
 
-        offersAdapter = new MultipleOffersAdapter(headerView, this,
-                isCompaniesVisible());
+        offersAdapter = new MultipleOffersAdapter(headerView, this, getOptions());
         offersAdapter.setListener(this);
 
 

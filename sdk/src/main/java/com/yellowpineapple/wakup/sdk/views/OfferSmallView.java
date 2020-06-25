@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yellowpineapple.wakup.sdk.R;
+import com.yellowpineapple.wakup.sdk.WakupOptions;
 import com.yellowpineapple.wakup.sdk.models.Offer;
 
 import me.grantland.widget.AutofitTextView;
@@ -33,7 +34,7 @@ public abstract class OfferSmallView extends FrameLayout {
     TextView txtExpiration;
     View rippleView;
 
-    boolean companyVisible = true;
+    WakupOptions options = null;
 
     Listener listener;
 
@@ -126,10 +127,12 @@ public abstract class OfferSmallView extends FrameLayout {
         return offer;
     }
 
-    public void setCompanyVisible(boolean companyVisible) {
-        this.companyVisible = companyVisible;
-        if (txtCompany != null) {
-            txtCompany.setVisibility(companyVisible ? VISIBLE : GONE);
+    public void setWakupOptions(WakupOptions options) {
+        this.options = options;
+        if (options != null) {
+            if (txtCompany != null) {
+                txtCompany.setVisibility(options.isCompaniesVisible() ? VISIBLE : GONE);
+            }
         }
     }
 }
