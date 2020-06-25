@@ -221,6 +221,8 @@ public class OfferDetailView
             companyInfoView.setVisibility(options.isCompaniesVisible() ? VISIBLE : GONE);
             View mapBtn = findViewById(R.id.btnMap);
             mapBtn.setVisibility(options.isLocationEnabled() ? VISIBLE : GONE);
+            View viewExpiration = findViewById(R.id.viewExpiration);
+            viewExpiration.setVisibility(options.isExpirationVisible() ? VISIBLE : GONE);
         }
     }
 }

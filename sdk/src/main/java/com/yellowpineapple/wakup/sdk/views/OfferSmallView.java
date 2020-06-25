@@ -133,6 +133,14 @@ public abstract class OfferSmallView extends FrameLayout {
             if (txtCompany != null) {
                 txtCompany.setVisibility(options.isCompaniesVisible() ? VISIBLE : GONE);
             }
+            View viewDistance = findViewById(R.id.viewDistance);
+            if (viewDistance != null) {
+                viewDistance.setVisibility(options.isLocationEnabled() ? VISIBLE : GONE);
+            }
+            View viewExpiration = findViewById(R.id.viewExpiration);
+            if (viewExpiration != null) {
+                viewExpiration.setVisibility(options.isExpirationVisible() ? VISIBLE : GONE);
+            }
         }
     }
 }

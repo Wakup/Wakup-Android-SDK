@@ -24,6 +24,7 @@ public class WakupOptions {
     private boolean showBackInRoot = false;
 
     private boolean companiesVisible = true;
+    private boolean expirationVisible = true;
     private boolean locationEnabled = true;
 
     private final static List<SearchCategory> DEFAULT_CATEGORIES = Arrays.asList(
@@ -144,6 +145,18 @@ public class WakupOptions {
         return this;
     }
 
+    /**
+     * Defines if the offers expiration date should be displayed. If false, the label and icon
+     * for expiration dates of the offers will not be displayed on grid or detail views.
+     *
+     * @param expirationVisible true to display expiration date. False hide it.
+     * @return options instance to allow in-line setup
+     */
+    public WakupOptions expirationVisible(boolean expirationVisible) {
+        this.expirationVisible = expirationVisible;
+        return this;
+    }
+
     /* Getters */
 
     public String getApiKey() {
@@ -184,5 +197,9 @@ public class WakupOptions {
 
     public boolean isLocationEnabled() {
         return locationEnabled;
+    }
+
+    public boolean isExpirationVisible() {
+        return expirationVisible;
     }
 }
