@@ -1,7 +1,7 @@
 Wakup SDK Library
 ==================
 
-[![Download](https://api.bintray.com/packages/wakup/sdk/android-sdk/images/download.svg)](https://bintray.com/wakup/sdk/android-sdk/_latestVersion)
+[![](https://jitpack.io/v/Wakup/android-sdk.svg)](https://jitpack.io/#Wakup/android-sdk) [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://raw.githubusercontent.com/TwinPush/android-sdk/master/LICENSE)
 
 Native Android SDK for [Wakup platform](http://wakup.net).
 
@@ -11,13 +11,24 @@ To start using Wakup you have to integrate the Wakup SDK in your Android Applica
 
 ### Gradle dependency
 
-Include this dependency in the `build.gradle` file of your application project module.
+Add it in your project level root `build.gradle` at the end of repositories:
+
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+
+Include this dependency in your module level `build.gradle` file to reference this library in your project
 
 ```groovy
 dependencies {
-    implementation 'com.wakup.android:sdk:3.4.1'
+    implementation 'com.github.wakup:android-sdk:3.5.0'
 }
 ```
+
+**Note:** Due to end of life of jCenter repository, since versión 3.5.0, library has been migrated to JitPack and it will be required to include the explicit reference and to update the dependency route as stated before.
 
 ### Google Maps
 
