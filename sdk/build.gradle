@@ -2,7 +2,6 @@ import java.text.SimpleDateFormat
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'maven-publish'
 
 def libraryVersion = '3.5.0'
@@ -26,13 +25,18 @@ android {
         targetSdkVersion 30
         versionName libraryVersion
         versionCode libraryVersionCode
-
+        buildConfigField 'int', 'VERSION_CODE', "${libraryVersionCode}"
+        buildConfigField 'String', 'VERSION_NAME', "\"${libraryVersion}\""
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    // Enable kotlin
+    buildFeatures {
+        viewBinding true
     }
 }
 
