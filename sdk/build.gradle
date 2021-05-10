@@ -4,8 +4,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'maven-publish'
 
-def libraryVersion = '3.5.0'
-def libraryVersionCode = 30500
+def libraryVersion = '3.5.1'
+def libraryVersionCode = 30501
 def libraryGroupId = 'com.github.wakup'
 def libraryArtifactId = 'android-sdk'
 
